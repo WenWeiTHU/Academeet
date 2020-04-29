@@ -5,16 +5,17 @@
 
     <select id="selectByDate" resultType="com.mobilecourse.backend.model.Conference">
         SELECT * FROM conference
-        WHERE date = ${date}
+        WHERE date = #{date}
     </select>
 
     <select id="selectByTags" resultType="com.mobilecourse.backend.model.Conference">
         SELECT * FROM conference
-        WHERE tags LIKE ${tags}
+        WHERE tags LIKE '%${tags}%'
     </select>
 
     <select id="selectByKeywords" resultType="com.mobilecourse.backend.model.Conference">
         SELECT * FROM conference
+        where match(organization, introduction) against (#{keywords})
     </select>
     
 </mapper>

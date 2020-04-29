@@ -127,8 +127,4 @@
         WHERE user_id=${user_id} AND session_id=${session_id}
     </update>
 
-    <select id="selectConferenceByDate" resultType="com.mobilecourse.backend.model.Conference">
-        SELECT * FROM conference WHERE date=${date}
-    </select>
-
 </mapper>
