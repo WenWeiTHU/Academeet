@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 指定了mapper对应的dao -->
+<mapper namespace="com.mobilecourse.backend.dao.UserDao">
+
+    <resultMap id="setUser" type="com.mobilecourse.backend.model.User">
+        <id column="user_id" property="id" jdbcType="INTEGER"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="user_type" property="type" jdbcType="INTEGER"/>
+        <result column="phone" property="phone" jdbcType="CHAR"/>
+        <result column="signature" property="signature" jdbcType="VARCHAR"/>
+        <result column="avatar" property="avatar" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 这个id要和dao中的函数名称一一对应，resultType代表了查询的结果，要和数据库类型一一对应 -->
+    <select id="userSelectAll" resultType="com.mobilecourse.backend.model.User">
+        SELECT *
+        FROM user
+    </select>
+
+    <select id="select" resultType="com.mobilecourse.backend.model.User">
+        SELECT * FROM user
+        WHERE user_id=#{id}
+    </select>
+
+    <select id="selectByUsername" resultType="com.mobilecourse.backend.model.User">
+        SELECT * FROM user
+        WHERE username=#{username}
+    </select>
+
+    <!-- 有返回值的一定要指定返回值类型！ -->
+    <select id="userCnt" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM user
+    </select>
+
+    <!-- parameterType指定了参数类型 -->
+    <insert id="insert"  keyProperty="id" useGeneratedKeys="true" parameterType="com.mobilecourse.backend.model.User">
+        INSERT INTO user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            username, password, user_type, phone, signature, avatar
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            #{username}, #{password}, #{type}, #{phone}, #{signature}, #{avatar}
+        </trim>;
+    </insert>
+
+    <!-- 输入的参数要用#{}包裹,且与dao里面传入的参数一样 -->
+    <delete id="delete">
+        DELETE FROM user
+        WHERE user_id=#{id}
+    </delete>
+
+    <!-- 更新操作 -->
+    <update id="updatePassword">
+        UPDATE user
+        SET password=#{password}
+        WHERE user_id=#{id}
+    </update>
+
+    <update id="updatePhone">
+        UPDATE user
+        SET phone=#{phone}
+        WHERE user_id=#{id}
+    </update>
+
+    <update id="updateAvatar">
+        UPDATE user
+        SET avatar=#{avatar}
+        WHERE user_id=#{id}
+    </update>
+
+    <update id="updateSignature">
+        UPDATE user
+        SET signature=#{signature}
+        WHERE user_id=#{id}
+    </update>
+
+    <select id="selectAllNotes" resultType="com.mobilecourse.backend.model.Note">
+        SELECT note.*
+        FROM user NATURAL JOIN note
+        WHERE user_id=#{id}
+    </select>
+
+    <select id="selectAllMessages" resultType="com.mobilecourse.backend.model.Message">
+        SELECT message.*
+        FROM user NATURAL JOIN message
+        WHERE user_id=#{id}
+    </select>
+
+    <select id="selectAllUserConferences" resultType="com.mobilecourse.backend.model.Conference">
+        SELECT conference.*
+        FROM user_conference NATURAL JOIN conference
+        WHERE user_id=#{id} and uctype=#{gtype}
+    </select>
+
+    <select id="selectUserConference" resultType="com.mobilecourse.backend.model.Conference">
+        SELECT conference.*
+        FROM user_conference NATURAL JOIN conference
+        WHERE user_id=#{id} and uctype=#{gtype} and conference_id=#{conference_id}
+    </select>
+
+    <delete id="deleteUserConference">
+        DELETE FROM user_conference
+        WHERE (user_id, conference_id, uctype) = (#{id}, #{conference_id}, #{uctype})
+    </delete>
+
+    <insert id="insertUserConference" parameterType="com.mobilecourse.backend.model.UserConference">
+        INSERT INTO user_conference (user_id, conference_id, uctype)
+        SELECT #{id}, #{conference_id}, #{uctype} FROM dual
+        WHERE NOT EXISTS (SELECT * FROM user_conference WHERE
+            (user_id, conference_id, uctype) = (#{id}, #{conference_id}, #{uctype}))
+    </insert>
+
+    <select id="selectConference" resultType="com.mobilecourse.backend.model.Conference">
+        SELECT * FROM conference WHERE conference_id = #{id}
+    </select>
+
+    <delete id="deleteConference">
+        DELETE FROM conference
+        WHERE conference_id=#{id}
+    </delete>
+
+    <update id="updateSessionRating">
+        UPDATE user_session SET rating=${rating}
+        WHERE user_id=${user_id} AND session_id=${session_id}
+    </update>
+
+    <select id="selectConferenceByDate" resultType="com.mobilecourse.backend.model.Conference">
+        SELECT * FROM conference WHERE date=${date}
+    </select>
+
+</mapper>
