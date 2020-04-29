@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Academeet</string>
+    <string name="login_account_hint">Username</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_type_scholar">Scholar</string>
+    <string name="login_type_admin">Admin</string>
+    <string name="login_button">Go</string>
+    <string name="register_button">Register</string>
+</resources>
