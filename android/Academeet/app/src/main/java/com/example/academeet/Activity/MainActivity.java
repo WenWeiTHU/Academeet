@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.app.StatusBarManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -55,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void startRegister(View v) {
         // 注册
+        // TODO: 跳转注册Activity
         Toast toast = Toast.makeText(this, "You click register button", Toast.LENGTH_SHORT);
         toast.show();
     }

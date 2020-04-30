@@ -2,12 +2,12 @@ package com.example.academeet.Item;
 
 import java.util.Date;
 
-public class ConferenceItem {
+public class SessionItem {
     private String name;
     // private Datetime
-    // TODO: 添加会议的其他属性，例如日期、时间、地点、简介等等
+    // TODO: 添加议程的其他属性，例如日期、时间、地点、简介等等
 
-    public ConferenceItem(String name) {
+    public SessionItem(String name) {
         this.name = name;
     }
 

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/conference_detail_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:text="Time: Apr 29, 08:00-08:10" />
+
+    <TextView
+        android:id="@+id/conference_detail_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:layout_marginTop="2dp"
+        android:text="Place: Forum A"
+        app:layout_constraintTop_toBottomOf="@id/conference_detail_time"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/conference_detail_organization"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:text="Organization: Tsinghua University"
+        app:layout_constraintTop_toBottomOf="@id/conference_detail_place" />
+
+    <TextView
+        android:id="@+id/conference_detail_hosts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:text="Hosts: Micheal Jodan, Benjo Brude, Van Darkhome,  Micheal Jodan, Benjo Brude, Van Darkhome,  Micheal Jodan, Benjo Brude, Van Darkhome"
+        app:layout_constraintTop_toBottomOf="@id/conference_detail_organization" />
+
+    <TextView
+        android:id="@+id/conference_detail_introduction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:text="@string/large_text"
+        app:layout_constraintTop_toBottomOf="@id/conference_detail_hosts" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
