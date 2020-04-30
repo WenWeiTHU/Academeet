@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ConferenceDao {
     List<Conference> selectByDate(String date);
+    List<Conference> selectByTags(String tags);
+    List<Conference> selectByKeywords(String keywords);
 }

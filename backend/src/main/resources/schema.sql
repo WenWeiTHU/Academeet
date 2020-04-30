@@ -1,14 +1,14 @@
 CREATE DATABASE IF NOT EXISTS Test;
 
--- drop table if exists paper;
--- drop table if exists user_conference;
--- drop table if exists user_session;
--- drop table if exists session;
+ drop table if exists paper;
+ drop table if exists user_conference;
+ drop table if exists user_session;
+ drop table if exists session;
 -- drop table if exists message;
 -- drop table if exists chatroom;
--- drop table if exists note;
+ drop table if exists note;
 -- drop table if exists user;
--- drop table if exists conference;
+ drop table if exists conference;
 
 CREATE TABLE IF NOT EXISTS chatroom(
     chatroom_id int primary key auto_increment,
@@ -26,8 +26,9 @@ CREATE TABLE IF NOT EXISTS conference(
     start_time datetime,
     end_time datetime,
     tags varchar(128),
-    visible int
-) default charset=utf8;
+    visible int,
+    fulltext(organization, introduction) with parser ngram
+) default charset=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS message(
     message_id int primary key auto_increment,
@@ -44,7 +45,7 @@ CREATE TABLE IF NOT EXISTS note(
     create_time datetime,
     update_time datetime,
     user_id int
-) default charset=utf8;
+) default charset=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS session(
     session_id int primary key auto_increment,
