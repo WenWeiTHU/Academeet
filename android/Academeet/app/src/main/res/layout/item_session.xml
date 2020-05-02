@@ -19,7 +19,7 @@
         app:layout_constraintLeft_toLeftOf="parent">
 
         <TextView
-            android:id="@+id/conference_name_text_view"
+            android:id="@+id/session_name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
@@ -29,7 +29,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/conference_time_text_view"
+            android:id="@+id/session_time_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxWidth="400dp"
@@ -39,7 +39,7 @@
             android:textColor="#B6B2B2" />
 
         <TextView
-            android:id="@+id/conference_host_text_view"
+            android:id="@+id/session_host_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -49,25 +49,6 @@
             android:textColor="#03A9F4" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/conference_fav_button"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="2dp"
-        android:text="Fav"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/conference_remind_button" />
-
-    <Button
-        android:id="@+id/conference_remind_button"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="2dp"
-        android:text="Rem"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 
 
