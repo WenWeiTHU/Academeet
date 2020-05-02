@@ -1,5 +1,6 @@
 package com.mobilecourse.backend;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.csvreader.CsvReader;
@@ -16,6 +17,14 @@ import java.util.*;
 class TestT {
     int xxx;
     int yyy;
+
+    public TestT() {  }
+
+    public TestT(String ss) {
+        JSONObject jsonObject = JSONObject.parseObject(ss);
+        this.xxx = jsonObject.getIntValue("xxx");
+        this.yyy = jsonObject.getIntValue("yyy");
+    }
 
     public ArrayList<Test1> fun1(int p) {
         System.out.println("note that " + p);
@@ -109,8 +118,17 @@ public class CommonTest {
     public static void main(String[] args) {
 //        testReflect();
 //        LocalDateTime time = LocalDateTime.now();
-        Timestamp time = Timestamp.valueOf(LocalDateTime.now());
-        System.out.println(time.getTime());
-        System.out.println(System.currentTimeMillis());
+        String ss = "{\n" +
+                "  \"organization\": \"organization\",\n" +
+                "  \"introduction\": \"introduction\",\n" +
+                "  \"date\": \"2020-05-01\",\n" +
+                "  \"chairs\": \"chair1, chair2\", \n" +
+                "  \"place\": \"我是神仙卢本伟\",\n" +
+                "  \"start_time\": \"2020-05-01 08:00:00\",\n" +
+                "  \"end_time\": \"2020-05-01 10:00:00\",\n" +
+                "  \"tags\": \"每天修仙像喝水, 为了节目有效果, 身经百挂开的多\"\n" +
+                "}";
+        JSONObject json = JSONObject.parseObject(ss);
+        System.out.println(json.toJSONString());
     }
 }

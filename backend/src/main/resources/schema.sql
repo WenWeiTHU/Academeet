@@ -1,14 +1,16 @@
 CREATE DATABASE IF NOT EXISTS Test;
+SET time_zone='+8:00';  -- 不生效
+SET global time_zone='+8:00';
 
- drop table if exists paper;
- drop table if exists user_conference;
- drop table if exists user_session;
- drop table if exists session;
--- drop table if exists message;
--- drop table if exists chatroom;
- drop table if exists note;
+-- drop table if exists paper;
+-- drop table if exists user_conference;
+-- drop table if exists user_session;
+-- drop table if exists session;
+---- drop table if exists message;
+---- drop table if exists chatroom;
+-- drop table if exists note;
 -- drop table if exists user;
- drop table if exists conference;
+-- drop table if exists conference;
 
 CREATE TABLE IF NOT EXISTS chatroom(
     chatroom_id int primary key auto_increment,
@@ -82,7 +84,7 @@ CREATE TABLE IF NOT EXISTS user(
 CREATE TABLE IF NOT EXISTS user_conference(
     user_id int,
     conference_id int,
-    uctype enum('favor', 'dislike', 'remind', 'establish'),
+    uctype enum('favors', 'dislikes', 'reminds', 'establishes'),
     foreign key(user_id) references user(user_id) on delete cascade on update cascade,
     foreign key(conference_id) references conference(conference_id) on delete cascade on update cascade,
     primary key(user_id, conference_id, uctype)

@@ -267,8 +267,6 @@ public class UserController extends CommonController {
         if (index == -1) return "{ accepted: 0 }";
         String base = "com.mobilecourse.backend.model.";
         String[] names = { "note", "message", "conference" };
-        String queryparam = gtype.substring(0, gtype.length()-1);
-        if (queryparam.equals("establishe")) queryparam = "establish";
         String[] entities = { base+"Note", base+"Message", base+"Conference" };
         String[] methods = { "selectAllNotes", "selectAllMessages", "selectAllUserConferences" };
         String[][] attrs = {
@@ -283,7 +281,7 @@ public class UserController extends CommonController {
             Dao = UserDao.class;
             if (index == 2) {
                 Method method = Dao.getMethod(methods[index], int.class, String.class);
-                infos = (ArrayList<Object>) method.invoke(userMapper, id, queryparam);
+                infos = (ArrayList<Object>) method.invoke(userMapper, id, gtype);
             } else {
                 Method method = Dao.getMethod(methods[index], int.class);
                 infos = (ArrayList<Object>) method.invoke(userMapper, id);
@@ -307,33 +305,6 @@ public class UserController extends CommonController {
         }
     }
 
-    //TODO: establishes没有做登录检查
-    //TODO: establishes的删除没有符合接口要求：只在该人的个人主页上不显示。（会上再讨论一下）
-    @RequestMapping(value = "/api/user/update/{uctype}", method = {RequestMethod.POST})
-    public String updateUserConference(@PathVariable String uctype,
-                                       @RequestParam(value = "user_id")int user_id,
-                                       @RequestParam(value = "conference_id")int conference_id,
-                                       @RequestParam(value = "type")int type) {
-        //TODO: 这里假设不检查是不是自己
-        String[] params = { "favors", "reminds", "dislikes", "establishes" };
-        boolean legalparam = false;
-        for (String param: params) {
-            if (uctype.equals(param)) {
-                legalparam = true;
-                break;
-            }
-        }
-        String param = uctype.substring(0,uctype.length()-1);
-        if (param.equals("establishe")) param = "establish";
-        if (!legalparam) return "{ accepted: 0, msg: " + "updateUserConference meets unknown param." + " }";
-        if (type == 0) return "{ accepted: " +
-                userMapper.deleteUserConference(user_id, conference_id, param) + " }";
-        else return "{ accepted: " +
-                userMapper.insertUserConference(user_id, conference_id, param) + " }";
-    }
-
-    //TODO: 建立conference时的visible问题
-    //TODO: 接口完成至/api/user/establishing
 //    @RequestMapping(value = "/api/user/establishing", method = {RequestMethod.POST})
 //    public String createConference(@RequestParam(value = "conferences")String conferencejson,
 //                                   @RequestParam(value = "type")int type) {
@@ -412,28 +383,6 @@ public class UserController extends CommonController {
 //            return wrapperMsg(500, e.toString());
 //        }
 //    }
-
-    @RequestMapping(value = "/api/user/deleting")
-    public String deleteConference(HttpServletRequest request,
-                                   @RequestParam(value = "conference_id")int conference_id) {
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            return "{ accepted: 0 }";
-        }
-        int usertype = ((JSONObject)session.getAttribute("user")).getIntValue("type");
-        if (usertype == 0) {
-            return "{ accepted: 0, msg: not administrator. }";
-        }
-        Conference conference = userMapper.selectConference(conference_id);
-        long cur_time = System.currentTimeMillis();
-        if (conference.getStart_time().getTime() > cur_time &&
-                conference.getEnd_time().getTime() < cur_time) {
-            return "{ accepted: 0, msg: Conference is in progress }";
-        }
-        int result = userMapper.deleteConference(conference_id);
-        if (result == 0) return "{ accepted: 0, msg: delete failed }";
-        return "{ accepted: 1 }";
-    }
 
     @RequestMapping(value = "/api/user/update.rating")
     public String updateSession(HttpServletRequest request,

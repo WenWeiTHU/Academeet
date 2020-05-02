@@ -17,5 +17,39 @@
         SELECT * FROM conference
         where match(organization, introduction) against (#{keywords})
     </select>
+
+    <select id="selectById" resultType="com.mobilecourse.backend.model.Conference">
+        SELECT * FROM conference WHERE conference_id = #{id}
+    </select>
+
+
+    <!-- 使用keyProperty和useGeneratedKeys可以直接把id添加到parameterType类中 -->
+    <insert id="insertConference" keyProperty="conference_id" useGeneratedKeys="true" parameterType="com.mobilecourse.backend.model.Conference">
+        INSERT INTO conference
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            organization, introduction, date, chairs, place, start_time, end_time, tags, visible
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            #{organization}, #{introduction}, #{date}, #{chairs}, #{place}, #{start_time}, #{end_time}, #{tags}, ${visible}
+        </trim>;
+    </insert>
+
+    <insert id="insertUserConference" parameterType="com.mobilecourse.backend.model.UserConference">
+        INSERT INTO user_conference (user_id, conference_id, uctype)
+        SELECT #{id}, #{conference_id}, #{uctype} FROM dual
+        WHERE NOT EXISTS (SELECT * FROM user_conference WHERE
+        (user_id, conference_id, uctype) = (#{id}, #{conference_id}, #{uctype}))
+    </insert>
+
+
+    <delete id="deleteUserConference">
+        DELETE FROM user_conference
+        WHERE (user_id, conference_id, uctype) = (#{id}, #{conference_id}, #{uctype})
+    </delete>
+
+    <delete id="deleteById">
+        DELETE FROM conference
+        WHERE conference_id=#{id}
+    </delete>
     
 </mapper>
