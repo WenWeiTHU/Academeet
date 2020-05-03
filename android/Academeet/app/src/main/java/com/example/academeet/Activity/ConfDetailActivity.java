@@ -43,6 +43,7 @@ public class ConfDetailActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Sessions"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+
         final ViewPager viewPager = findViewById(R.id.conf_detail_view_pager);
         final ConfDetailAdapter adapter = new ConfDetailAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);

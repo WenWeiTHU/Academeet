@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<com.daimajia.swipe.SwipeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,11 +9,43 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
+        android:minHeight="90dp"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/conference_fav_button"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorFav"
+            android:src="@drawable/ic_fav"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/conference_remind_button" />
+
+        <ImageButton
+            android:id="@+id/conference_remind_button"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorRem"
+            android:src="@drawable/ic_remind"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageButton
+            android:id="@+id/conference_dislike_button"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorDis"
+            android:src="@drawable/ic_dislike"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
+        android:minHeight="90dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent">
@@ -22,7 +54,9 @@
             android:id="@+id/conference_name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:textColor="@color/conferenceItemTitle"
@@ -32,6 +66,7 @@
             android:id="@+id/conference_time_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:maxWidth="400dp"
             android:maxLines="1"
             android:ellipsize="end"
@@ -42,33 +77,13 @@
             android:id="@+id/conference_host_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:ellipsize="end"
             android:maxWidth="200dp"
             android:maxLines="1"
+            android:layout_marginBottom="8dp"
             android:text="Micheal Jodan, Benjo Brude, Van Darkhome"
             android:textColor="#03A9F4" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/conference_fav_button"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="2dp"
-        android:text="Fav"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/conference_remind_button" />
-
-    <Button
-        android:id="@+id/conference_remind_button"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="2dp"
-        android:text="Rem"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</com.daimajia.swipe.SwipeLayout>
