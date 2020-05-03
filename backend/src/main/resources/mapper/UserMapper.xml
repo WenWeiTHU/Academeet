@@ -41,9 +41,8 @@
         <trim prefix="(" suffix=")" suffixOverrides="," >
             username, password, user_type, phone, signature, avatar
         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides="," >
-            #{username}, #{password}, #{type}, #{phone}, #{signature}, #{avatar}
-        </trim>;
+        SELECT #{username}, #{password}, #{type}, #{phone}, #{signature}, #{avatar} FROM dual
+        WHERE NOT EXISTS (SELECT * FROM user WHERE username=#{username})
     </insert>
 
     <!-- 输入的参数要用#{}包裹,且与dao里面传入的参数一样 -->
@@ -100,27 +99,6 @@
         FROM user_conference NATURAL JOIN conference
         WHERE user_id=#{id} and uctype=#{gtype} and conference_id=#{conference_id}
     </select>
-
-    <delete id="deleteUserConference">
-        DELETE FROM user_conference
-        WHERE (user_id, conference_id, uctype) = (#{id}, #{conference_id}, #{uctype})
-    </delete>
-
-    <insert id="insertUserConference" parameterType="com.mobilecourse.backend.model.UserConference">
-        INSERT INTO user_conference (user_id, conference_id, uctype)
-        SELECT #{id}, #{conference_id}, #{uctype} FROM dual
-        WHERE NOT EXISTS (SELECT * FROM user_conference WHERE
-            (user_id, conference_id, uctype) = (#{id}, #{conference_id}, #{uctype}))
-    </insert>
-
-    <select id="selectConference" resultType="com.mobilecourse.backend.model.Conference">
-        SELECT * FROM conference WHERE conference_id = #{id}
-    </select>
-
-    <delete id="deleteConference">
-        DELETE FROM conference
-        WHERE conference_id=#{id}
-    </delete>
 
     <update id="updateSessionRating">
         UPDATE user_session SET rating=${rating}

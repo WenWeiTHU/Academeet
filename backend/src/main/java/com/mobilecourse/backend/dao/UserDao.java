@@ -44,13 +44,6 @@ public interface UserDao {
 
     Conference selectUserConference(int id, int conference_id, String gtype);
 
-    int deleteUserConference(int id, int conference_id, String uctype);
-
-    int insertUserConference(int id, int conference_id, String uctype);
-
-    Conference selectConference(int id);
-
-    int deleteConference(int id);
-
     int updateSessionRating(int user_id, int session_id, float rating);
+
 }
