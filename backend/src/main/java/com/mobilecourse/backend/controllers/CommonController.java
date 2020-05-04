@@ -12,12 +12,22 @@ public class CommonController {
     // session半个小时无交互就会过期
     private static int MAXTIME = 1800;
 
-    // 添加一个code，方便客户端根据code来判断服务器处理状态并解析对应的msg
-    String wrapperMsg(int code, String msg) {
+    public static final String LOGIN_MSG = "{ \"accepted\": 0, \"msg\": \"please login.\" }";
+    public static final String ACCEPT_MSG = "{ \"accepted\": 1 }";
+
+    String wrapperMsg(int accepted, String msg) {
         JSONObject wrapperMsg = new JSONObject();
-        wrapperMsg.put("code", code);
+        wrapperMsg.put("accepted", accepted);
         wrapperMsg.put("msg", msg);
         return wrapperMsg.toJSONString();
+    }
+
+    public int getUserId(HttpSession s) {
+        JSONObject user;
+        int userid = -1;
+        if ((user = (JSONObject) s.getAttribute("user")) != null)
+            userid = user.getIntValue("id");
+        return userid;
     }
 
     // 添加信息到session之中，此部分用途很广泛，比如可以通过session获取到对应的用户名或者用户ID，避免繁冗操作

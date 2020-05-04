@@ -6,7 +6,7 @@ public class Message {
     int message_id;
     String details;
     Timestamp time;      // int32
-
+    String username;
     int chatroom_id;
 
     public int getMessage_id() {
@@ -31,6 +31,22 @@ public class Message {
 
     public void setTime(Timestamp time) {
         this.time = time;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public int getChatroom_id() {
+        return chatroom_id;
+    }
+
+    public void setChatroom_id(int chatroom_id) {
+        this.chatroom_id = chatroom_id;
     }
 
 }

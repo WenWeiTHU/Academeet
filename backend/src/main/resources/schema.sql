@@ -2,15 +2,15 @@ CREATE DATABASE IF NOT EXISTS Test;
 SET time_zone='+8:00';  -- 不生效
 SET global time_zone='+8:00';
 
--- drop table if exists paper;
--- drop table if exists user_conference;
--- drop table if exists user_session;
--- drop table if exists session;
----- drop table if exists message;
----- drop table if exists chatroom;
+ drop table if exists paper;
+ drop table if exists user_conference;
+ drop table if exists user_session;
+ drop table if exists session;
+-- drop table if exists message;
+-- drop table if exists chatroom;
 -- drop table if exists note;
 -- drop table if exists user;
--- drop table if exists conference;
+ drop table if exists conference;
 
 CREATE TABLE IF NOT EXISTS chatroom(
     chatroom_id int primary key auto_increment,
@@ -18,17 +18,30 @@ CREATE TABLE IF NOT EXISTS chatroom(
     record_num int
 ) default charset=utf8;
 
+CREATE TABLE IF NOT EXISTS user(
+    user_id int primary key auto_increment,
+	username varchar(20) unique,
+	password varchar(80),
+	user_type int,
+	phone char(11),
+	signature varchar(200),
+	avatar varchar(100)
+) default charset=utf8;
+
 CREATE TABLE IF NOT EXISTS conference(
     conference_id int primary key auto_increment,
-    organization varchar(100),
-    introduction varchar(100),
+    name varchar(127),
+    organization varchar(255),
+    introduction TEXT,
     date date,
     chairs varchar(128),
-    place varchar(60),
+    place varchar(128),
     start_time datetime,
     end_time datetime,
     tags varchar(128),
     visible int,
+    establisher_id int,
+    foreign key(establisher_id) references user(user_id) on delete cascade on update cascade,
     fulltext(organization, introduction) with parser ngram
 ) default charset=utf8mb4;
 
@@ -37,7 +50,9 @@ CREATE TABLE IF NOT EXISTS message(
     details varchar(512),
     time timestamp,
     chatroom_id int,
-    foreign key(chatroom_id) references chatroom(chatroom_id) on delete cascade on update cascade
+    username varchar(128),
+    foreign key(chatroom_id) references chatroom(chatroom_id) on delete cascade on update cascade,
+    foreign key(username) references user(username) on delete cascade on update cascade
 ) default charset=utf8;
 
 CREATE TABLE IF NOT EXISTS note(
@@ -57,8 +72,12 @@ CREATE TABLE IF NOT EXISTS session(
     end_time datetime,
     reporters varchar(300),
     rating int,
+    visible int,
+    conference_visible int,
     conference_id int,
-    foreign key(conference_id) references conference(conference_id) on delete cascade on update cascade
+    establisher_id int,
+    foreign key(conference_id) references conference(conference_id) on delete cascade on update cascade,
+    foreign key(establisher_id) references user(user_id) on delete cascade on update cascade
 ) default charset=utf8;
 
 CREATE TABLE IF NOT EXISTS paper(
@@ -67,24 +86,19 @@ CREATE TABLE IF NOT EXISTS paper(
     authors varchar(300),
     abstr varchar(600),
     content varchar(100),
+    visible int,
+    session_visible int,
+    conference_visible int,
     session_id int,
-    foreign key(session_id) references session(session_id) on delete cascade on update cascade
-) default charset=utf8;
-
-CREATE TABLE IF NOT EXISTS user(
-    user_id int primary key auto_increment,
-	username varchar(20),
-	password varchar(80),
-	user_type int,
-	phone char(11),
-	signature varchar(200),
-	avatar varchar(100)
+    establisher_id int,
+    foreign key(session_id) references session(session_id) on delete cascade on update cascade,
+    foreign key(establisher_id) references user(user_id) on delete cascade on update cascade
 ) default charset=utf8;
 
 CREATE TABLE IF NOT EXISTS user_conference(
     user_id int,
     conference_id int,
-    uctype enum('favors', 'dislikes', 'reminds', 'establishes'),
+    uctype enum('favors', 'dislikes', 'reminds'),
     foreign key(user_id) references user(user_id) on delete cascade on update cascade,
     foreign key(conference_id) references conference(conference_id) on delete cascade on update cascade,
     primary key(user_id, conference_id, uctype)

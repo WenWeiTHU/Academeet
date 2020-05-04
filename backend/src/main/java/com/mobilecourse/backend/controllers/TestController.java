@@ -31,9 +31,15 @@ public class TestController extends CommonController {
 
     // 普通请求，不指定method意味着接受所有类型的请求
     @RequestMapping(value = "/hello")
-    public String hello(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String hello(@RequestParam(value = "test") String test,
+                        HttpServletRequest request, HttpServletResponse response) throws IOException {
 //        MultipartFile avatar = ((StandardMultipartHttpServletRequest) request).getFile("avatar");
 //        return avatar.getInputStream().toString();
+        System.out.println(test);
+        JSONArray arr = new JSONArray();
+        arr.add(test);
+        JSONArray xxx = JSONArray.parseArray(arr.toJSONString());
+        System.out.println(xxx.toJSONString());
         return wrapperMsg(200, "当前数据库中共有：" + testMapper.testCnt() + "条数据！");
 //        return resp;
     }

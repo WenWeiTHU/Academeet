@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Conference {
     int conference_id;
+    String name;
     String organization;
     String introduction;
     Timestamp date;
@@ -18,11 +19,13 @@ public class Conference {
     Timestamp end_time;         // timestamp可以传递string："2000-01-01 00:00:00"
     String tags;          // use CsvWriter to write List to String. this.chairs = Arrays.asList(schairs.split(","));
     int visible;    // 0表示只有自己可见（未发布），1表示所有人可见（暂定）
+    int establisher_id;
 
     public Conference() {  }
 
     public Conference(String json) {
         JSONObject jsonObject = JSONObject.parseObject(json.trim());
+        this.name = jsonObject.getString("name");
         this.organization = jsonObject.getString("organization");
         this.introduction = jsonObject.getString("introduction");
         this.date = Timestamp.valueOf(jsonObject.getString("start_time"));
@@ -39,6 +42,22 @@ public class Conference {
 
     public void setConference_id(int conference_id) {
         this.conference_id = conference_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getEstablisher_id() {
+        return establisher_id;
+    }
+
+    public void setEstablisher_id(int establisher_id) {
+        this.establisher_id = establisher_id;
     }
 
     public String getOrganization() {

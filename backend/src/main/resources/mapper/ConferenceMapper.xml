@@ -5,21 +5,49 @@
 
     <select id="selectByDate" resultType="com.mobilecourse.backend.model.Conference">
         SELECT * FROM conference
-        WHERE date = #{date}
+        WHERE date = #{date} AND visible=1
     </select>
 
     <select id="selectByTags" resultType="com.mobilecourse.backend.model.Conference">
         SELECT * FROM conference
-        WHERE tags LIKE '%${tags}%'
+        WHERE tags LIKE '%${tags}%' AND visible=1
     </select>
 
     <select id="selectByKeywords" resultType="com.mobilecourse.backend.model.Conference">
         SELECT * FROM conference
-        where match(organization, introduction) against (#{keywords})
+        WHERE match(name, organization, introduction) AGAINST (#{keywords}) AND visible=1
     </select>
 
     <select id="selectById" resultType="com.mobilecourse.backend.model.Conference">
-        SELECT * FROM conference WHERE conference_id = #{id}
+        SELECT * FROM conference
+        WHERE conference_id=${conference_id} AND (establisher_id=#{user_id} OR visible=1)
+    </select>
+
+    <select id="selectEstablishedConferences" resultType="com.mobilecourse.backend.model.Conference">
+        SELECT * FROM conference WHERE establisher_id=${user_id} OR visible=1
+    </select>
+
+    <select id="selectSessionById" resultType="com.mobilecourse.backend.model.Session">
+        SELECT * FROM session NATURAL JOIN (SELECT visible FROM conference WHERE conference=)
+        WHERE session_id=${session_id} AND (establisher_id=#{user_id} OR (visible=1 AND conference_visible=1))
+    </select>
+
+    <select id="selectPaperById" resultType="com.mobilecourse.backend.model.Paper">
+        SELECT * FROM paper
+        WHERE paper_id=${paper_id} AND (establisher_id=${user_id} OR (visible=1 AND conference_visible=1 AND session_visible=1))
+    </select>
+
+    <select id="selectSessionByConference" resultType="com.mobilecourse.backend.model.Session">
+        SELECT * FROM session
+        WHERE conference_id=${conference_id}
+        AND ((visible=1 AND conference_visible=1) OR establisher_id=${user_id})
+    </select>
+
+    <select id="selectPaperBySession" resultType="com.mobilecourse.backend.model.Paper">
+        SELECT * FROM paper
+        WHERE session_id=${session_id}
+        AND ((visible=1 AND conference_visible=1 AND session_visible=1)
+            OR establisher_id=${user_id})
     </select>
 
 
@@ -41,6 +69,16 @@
         (user_id, conference_id, uctype) = (#{id}, #{conference_id}, #{uctype}))
     </insert>
 
+    <insert id="insertSession" keyProperty="session_id" useGeneratedKeys="true" parameterType="com.mobilecourse.backend.model.Session">
+        INSERT INTO session (topic, description, start_time, end_time, reporters, rating, conference_id, visible, conference_visible)
+        VALUES (#{topic}, #{description}, #{start_time}, #{end_time}, #{reporters}, ${rating}, ${conference_id}, ${visible}, ${conference_visible})
+    </insert>
+
+    <insert id="insertPaper" keyProperty="paper_id" useGeneratedKeys="true" parameterType="com.mobilecourse.backend.model.Paper">
+        INSERT INTO paper (title, authors, abstr, content, session_id, establisher_id, visible, session_visible, conference_visible)
+        VALUES (#{title}, #{authors}, #{abstr}, #{content}, ${session_id}, ${establisher_id}, ${visible}, ${session_visible}, ${conference_visible})
+    </insert>
+
 
     <delete id="deleteUserConference">
         DELETE FROM user_conference
@@ -48,8 +86,15 @@
     </delete>
 
     <delete id="deleteById">
-        DELETE FROM conference
-        WHERE conference_id=#{id}
+        DELETE FROM conference WHERE conference_id=#{id}
+    </delete>
+
+    <delete id="deletePaper">
+        DELETE FROM paper WHERE paper_id=${paper_id}
+    </delete>
+
+    <delete id="deleteSession">
+        DELETE FROM session WHERE session_id=${session_id}
     </delete>
     
 </mapper>

@@ -1,14 +1,37 @@
 package com.mobilecourse.backend.model;
 
+import com.alibaba.fastjson.JSONObject;
+
+import java.security.PublicKey;
 import java.util.List;
 
 public class Paper {
     int paper_id;
     String title;
-    List<String> authors;
+    String authors; // JSONArray.parseArray(authors)
     String abstr;
     String content;
     int session_id;
+    int establisher_id;
+    int visible;
+    int session_visible;
+    int conference_visible;
+
+    public int getSession_visible() {
+        return session_visible;
+    }
+
+    public void setSession_visible(int session_visible) {
+        this.session_visible = session_visible;
+    }
+
+    public int getConference_visible() {
+        return conference_visible;
+    }
+
+    public void setConference_visible(int conference_visible) {
+        this.conference_visible = conference_visible;
+    }
 
     public int getPaper_id() {
         return paper_id;
@@ -26,11 +49,11 @@ public class Paper {
         this.title = title;
     }
 
-    public List<String> getAuthors() {
+    public String getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<String> authors) {
+    public void setAuthors(String authors) {
         this.authors = authors;
     }
 
@@ -57,4 +80,21 @@ public class Paper {
     public void setSession_id(int session_id) {
         this.session_id = session_id;
     }
+
+    public int getEstablisher_id() {
+        return establisher_id;
+    }
+
+    public void setEstablisher_id(int establisher_id) {
+        this.establisher_id = establisher_id;
+    }
+
+    public int getVisible() {
+        return visible;
+    }
+
+    public void setVisible(int visible) {
+        this.visible = visible;
+    }
+
 }

@@ -16,9 +16,28 @@ import java.util.*;
 
 class TestT {
     int xxx;
+
+    public int getXxx() {
+        return xxx;
+    }
+
+    public void setXxx(int xxx) {
+        this.xxx = xxx;
+    }
+
+    public int getYyy() {
+        return yyy;
+    }
+
+    public void setYyy(int yyy) {
+        this.yyy = yyy;
+    }
+
     int yyy;
 
     public TestT() {  }
+
+    public TestT(int x, int y) { xxx = x; yyy = y; }
 
     public TestT(String ss) {
         JSONObject jsonObject = JSONObject.parseObject(ss);
@@ -115,20 +134,27 @@ public class CommonTest {
         }
     }
 
+    public static void stringListToJSONArray() {
+        List<String>msgs = new ArrayList<>();
+        msgs.add("hello");
+        msgs.add("Hi");
+        JSONObject obj = new JSONObject();
+        obj.put("msg", msgs);
+        String recov = obj.getJSONArray("msg").toJSONString();
+        System.out.println(recov);
+        JSONArray data = JSONArray.parseArray(recov);
+    }
+
     public static void main(String[] args) {
-//        testReflect();
-//        LocalDateTime time = LocalDateTime.now();
-        String ss = "{\n" +
-                "  \"organization\": \"organization\",\n" +
-                "  \"introduction\": \"introduction\",\n" +
-                "  \"date\": \"2020-05-01\",\n" +
-                "  \"chairs\": \"chair1, chair2\", \n" +
-                "  \"place\": \"我是神仙卢本伟\",\n" +
-                "  \"start_time\": \"2020-05-01 08:00:00\",\n" +
-                "  \"end_time\": \"2020-05-01 10:00:00\",\n" +
-                "  \"tags\": \"每天修仙像喝水, 为了节目有效果, 身经百挂开的多\"\n" +
-                "}";
-        JSONObject json = JSONObject.parseObject(ss);
-        System.out.println(json.toJSONString());
+        List<TestT> test = new ArrayList<>();
+        test.add(new TestT(3,5));
+        test.add(new TestT(1,2));
+        JSONArray rlt = new JSONArray();
+        rlt.add("i say \"do you like what you see?\" to you");
+//        TestT ccc = rlt.getObject(0, TestT.class);
+//        System.out.println("This is " + ccc.xxx + ccc.yyy);
+//        String s = "[{\"xxx\":3,\"yyy\":5},{\"xxx\":1,\"yyy\":2}]";
+//        System.out.println(JSONArray.parseArray(s).toJSONString());
+//        System.out.println(JSONArray.toJSONString(test));
     }
 }

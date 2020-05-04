@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 指定了mapper对应的dao -->
+<mapper namespace="com.mobilecourse.backend.dao.RecordDao">
+
+    <select id="selectNoteById" resultType="com.mobilecourse.backend.model.Note">
+        SELECT * FROM note WHERE note_id=${note_id} AND user_id=${user_id}
+    </select>
+
+    <select id="selectMessageById" resultType="com.mobilecourse.backend.model.Message">
+        SELECT * FROM message WHERE message_id=${message_id}
+    </select>
+
+    <select id="selectMessageByChatroom" resultType="com.mobilecourse.backend.model.Message">
+        SELECT * FROM message WHERE chatroom_id=${chatroom_id}
+    </select>
+
+
+    <update id="updateNoteById">
+        UPDATE note SET title=#{title}, text=#{text} WHERE note_id=${note_id} AND user_id=${user_id}
+    </update>
+
+    <delete id="deleteNoteById">
+        DELETE FROM note WHERE note_id=${note_id} AND user_id=${user_id}
+    </delete>
+
+
+</mapper>
