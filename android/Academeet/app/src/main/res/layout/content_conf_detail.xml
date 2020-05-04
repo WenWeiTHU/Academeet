@@ -11,45 +11,170 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <com.veinhorn.tagview.TagView
+        android:id="@+id/tagView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Information"
+        android:textSize="14sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tagColor="#0091EA"
+        app:tagType="classic"
+        app:tagUpperCase="true"
+        tools:layout_editor_absoluteX="8dp" />
+
+    <com.veinhorn.tagview.TagView
+        android:id="@+id/conference_label_date"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Date"
+        android:textAlignment="center"
+        android:textSize="12dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tagView6"
+        app:tagColor="@color/conferenceListBackground"
+        app:tagType="classic"
+        app:tagUpperCase="true" />
+
     <TextView
-        android:id="@+id/conference_detail_time"
+        android:id="@+id/conference_detail_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Apr 29"
+        android:textSize="14sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/conference_label_date"
+        app:layout_constraintStart_toEndOf="@+id/conference_label_date" />
+
+    <com.veinhorn.tagview.TagView
+        android:id="@+id/tagView"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textSize="12dp"
+        android:text="Duration"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/conference_label_date"
+        app:tagColor="@color/conferenceListBackground"
+        app:tagType="classic"
+        app:tagUpperCase="true" />
+
+    <TextView
+        android:id="@+id/conference_detail_time"
+        android:layout_width="0dp"
+
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:text="Time: Apr 29, 08:00-08:10" />
+        android:layout_weight="1"
+        android:textSize="14dp"
+        android:text="08:00-10:00"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tagView"
+        app:layout_constraintStart_toEndOf="@+id/tagView" />
+
+
+    <com.veinhorn.tagview.TagView
+        android:id="@+id/tagView2"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Place"
+        android:textAlignment="center"
+        android:textSize="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tagView"
+        app:tagColor="@color/conferenceListBackground"
+        app:tagType="classic"
+        app:tagUpperCase="true" />
 
     <TextView
         android:id="@+id/conference_detail_place"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
         android:layout_margin="@dimen/text_margin"
-        android:layout_marginTop="2dp"
-        android:text="Place: Forum A"
-        app:layout_constraintTop_toBottomOf="@id/conference_detail_time"
-        tools:layout_editor_absoluteX="0dp" />
+        android:text="Forum A"
+        android:textSize="14dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tagView2"
+        app:layout_constraintStart_toEndOf="@+id/tagView2" />
+
+
+    <com.veinhorn.tagview.TagView
+        android:id="@+id/tagView3"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Host"
+        android:textSize="12dp"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tagView2"
+        app:tagColor="@color/conferenceListBackground"
+        app:tagType="classic"
+        app:tagUpperCase="true" />
 
     <TextView
         android:id="@+id/conference_detail_organization"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="14dp"
         android:layout_margin="@dimen/text_margin"
-        android:text="Organization: Tsinghua University"
-        app:layout_constraintTop_toBottomOf="@id/conference_detail_place" />
+        android:text="IEEE"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tagView3"
+        app:layout_constraintStart_toEndOf="@+id/tagView3" />
+
+    <com.veinhorn.tagview.TagView
+        android:id="@+id/tagView4"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Chairs"
+        android:textSize="12dp"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tagView3"
+        app:tagColor="@color/conferenceListBackground"
+        app:tagType="classic"
+        app:tagUpperCase="true" />
 
     <TextView
-        android:id="@+id/conference_detail_hosts"
+        android:id="@+id/conference_detail_chairs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:text="Hosts: Micheal Jodan, Benjo Brude, Van Darkhome,  Micheal Jodan, Benjo Brude, Van Darkhome,  Micheal Jodan, Benjo Brude, Van Darkhome"
-        app:layout_constraintTop_toBottomOf="@id/conference_detail_organization" />
+        android:text="Michael Jordan, Benjo Brude"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tagView4"
+        app:layout_constraintStart_toEndOf="@+id/tagView4" />
+
+    <com.veinhorn.tagview.TagView
+        android:id="@+id/tagView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Introduction"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@+id/tagView4"
+        app:tagColor="#2196F3"
+        app:tagType="classic"
+        app:tagUpperCase="true" />
 
     <TextView
         android:id="@+id/conference_detail_introduction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
+        android:layout_marginStart="8dp"
         android:text="@string/large_text"
-        app:layout_constraintTop_toBottomOf="@id/conference_detail_hosts" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tagView5" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

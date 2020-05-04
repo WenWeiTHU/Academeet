@@ -34,6 +34,7 @@ public class ConferenceListFragment extends Fragment {
                              Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.conference_list_fragment, container, false);
         ButterKnife.bind(this, v);
+
         initConference();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(layoutManager.VERTICAL);
