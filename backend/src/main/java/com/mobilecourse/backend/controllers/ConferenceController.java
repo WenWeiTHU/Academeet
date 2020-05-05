@@ -76,7 +76,7 @@ public class ConferenceController extends CommonController {
                                       @RequestParam(value = "type") int type,
                                       HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-        if (session == null) return "{ \"accepted\": 0, \"msg\": \"please login.\" }";
+        if (session == null) return LOGIN_MSG;
         JSONObject user = (JSONObject)session.getAttribute("user");
         int usertype = user.getIntValue("type");
         int userid = user.getIntValue("id");
@@ -168,7 +168,7 @@ public class ConferenceController extends CommonController {
                                  @RequestParam(value = "type")int type,
                                  HttpSession s) {
         int userid = getUserId(s);
-        if (userid == -1) return "{ \"accepted\": 0, \"msg\": \"please login.\" }";
+        if (userid == -1) return LOGIN_MSG;
         JSONArray sessions = JSONArray.parseArray(sessionjson);
         if (null == conferenceMapper.selectById(conference_id, userid))
             return "{ \"accepted\": 0, \"msg\": \"no such conference or is invisible\" }";
@@ -196,7 +196,7 @@ public class ConferenceController extends CommonController {
                               HttpSession s) {
         int userid = getUserId(s);
         if (userid == -1) {
-            return "{ \"accepted\": 0, \"msg\": \"please login.\" }";
+            return LOGIN_MSG;
         }
         Session session = conferenceMapper.selectSessionById(session_id, userid);
         if (session == null || userid != session.getEstablisher_id())
