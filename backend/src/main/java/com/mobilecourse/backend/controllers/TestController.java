@@ -34,7 +34,7 @@ public class TestController extends CommonController {
     public String hello(HttpServletRequest request, HttpServletResponse response) throws IOException {
 //        MultipartFile avatar = ((StandardMultipartHttpServletRequest) request).getFile("avatar");
 //        return avatar.getInputStream().toString();
-        return wrapperMsg(200, "当前数据库中共有：" + testMapper.testCnt() + "条数据！");
+        return wrapperMsg(200, "您好，测试成功！");
 //        return resp;
     }
 

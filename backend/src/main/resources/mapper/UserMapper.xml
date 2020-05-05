@@ -91,7 +91,7 @@
     <select id="selectAllUserConferences" resultType="com.mobilecourse.backend.model.Conference">
         SELECT conference.*
         FROM user_conference NATURAL JOIN conference
-        WHERE user_id=#{id} and uctype=#{gtype}
+        WHERE user_id=#{id} AND uctype=#{gtype} AND visible=1
     </select>
 
     <select id="selectUserConference" resultType="com.mobilecourse.backend.model.Conference">

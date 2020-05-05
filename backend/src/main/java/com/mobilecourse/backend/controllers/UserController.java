@@ -91,10 +91,10 @@ public class UserController extends CommonController {
             String result = client.send(params);
             json = JSONObject.parseObject(result);
             if (json.getIntValue("code") != 0) {
-                return "{ accepted: 0 }";
+                return "{ \"accepted\": 0 }";
             }
         } catch (Exception e) {
-            return "{ accepted: 0 }";
+            return "{ \"accepted\": 0 }";
         }
         HttpSession session = request.getSession();
         json = new JSONObject();
@@ -103,7 +103,7 @@ public class UserController extends CommonController {
         json.put("createTime", System.currentTimeMillis());
         // 将认证码存入SESSION
         session.setAttribute("verifyCode", json);
-        return "{ accepted: 1 }";
+        return "{ \"accepted\": 1 }";
     }
 
     //TODO: 待验证
@@ -125,14 +125,14 @@ public class UserController extends CommonController {
         JSONObject json = (JSONObject) session.getAttribute("verifyCode");
         session.invalidate();
         if (json == null) {
-            return "{ code: 400, msg: wrong verify code }";
+            return "{ code: 400, \"msg\": \"wrong verify code }";
         }
         if (!json.getString("verifyCode").equals(captcha)) {
-            return "{ code: 400, msg: wrong verify code }";
+            return "{ code: 400, \"msg\": \"wrong verify code }";
         } else if (!json.getString("phone").equals(phone)) {
-            return "{ code: 400, msg: wrong phone number }";
+            return "{ code: 400, \"msg\": \"wrong phone number }";
         } else if ((System.currentTimeMillis() - json.getLongValue("createTime")) > 1000 * 60 * 5) {
-            return "{ code: 400, msg: verify code expired }";
+            return "{ code: 400, \"msg\": \"verify code expired }";
         }
         BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
         User newuser = new User(0, username, encode.encode(password), type);
@@ -155,7 +155,7 @@ public class UserController extends CommonController {
         User user = userMapper.select(id);
         if (user == null) {
             response.setStatus(300);
-            return "{msg: no such user.}";
+            return "{\"msg\": \"no such user.}";
         }
         JSONObject resp = new JSONObject();
         resp.put("username", user.getUsername());
@@ -169,10 +169,10 @@ public class UserController extends CommonController {
     public String userLogout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session == null) {
-            return "{ accepted: 0 }";
+            return "{ \"accepted\": 0 }";
         }
         session.invalidate();
-        return "{ accepted: 1 }";
+        return "{ \"accepted\": 1 }";
     }
 
     @RequestMapping(value = "/api/user/update/avatar", method = {RequestMethod.POST})
@@ -181,7 +181,7 @@ public class UserController extends CommonController {
         HttpSession session = request.getSession(false);
         if (session == null) {
             response.setStatus(404);
-            return "{ accepted: 0, msg: please login. }";
+            return "{ \"accepted\": 0, \"msg\": \"please login.\" }";
         }
         int id = ((JSONObject)session.getAttribute("user")).getIntValue("id");
         String filename = avatar.getOriginalFilename();
@@ -195,9 +195,9 @@ public class UserController extends CommonController {
             avatar.transferTo(localFile);
         } catch (IOException e) {
             response.setStatus(500);
-            return "{ accepted: 0, msg: " + e.getMessage() + " }";
+            return "{ \"accepted\": 0, \"msg\": \"" + e.getMessage() + "\" }";
         }
-        return "{ accepted: 1 }";
+        return "{ \"accepted\": 1 }";
     }
 
     @RequestMapping(value = "/api/user/update/password", method = RequestMethod.POST)
@@ -208,16 +208,16 @@ public class UserController extends CommonController {
         HttpSession session = request.getSession(false);
         if (session == null) {
             response.setStatus(401);
-            return "{ accepted: 0, msg: " + "not login" + " }";
+            return "{ \"accepted\": 0, \"msg\": \"not login\" }";
         }
         int id = ((JSONObject)session.getAttribute("user")).getIntValue("id");
         User user = userMapper.select(id);
         BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
         if (encode.matches(old_password, user.getPassword())) {
             userMapper.updatePassword(id, encode.encode(password));
-            return "{ accepted: 1 }";
+            return "{ \"accepted\": 1 }";
         }
-        return "{ accepted: 0 }";
+        return "{ \"accepted\": 0 }";
     }
 
     @RequestMapping(value = "/api/user/update/phone", method = {RequestMethod.POST})
@@ -226,11 +226,11 @@ public class UserController extends CommonController {
         HttpSession session = request.getSession(false);
         if (session == null) {
             response.setStatus(401);
-            return "{ accepted: 0 }";
+            return "{ \"accepted\": 0 }";
         }
         int id = ((JSONObject)session.getAttribute("user")).getIntValue("id");
-        if (userMapper.updatePhone(id, phone) == 0) return "{ accepted: 0 }";
-        return "{ accepted: 1 }";
+        if (userMapper.updatePhone(id, phone) == 0) return "{ \"accepted\": 0 }";
+        return "{ \"accepted\": 1 }";
     }
 
     @RequestMapping(value = "/api/user/update/signature", method = {RequestMethod.POST})
@@ -238,15 +238,16 @@ public class UserController extends CommonController {
                                   @RequestParam(value = "signature")String signature) {
         HttpSession session = request.getSession(false);
         if (session == null) {
-            return "{ accepted: 0 }";
+            return "{ \"accepted\": 0 }";
         }
         int id = ((JSONObject)session.getAttribute("user")).getIntValue("id");
-        if (userMapper.updateSignature(id, signature) == 0) return "{ accepted: 0 }";
-        return "{ accepted: 1 }";
+        if (userMapper.updateSignature(id, signature) == 0) return "{ \"accepted\": 0 }";
+        return "{ \"accepted\": 1 }";
     }
 
     @RequestMapping(value = "/api/user/{gtype}", method = {RequestMethod.GET})
-    public String getInfos(@PathVariable String gtype, @RequestParam(value = "id")int id) {
+    public String getInfos(@PathVariable String gtype, @RequestParam(value = "id")int id,
+                           HttpServletRequest request) {
         int index;
         switch (gtype) {
             case "writes":
@@ -258,17 +259,22 @@ public class UserController extends CommonController {
             case "favors":
             case "reminds":
             case "dislikes":
-            case "establishes":
                 index = 2;
                 break;
             default:
                 index = -1;
         }
-        if (index == -1) return "{ accepted: 0 }";
+        if (index == -1) return "{ \"accepted\": 0 }";
+        HttpSession session = request.getSession(false);
+        int curuserid = -1;
+        if (session != null) curuserid = ((JSONObject) session
+                .getAttribute("user")).getIntValue("id");
+
         String base = "com.mobilecourse.backend.model.";
         String[] names = { "note", "message", "conference" };
         String[] entities = { base+"Note", base+"Message", base+"Conference" };
-        String[] methods = { "selectAllNotes", "selectAllMessages", "selectAllUserConferences" };
+        String[] methods = { "selectAllNotes", "selectAllMessages",
+                "selectAllUserConferences", "selectMyEstablishedConferences" };
         String[][] attrs = {
                 { "note_id", "title", "text", "create_time", "update_time" },
                 { "message_id", "details", "time" },
@@ -280,8 +286,13 @@ public class UserController extends CommonController {
             Info = Class.forName(entities[index]);
             Dao = UserDao.class;
             if (index == 2) {
-                Method method = Dao.getMethod(methods[index], int.class, String.class);
-                infos = (ArrayList<Object>) method.invoke(userMapper, id, gtype);
+                if (curuserid != id) {
+                    Method method = Dao.getMethod(methods[index], int.class, String.class);
+                    infos = (ArrayList<Object>) method.invoke(userMapper, id, gtype);
+                } else {
+                    Method method = Dao.getMethod(methods[3], int.class);   // 查看自己建立的会议可以看见隐藏会议
+                    infos = (ArrayList<Object>) method.invoke(userMapper, id);
+                }
             } else {
                 Method method = Dao.getMethod(methods[index], int.class);
                 infos = (ArrayList<Object>) method.invoke(userMapper, id);
@@ -301,101 +312,22 @@ public class UserController extends CommonController {
             resp.put(names[index] + "_num", infos.size());
             return resp.toJSONString();
         } catch (Exception e) {
-            return "{ accepted: 0, msg: " + e.getMessage() + " }";
+            return "{ \"accepted\": 0, \"msg\": \"" + e.getMessage() + "\" }";
         }
     }
 
-//    @RequestMapping(value = "/api/user/establishing", method = {RequestMethod.POST})
-//    public String createConference(@RequestParam(value = "conferences")String conferencejson,
-//                                   @RequestParam(value = "type")int type) {
-//        JSONObject conferenceinfo = new JSONObject()
-//    }
-
-//    @RequestMapping(value = "/api/user/writes", method = {RequestMethod.GET})
-//    public String getNotes(@RequestParam(value = "id")int id) {
-//        ArrayList<Note> notes = userMapper.selectAllNotes(id);
-//        JSONArray allnotes = new JSONArray();
-//        for (Note note: notes) {
-//            JSONObject noteinfo = new JSONObject();
-//            noteinfo.put("note_id", note.getNote_id());
-//            noteinfo.put("title", note.getTitle());
-//            noteinfo.put("text", note.getText());
-//            noteinfo.put("create_time", note.getCreate_time());
-//            noteinfo.put("update_time", note.getUpdate_time());
-//            allnotes.add(noteinfo);
-//        }
-//        JSONObject resp = new JSONObject();
-//        resp.put("notes", allnotes);
-//        resp.put("note_num", notes.size());
-//        return resp.toJSONString();
-//    }
-//
-//    @RequestMapping(value = "/api/user/sends", method = {RequestMethod.GET})
-//    public String getMessages(@RequestParam(value = "id")int id) {
-//        ArrayList<Message> msgs = userMapper.selectAllMessages(id);
-//        JSONArray allmsgs = new JSONArray();
-//        for (Message msg: msgs) {
-//            JSONObject msginfo = new JSONObject();
-//            msginfo.put("message_id", msg.getMessage_id());
-//            msginfo.put("details", msg.getDetails());
-//            msginfo.put("time", msg.getTime());
-//            allmsgs.add(msginfo);
-//        }
-//        JSONObject resp = new JSONObject();
-//        resp.put("messages", allmsgs);
-//        resp.put("message_num", msgs.size());
-//        return resp.toJSONString();
-//    }
-
-//    @RequestMapping(value = "/api/user/favors", method = {RequestMethod.GET})
-//    public String getFavorConference(@RequestParam(value = "id")int id) {
-//        ArrayList<Conference> msgs = userMapper.selectConferences(id, "favor");
-//        JSONArray allmsgs = new JSONArray();
-//        for (Message msg: msgs) {
-//            JSONObject msginfo = new JSONObject();
-//            msginfo.put("message_id", msg.getMessage_id());
-//            msginfo.put("details", msg.getDetails());
-//            msginfo.put("time", msg.getTime());
-//            allmsgs.add(msginfo);
-//        }
-//        JSONObject resp = new JSONObject();
-//        resp.put("messages", allmsgs);
-//        resp.put("message_num", msgs.size());
-//        return resp.toJSONString();
-//    }
-
-//    @RequestMapping("/api/userSelectAll")
-//    public String userSelectAll() {
-//        try {
-//            JSONArray jsonArray = new JSONArray();
-//            List<User> list = userMapper.userSelectAll();
-//            if (list.size() == 0)
-//                return wrapperMsg(201, "没有找到对应的数据！");
-//            for (User s : list) {
-//                JSONObject jsonObject = new JSONObject();
-//                jsonObject.put("id", s.getId());
-//                jsonObject.put("username", s.getUsername());
-//                jsonObject.put("password", s.getPassword());
-//                jsonArray.add(jsonObject);
-//            }
-//            return wrapperMsg(200, jsonArray.toJSONString());
-//        } catch (Exception e) {
-//            return wrapperMsg(500, e.toString());
-//        }
-//    }
-
-    @RequestMapping(value = "/api/user/update.rating")
+    @RequestMapping(value = "/api/user/update/rating")
     public String updateSession(HttpServletRequest request,
                                 @RequestParam(value = "session_id")int session_id,
                                 @RequestParam(value = "rating")float rating) {
         HttpSession session = request.getSession(false);
         if (session == null) {
-            return "{ accepted: 0 }";
+            return "{ \"accepted\": 0 }";
         }
         int user_id = ((JSONObject) session.getAttribute("user")).getIntValue("id");
         int result = userMapper.updateSessionRating(user_id, session_id, rating);
-        if (result == 1) return "{ accepted: 1 }";
-        return "{ accepted: 0, msg: not update. }";
+        if (result == 1) return "{ \"accepted\": 1 }";
+        return "{ \"accepted\": 0, \"msg\": \"not update.\" }";
     }
 
 }
