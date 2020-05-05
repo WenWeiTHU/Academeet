@@ -8,7 +8,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
@@ -19,27 +19,13 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
-    <SearchView
+
+
+<!--    <include layout="@layout/content_search" />-->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    <androidx.core.widget.NestedScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.recyclerview.widget.RecyclerView
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/session_list"
-            android:scrollbars="vertical"
-            />
-    </androidx.core.widget.NestedScrollView>
-
-
-
-
-
-
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        android:id="@+id/fragment_container"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
