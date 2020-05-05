@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 
+import com.example.academeet.Fragment.SearchListFragment;
 import com.example.academeet.R;
 
 
@@ -20,6 +21,12 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        getSupportFragmentManager()    //
+                .beginTransaction()
+                .add(R.id.fragment_container,new SearchListFragment())
+                .commit();
     }
 
 }
