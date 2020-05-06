@@ -12,11 +12,11 @@
         android:layout_height="match_parent">
 
         <ImageButton
-            android:id="@+id/session_like_button"
+            android:id="@+id/paper_download_button"
             android:layout_width="40dp"
             android:layout_height="match_parent"
-            android:background="#E91E63"
-            android:src="@drawable/ic_like"
+            android:background="#0091EA"
+            android:src="@drawable/ic_download"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </LinearLayout>
 
@@ -30,40 +30,41 @@
         app:layout_constraintLeft_toLeftOf="parent">
 
         <TextView
-            android:id="@+id/session_name_text_view"
+            android:id="@+id/paper_name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="4dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:textColor="@color/conferenceItemTitle"
             android:textSize="18sp" />
-
         <TextView
-            android:id="@+id/session_time_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxWidth="400dp"
-            android:layout_marginLeft="16dp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="08:00-10:00"
-            android:textColor="#B6B2B2" />
-
-        <TextView
-            android:id="@+id/session_host_text_view"
+            android:id="@+id/session_author_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxWidth="200dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginBottom="8dp"
             android:maxLines="1"
             android:text="Micheal Jodan, Benjo Brude, Van Darkhome"
             android:textColor="#03A9F4" />
+        <TextView
+            android:id="@+id/paper_abstract_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="400dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="8dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text="@string/large_text"
+            android:textColor="#B6B2B2" />
+
+
     </LinearLayout>
 
 
