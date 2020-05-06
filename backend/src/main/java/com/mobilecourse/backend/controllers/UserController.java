@@ -125,19 +125,19 @@ public class UserController extends CommonController {
         JSONObject json = (JSONObject) session.getAttribute("verifyCode");
         session.invalidate();
         if (json == null) {
-            return "{ code: 400, \"msg\": \"wrong verify code }";
+            return "{ \"code\": 400, \"msg\": \"wrong verify code\" }";
         }
         if (!json.getString("verifyCode").equals(captcha)) {
-            return "{ code: 400, \"msg\": \"wrong verify code }";
+            return "{ \"code\": 400, \"msg\": \"wrong verify code\" }";
         } else if (!json.getString("phone").equals(phone)) {
-            return "{ code: 400, \"msg\": \"wrong phone number }";
+            return "{ \"code\": 400, \"msg\": \"wrong phone number\" }";
         } else if ((System.currentTimeMillis() - json.getLongValue("createTime")) > 1000 * 60 * 5) {
-            return "{ code: 400, \"msg\": \"verify code expired }";
+            return "{ \"code\": 400, \"msg\": \"verify code expired\" }";
         }
         BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
         User newuser = new User(0, username, encode.encode(password), type);
         userMapper.insert(newuser);
-        return "{ code: 200 }";
+        return "{ \"code\": 200 }";
     }
 
     @RequestMapping(value = "/api/whoami", method = { RequestMethod.GET })
@@ -155,7 +155,7 @@ public class UserController extends CommonController {
         User user = userMapper.select(id);
         if (user == null) {
             response.setStatus(300);
-            return "{\"msg\": \"no such user.}";
+            return "{\"msg\": \"no such user.\" }";
         }
         JSONObject resp = new JSONObject();
         resp.put("username", user.getUsername());
@@ -181,7 +181,7 @@ public class UserController extends CommonController {
         HttpSession session = request.getSession(false);
         if (session == null) {
             response.setStatus(404);
-            return "{ \"accepted\": 0, \"msg\": \"please login.\" }";
+            return LOGIN_MSG;
         }
         int id = ((JSONObject)session.getAttribute("user")).getIntValue("id");
         String filename = avatar.getOriginalFilename();
@@ -208,7 +208,7 @@ public class UserController extends CommonController {
         HttpSession session = request.getSession(false);
         if (session == null) {
             response.setStatus(401);
-            return "{ \"accepted\": 0, \"msg\": \"not login\" }";
+            return LOGIN_MSG;
         }
         int id = ((JSONObject)session.getAttribute("user")).getIntValue("id");
         User user = userMapper.select(id);
@@ -238,7 +238,7 @@ public class UserController extends CommonController {
                                   @RequestParam(value = "signature")String signature) {
         HttpSession session = request.getSession(false);
         if (session == null) {
-            return "{ \"accepted\": 0 }";
+            return LOGIN_MSG;
         }
         int id = ((JSONObject)session.getAttribute("user")).getIntValue("id");
         if (userMapper.updateSignature(id, signature) == 0) return "{ \"accepted\": 0 }";
@@ -322,7 +322,7 @@ public class UserController extends CommonController {
                                 @RequestParam(value = "rating")float rating) {
         HttpSession session = request.getSession(false);
         if (session == null) {
-            return "{ \"accepted\": 0 }";
+            return LOGIN_MSG;
         }
         int user_id = ((JSONObject) session.getAttribute("user")).getIntValue("id");
         int result = userMapper.updateSessionRating(user_id, session_id, rating);
