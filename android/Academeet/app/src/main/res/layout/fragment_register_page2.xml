@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto">
+    <!-- 用来占位 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/register_view_block"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="350dp"
+        android:layout_height="47.94dp"
+        android:src="@mipmap/logo"
+        android:layout_marginTop="80dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/register_view_block"
+        android:id="@+id/register_logo"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/register_phone_textfield"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/register_logo"
+        android:orientation="horizontal"
+
+        >
+    <com.github.florent37.materialtextfield.MaterialTextField
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:mtf_labelColor="@color/colorPrimary"
+        android:layout_marginTop="40dp"
+        android:layout_weight="4"
+        app:mtf_backgroundColor="@color/colorAccent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/register_logo"
+        app:mtf_hasFocus="true"
+        android:layout_marginLeft="5dp"
+        >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/register_phone"
+            android:hint="Phone Number"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:maxLength="15"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@+id/register_capcha"/>
+
+    </com.github.florent37.materialtextfield.MaterialTextField>
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1.5"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_gravity="bottom"
+            android:layout_marginRight="10dp"
+            fancy:fb_text="Get Capcha"
+            fancy:fb_textColor="@color/white"
+            fancy:fb_defaultColor="@color/colorPrimary"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_borderColor="@color/colorPrimaryDark"
+            android:layout_marginLeft="20dp"
+            fancy:fb_focusColor="@color/colorAccent"
+            fancy:fb_radius="30dp"
+            android:onClick="getCapcha"/>
+
+    </LinearLayout>
+
+    <com.github.florent37.materialtextfield.MaterialTextField
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:mtf_labelColor="@color/colorPrimary"
+        android:layout_marginTop="5dp"
+        app:mtf_backgroundColor="@color/colorAccent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/register_phone_textfield"
+        android:id="@+id/register_capcha_textfield"
+        app:mtf_hasFocus="false"
+        android:layout_marginLeft="5dp">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/register_capcha"
+            android:hint="Capcha"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:maxLength="15"
+            android:singleLine="true"
+            />
+
+    </com.github.florent37.materialtextfield.MaterialTextField>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="35dp"
+        app:layout_constraintTop_toBottomOf="@id/register_capcha_textfield">
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/register2_finish_button"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            fancy:fb_textColor="@color/white"
+            fancy:fb_text="Finish"
+            fancy:fb_borderColor="@color/colorPrimaryDark"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_radius="30dp"
+            fancy:fb_defaultColor="@color/colorPrimary"
+            fancy:fb_focusColor="@color/colorAccent"
+            android:onClick="finishRegister"
+            />
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/register2_back_button"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:layout_marginLeft="40dp"
+            fancy:fb_textColor="@color/white"
+            fancy:fb_text="Back"
+            fancy:fb_borderColor="@color/colorPrimaryDark"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_radius="30dp"
+            fancy:fb_defaultColor="@color/colorPrimary"
+            fancy:fb_focusColor="@color/colorAccent"
+            android:onClick="backToRegisterPage1"
+            />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,10 +6,10 @@
     >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:id="@+id/home_menu_header_view"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="10dp"
         >
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/home_menu_head"
@@ -19,7 +19,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@mipmap/ic_launcher_round"
+            android:src="@mipmap/usr_header"
             android:elevation="80dp"
             />
 
@@ -30,20 +30,36 @@
             android:textColor="@color/home_menu_user_name"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/home_menu_user_signature"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:text="Username"
+            android:text="文维"
             android:textStyle="bold"
             android:textSize="20sp"
-            android:elevation="30dp"/>
+            android:elevation="30dp"
+            android:id="@+id/home_menu_user_name"/>
+        <TextView
+            android:id="@+id/home_menu_user_signature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/home_menu_user_name"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="5dp"
+            android:text="Stay Simple"
+            android:textColor="@color/white"
+            android:maxLength="30"/>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
+        android:id="@+id/home_menu_items"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/home_menu_header_view"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:padding="10dp"
         android:orientation="vertical"
         app:layout_constraintRight_toRightOf="parent"
@@ -56,21 +72,25 @@
         android:gravity="left"
         android:orientation="horizontal"
         android:padding="10dp"
-        android:onClick="onFavoriteItemClicked">
+        android:onClick="onFavoriteItemClicked"
+        >
         <ImageView
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:src="@mipmap/ic_launcher"
             android:gravity="bottom"
             android:layout_marginRight="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Favorite"
-            android:textColor="@color/home_menu_item"
-        />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:gravity="bottom"
+            android:text="Favorite"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:background="@color/home_menu_item_background"
+            android:textSize="17sp"
+            android:onClick="onFavoriteItemClicked"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -79,21 +99,53 @@
         android:gravity="left"
         android:orientation="horizontal"
         android:padding="10dp"
-        android:onClick="onReminderItemClicked">
+        android:onClick="onReminderItemClicked"
+        android:layout_gravity="center"
+        >
         <ImageView
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:src="@mipmap/ic_launcher"
             android:gravity="bottom"
             android:layout_marginRight="10dp"/>
-        <TextView
+        <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_height="18dp"
+            android:gravity="bottom"
             android:text="Reminder"
-            android:textColor="@color/home_menu_item"
-            />
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:background="@color/home_menu_item_background"
+            android:textSize="17sp"
+            android:onClick="onReminderItemClicked"/>
     </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/home_menu_item_note"
+            android:gravity="left"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:onClick="onNoteItemClicked"
+            android:layout_gravity="center"
+            >
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/ic_launcher"
+                android:gravity="bottom"
+                android:layout_marginRight="10dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:gravity="bottom"
+                android:text="Note"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:background="@color/home_menu_item_background"
+                android:textSize="17sp"
+                android:onClick="onNoteItemClicked"/>
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

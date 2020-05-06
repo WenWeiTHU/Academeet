@@ -1,15 +1,12 @@
 package com.example.academeet.Activity;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,7 +21,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import com.example.academeet.Adapter.HomePagerAdapter;
 import com.example.academeet.Fragment.ConferenceListFragment;
 import com.example.academeet.R;
-import com.example.academeet.ScreenInfoUtils;
+import com.example.academeet.Utils.ScreenInfoUtils;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -45,6 +42,10 @@ public class HomeActivity extends AppCompatActivity {
     ViewPager mHomeViewerPager;
     @BindView(R.id.home_tab_layout)
     TabLayout mHomeTabLayout;
+    @BindView(R.id.home_menu_item_favorite)
+    LinearLayout mHomeMenuItemFavorite;
+    @BindView(R.id.home_menu_item_reminder)
+    LinearLayout mHomeMenuItemReminder;
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
 
     String[] titles = {"Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"};
@@ -57,21 +58,15 @@ public class HomeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initFrame();
         initMainContent();
+        initMenu();
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent keyEvent)
-    {
-        // TODO: 直接退出程序
-        if (keyCode == KeyEvent.KEYCODE_BACK)
-        {
-            Log.d(TAG, "KEY BACK");
-            finish();
-            System.exit(0);
-            return true;
-        }
-        return super.onKeyDown(keyCode, keyEvent);
+    protected void onDestroy() {
+
+        super.onDestroy();
     }
+
 
     void initFrame() {
         // 初始化页面的框架
@@ -146,6 +141,10 @@ public class HomeActivity extends AppCompatActivity {
         mHomeTabLayout.setupWithViewPager(mHomeViewerPager);
     }
 
+    public void initMenu() {
+
+    }
+
     public void onFavoriteItemClicked(View v) {
         Toast toast = Toast.makeText(this, "You clicked favorite item", Toast.LENGTH_SHORT);
         toast.show();
@@ -154,6 +153,11 @@ public class HomeActivity extends AppCompatActivity {
     public void onReminderItemClicked(View v) {
         Toast toast = Toast.makeText(this, "You clicked reminder item", Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    public void onNoteItemClicked(View v) {
+        Intent intent = new Intent(HomeActivity.this, UserNotePreviewActivity.class);
+        startActivity(intent);
     }
 
 }

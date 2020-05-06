@@ -1,8 +1,5 @@
 package com.example.academeet.Adapter;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,21 +10,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.academeet.Item.ConferenceItem;
 import com.example.academeet.R;
-import com.example.academeet.Activity.ConfDetailActivity;
 
+import java.util.Random;
 
 
 import java.util.List;
 
-public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAdapter.ConfViewHolder> {
+public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAdapter.ViewHolder> {
 
     private List<ConferenceItem> mConferenceList;
-
-
-    class ConfViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         TextView conferenceName;
 
-        public ConfViewHolder(View view) {
+        public ViewHolder(View view) {
             super(view);
             conferenceName = (TextView)view.findViewById(R.id.conference_name_text_view);
         }
@@ -40,27 +35,17 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
 
     @NonNull
     @Override
-    public ConfViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_conference, parent, false);
-        ConfViewHolder holder = new ConfViewHolder(view);
+        ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ConfViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ConferenceItem conference = mConferenceList.get(position);
         holder.conferenceName.setText(conference.getName());
-        holder.conferenceName.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                 Context context = view.getContext();
-                 Intent intent = new Intent(context, ConfDetailActivity.class);
-                 intent.putExtra("CONFERENCE_NAME", conference.getName());
-
-                 context.startActivity(intent);
-             }
-        });
     }
 
     @Override

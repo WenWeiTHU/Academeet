@@ -36,7 +36,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabMode="scrollable"
-
             app:tabIndicatorColor="@color/white"
             android:layout_marginTop="10dp"
             app:tabTextColor="@color/white"
@@ -52,6 +51,5 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:background="@color/conferenceListBackground"
         />
-
 
 </LinearLayout>

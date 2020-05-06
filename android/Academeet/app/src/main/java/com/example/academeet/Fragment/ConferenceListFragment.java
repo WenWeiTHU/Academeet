@@ -34,7 +34,6 @@ public class ConferenceListFragment extends Fragment {
                              Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.conference_list_fragment, container, false);
         ButterKnife.bind(this, v);
-
         initConference();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(layoutManager.VERTICAL);
@@ -45,6 +44,7 @@ public class ConferenceListFragment extends Fragment {
         mConferenceListView.setItemAnimator(new DefaultItemAnimator());
         mConferenceListView.setAdapter(conferenceListAdapter);
         return v;
+
     }
 
     private void initConference() {
@@ -53,9 +53,17 @@ public class ConferenceListFragment extends Fragment {
             // 如果已经有数据了，则不再生成
             return;
         }
-        conferenceList.add(new ConferenceItem("7th International Workshop on Security and Privacy in Big Data (BigSecurity 2019)"));
-        conferenceList.add(new ConferenceItem("International Workshop on Communications and Networking Aspects of Online Social Networks"));
-        conferenceList.add(new ConferenceItem("5th IEEE INFOCOM Workshop on Computer and Networking Aspects of Online Social Networks"));
-        conferenceList.add(new ConferenceItem("2nd Workshop on Age of Information"));
+        for (int i = 0; i < 5; ++i) {
+            conferenceList.add(new ConferenceItem("2019 INFOCOM"));
+            conferenceList.add(new ConferenceItem("2019 CVPR"));
+            conferenceList.add(new ConferenceItem("2019 NIPS"));
+            conferenceList.add(new ConferenceItem("2019 AAAI"));
+            conferenceList.add(new ConferenceItem("2019 ACL"));
+            conferenceList.add(new ConferenceItem("2019 MOBILECOM"));
+            conferenceList.add(new ConferenceItem("2019 ICML"));
+            conferenceList.add(new ConferenceItem("2019 IJCAI"));
+            conferenceList.add(new ConferenceItem("2019 COLT"));
+            conferenceList.add(new ConferenceItem("2019 ICLR"));
+        }
     }
 }

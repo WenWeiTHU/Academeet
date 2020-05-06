@@ -14,6 +14,7 @@ import com.example.academeet.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import mehdi.sakout.fancybuttons.FancyButton;
 
 public class LoginFragment extends Fragment {
     @BindView(R.id.login_type_radio)
@@ -23,9 +24,9 @@ public class LoginFragment extends Fragment {
     @BindView(R.id.login_type_admin_radio)
     RadioButton mLoginTypeAdminRadio;
     @BindView(R.id.login_button)
-    Button mLoginButton;
+    FancyButton mLoginButton;
     @BindView(R.id.register_button)
-    Button mRegisterButton;
+    FancyButton mRegisterButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

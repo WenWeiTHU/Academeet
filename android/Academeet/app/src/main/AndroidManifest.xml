@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.academeet">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/logo"
@@ -9,18 +12,10 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".Activity.SearchActivity"
-            android:label="SearchActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Activity.SessDetailActivity"
-            android:label="@string/title_activity_sess_detail"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Activity.ConfDetailActivity"
-            android:label="@string/title_activity_conf_detail"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activity.EditNoteActivity"></activity>
+        <activity android:name=".Activity.ShowNoteActivity" />
+        <activity android:name=".Activity.UserNotePreviewActivity" />
+        <activity android:name=".Activity.FavoriteActivity" />
         <activity android:name=".Activity.HomeActivity" />
         <activity android:name=".Activity.MainActivity">
             <intent-filter>

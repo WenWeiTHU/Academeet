@@ -4,7 +4,6 @@ import java.util.Date;
 
 public class ConferenceItem {
     private String name;
-    // private Datetime
     // TODO: 添加会议的其他属性，例如日期、时间、地点、简介等等
 
     public ConferenceItem(String name) {
@@ -14,6 +13,4 @@ public class ConferenceItem {
     public String getName() {
         return name;
     }
-
-
 }
