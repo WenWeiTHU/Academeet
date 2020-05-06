@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         app:mtf_labelColor="@color/colorPrimary"
         android:layout_marginTop="20dp"
-        app:mtf_backgroundColor="@color/colorAccent"
+        app:mtf_backgroundColor="@color/conferenceItemBackground"
         android:layout_gravity="center_horizontal"
         app:mtf_hasFocus="true"
         >
@@ -48,21 +48,21 @@
             android:id="@+id/login_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="@integer/account_max_length"
-            android:hint="@string/login_account_hint"
             android:layout_gravity="center_horizontal"
-            android:textSize="15sp"
-            android:textColor="@color/white"
-            android:singleLine="true"
+            android:hint="@string/login_account_hint"
             android:imeOptions="actionNext"
-            android:nextFocusForward="@+id/login_password"/>
+            android:maxLength="@integer/account_max_length"
+            android:nextFocusForward="@+id/login_password"
+            android:singleLine="true"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp" />
 
     </com.github.florent37.materialtextfield.MaterialTextField>
     <com.github.florent37.materialtextfield.MaterialTextField
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:mtf_labelColor="@color/colorPrimary"
-        app:mtf_backgroundColor="@color/colorAccent"
+        app:mtf_backgroundColor="@color/white"
         android:layout_gravity="center_horizontal"
         app:mtf_hasFocus="false"
         >
@@ -74,7 +74,8 @@
             android:hint="@string/login_password_hint"
             android:inputType="textPassword"
             android:layout_gravity="center_horizontal"
-            android:textColor="@color/white"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp"
             android:maxLines="1"
 
             />
