@@ -50,8 +50,7 @@ public final class HTTPSUtils {
         try {
             inputStream = mContext.getAssets().open(globals.SERVER_CER); // 得到证书的输入流
             clientStream = mContext.getAssets().open(globals.CLIENT_BKS);
-            KeyStore keyStore = KeyStore.getInstance("BKS"); // 这里添加自定义的密码，默认
-//            keyStore.load(clientStream, globals.CLIENT_PASS.toCharArray());
+            KeyStore keyStore = KeyStore.getInstance("BKS");
             keyStore.load(clientStream, globals.CLIENT_PASS.toCharArray());
             KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
             keyManagerFactory.init(keyStore, globals.CLIENT_PASS.toCharArray());
@@ -96,25 +95,9 @@ public final class HTTPSUtils {
      */
     private X509TrustManager trustManagerForCertificates(InputStream in)
             throws GeneralSecurityException {
-        CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
-        Collection<? extends Certificate> certificates = certificateFactory.generateCertificates(in);
-        if (certificates.isEmpty()) {
-            throw new IllegalArgumentException("expected non-empty set of trusted certificates");
-        }
+        // load key store from truststores.
+        KeyStore keyStore = loadKeyStore();
 
-        // Put the certificates a key store.
-        char[] password = globals.CLIENT_PASS.toCharArray(); // Any password will work.
-        KeyStore keyStore = newKeyStore();
-        int index = 0;
-        for (Certificate certificate : certificates) {
-            String certificateAlias = Integer.toString(index++);
-            keyStore.setCertificateEntry(certificateAlias, certificate);
-        }
-
-        // Use it to build an X509 trust manager.
-//        KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(
-//                KeyManagerFactory.getDefaultAlgorithm());
-//        keyManagerFactory.init(keyStore, password);
         TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(
                 TrustManagerFactory.getDefaultAlgorithm());
         trustManagerFactory.init(keyStore);
@@ -132,42 +115,15 @@ public final class HTTPSUtils {
      * @return
      * @throws GeneralSecurityException
      */
-
-    private KeyManager[] getKeyManagers(InputStream clientStream, String password) {
-        try {
-            KeyStore clientKeyStore = KeyStore.getInstance("BKS");
-            clientKeyStore.load(clientStream, password.toCharArray());
-            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-            keyManagerFactory.init(clientKeyStore, password.toCharArray());
-            return keyManagerFactory.getKeyManagers();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     private KeyStore loadKeyStore() throws GeneralSecurityException {
         try {
-            KeyStore keyStore = KeyStore.getInstance("BKS"); // 这里添加自定义的密码，默认
-//            InputStream in = null; // By convention, 'null' creates an empty key store.
-            keyStore.load(mContext.getAssets().open(globals.CLIENT_BKS),
-                          globals.CLIENT_PASS.toCharArray());
+            KeyStore keyStore = KeyStore.getInstance("BKS");
+            keyStore.load(mContext.getAssets().open(globals.SERVER_CER),
+                          globals.SERVER_PASS.toCharArray());
             return keyStore;
         } catch (IOException e) {
             throw new AssertionError(e);
         }
     }
-
-    private KeyStore newKeyStore() throws GeneralSecurityException {
-        try {
-            KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType()); // 这里添加自定义的密码，默认
-//            InputStream in = null; // By convention, 'null' creates an empty key store.
-            keyStore.load(null);
-            return keyStore;
-        } catch (IOException e) {
-            throw new AssertionError(e);
-        }
-    }
-
 
 }

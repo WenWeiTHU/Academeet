@@ -46,13 +46,14 @@ public class User {
 	}
 
 //	@Autowired
-	public User(int id, String username, String password, int type) {
+	public User(int id, String username, String password, int type, String phone) {
 		this.user_id = id;
 		this.username = username;
 		this.password = password;
 		this.user_type = type;
 		this.signature = Globals.defaultSignature;
 		this.avatar = Globals.defaultAvatar;
+		this.phone = phone;
 	}
 
 	@Override
