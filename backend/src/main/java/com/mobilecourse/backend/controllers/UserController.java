@@ -44,10 +44,10 @@ public class UserController extends CommonController {
         BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
         String password = encode.encode("123456");
         for (int i=1; i<=3; ++i) {
-            userMapper.insert(new User(1, "user"+i, password, 0));
+            userMapper.insert(new User(1, "user"+i, password, 0, "12312345678"));
         }
         for (int i=1; i<=2; ++i) {
-            userMapper.insert(new User(1, "admin"+i, password, 1));
+            userMapper.insert(new User(1, "admin"+i, password, 1, "99999999999"));
         }
     }
 
@@ -82,20 +82,20 @@ public class UserController extends CommonController {
     @RequestMapping(value = "/api/captcha")
     public String sendSms(HttpServletRequest request, @RequestParam(value = "phone")String phone) {
         String verifyCode = String.valueOf(new Random().nextInt(899999)+100000);
-        ZhenziSmsClient client = new ZhenziSmsClient(Globals.apiUrl, Globals.appId, Globals.appSecret);
-        HashMap<String, String> params = new HashMap<>();
-        params.put("message", "您的验证码为:" + verifyCode + "，该码有效期为5分钟，该码只能使用一次！");
-        params.put("number", phone);
+//        ZhenziSmsClient client = new ZhenziSmsClient(Globals.apiUrl, Globals.appId, Globals.appSecret);
+//        HashMap<String, String> params = new HashMap<>();
+//        params.put("message", "您的验证码为:" + verifyCode + "，该码有效期为5分钟，该码只能使用一次！");
+//        params.put("number", phone);
         JSONObject json = null;
-        try {
-            String result = client.send(params);
-            json = JSONObject.parseObject(result);
-            if (json.getIntValue("code") != 0) {
-                return "{ \"accepted\": 0 }";
-            }
-        } catch (Exception e) {
-            return "{ \"accepted\": 0 }";
-        }
+//        try {
+//            String result = client.send(params);
+//            json = JSONObject.parseObject(result);
+//            if (json.getIntValue("code") != 0) {
+//                return "{ \"accepted\": 0 }";
+//            }
+//        } catch (Exception e) {
+//            return "{ \"accepted\": 0 }";
+//        }
         HttpSession session = request.getSession();
         json = new JSONObject();
         json.put("phone", phone);
@@ -135,7 +135,7 @@ public class UserController extends CommonController {
             return "{ \"code\": 400, \"msg\": \"verify code expired\" }";
         }
         BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
-        User newuser = new User(0, username, encode.encode(password), type);
+        User newuser = new User(0, username, encode.encode(password), type, phone);
         userMapper.insert(newuser);
         return "{ \"code\": 200 }";
     }
