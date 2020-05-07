@@ -1,5 +1,7 @@
 package com.example.academeet.Fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.ChangeScroll;
 
+import com.example.academeet.Activity.SearchActivity;
 import com.example.academeet.Adapter.ConferenceListAdapter;
 import com.example.academeet.Item.ConferenceItem;
 import com.example.academeet.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +37,7 @@ public class ConferenceListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.conference_list_fragment, container, false);
+
         ButterKnife.bind(this, v);
         initConference();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -53,6 +58,10 @@ public class ConferenceListFragment extends Fragment {
             // 如果已经有数据了，则不再生成
             return;
         }
+        conferenceList.add(new ConferenceItem("7th International Workshop on Security and Privacy in Big Data (BigSecurity 2019)"));
+        conferenceList.add(new ConferenceItem("International Workshop on Communications and Networking Aspects of Online Social Networks"));
+        conferenceList.add(new ConferenceItem("5th IEEE INFOCOM Workshop on Computer and Networking Aspects of Online Social Networks"));
+        conferenceList.add(new ConferenceItem("2nd Workshop on Age of Information"));
         conferenceList.add(new ConferenceItem("7th International Workshop on Security and Privacy in Big Data (BigSecurity 2019)"));
         conferenceList.add(new ConferenceItem("International Workshop on Communications and Networking Aspects of Online Social Networks"));
         conferenceList.add(new ConferenceItem("5th IEEE INFOCOM Workshop on Computer and Networking Aspects of Online Social Networks"));

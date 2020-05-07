@@ -12,11 +12,11 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="20dp"
+            android:id="@+id/user_note_preview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/user_note_preview"
-            android:background="@color/white"/>
+            android:layout_marginTop="20dp"
+            android:background="@color/white" />
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

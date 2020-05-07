@@ -25,13 +25,12 @@
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/new_note_complete_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/new_note_complete_button"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:src="@mipmap/newnote_bar_main_finish"
-        android:backgroundTint="@color/colorPrimary"
-        android:onClick="finishNoteEdit"/>
+        android:layout_margin="30dp"
+        android:onClick="finishNoteEdit"
+        android:src="@drawable/ic_ok" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

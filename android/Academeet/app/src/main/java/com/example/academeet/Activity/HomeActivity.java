@@ -6,6 +6,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.example.academeet.Adapter.HomePagerAdapter;
 import com.example.academeet.Fragment.ConferenceListFragment;
 import com.example.academeet.R;
 import com.example.academeet.Utils.ScreenInfoUtils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -54,6 +56,19 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext();
+                Intent intent = new Intent(context, SearchActivity.class);
+
+
+                context.startActivity(intent);
+            }
+        });
 
         ButterKnife.bind(this);
         initFrame();
@@ -147,6 +162,8 @@ public class HomeActivity extends AppCompatActivity {
 
     public void onFavoriteItemClicked(View v) {
         Toast toast = Toast.makeText(this, "You clicked favorite item", Toast.LENGTH_SHORT);
+        Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+        startActivity(intent);
         toast.show();
     }
 

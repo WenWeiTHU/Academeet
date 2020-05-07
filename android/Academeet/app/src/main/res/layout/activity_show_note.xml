@@ -22,13 +22,12 @@
     <include layout="@layout/note_content"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/note_edit_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/note_edit_btn"
         android:layout_gravity="bottom|end"
         android:layout_margin="32dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:src="@mipmap/app_bar_main_createnote"
-        android:onClick="editNote"/>
+        android:onClick="editNote"
+        android:src="@drawable/ic_edit" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -22,14 +22,14 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/note_preview_content"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_new_note_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/add_new_note_button"
-        android:backgroundTint="@color/colorPrimary"
         android:layout_gravity="bottom|end"
         android:layout_margin="30dp"
-        android:src="@mipmap/add_new_note"
-        android:onClick="addNewNote"/>
+        android:onClick="addNewNote"
+        android:src="@drawable/ic_add" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
