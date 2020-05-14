@@ -10,32 +10,29 @@
     app:cardElevation="3dp"
     app:cardPreventCornerOverlap="true"
     app:cardUseCompatPadding="true"
-    android:background="@color/colorPrimary"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/colorAccent">
+        android:layout_margin="15dp">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/note_title"
-            android:textColor="@color/white"
-            android:background="@color/colorAccent"/>
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/note_abstract"
-            android:textColor="@color/white"
-            android:background="@color/colorAccent"/>
+            android:textColor="@color/black" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/note_date"
-            android:textColor="@color/white"
-            android:background="@color/colorAccent"/>
+            android:textColor="@color/black" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
