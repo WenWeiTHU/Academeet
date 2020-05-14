@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.academeet.Object.Note;
@@ -23,12 +24,8 @@ public class EditNoteActivity extends AppCompatActivity {
 
     private Note note;
 
-    @BindView(R.id.edit_note_title)
-    TextView noteTitle;
-    @BindView(R.id.edit_note_abstract)
-    TextView noteAbstract;
-    @BindView(R.id.edit_note_content)
-    TextView noteContent;
+    @BindView(R.id.note_new_editText)
+    EditText content;
     @BindView(R.id.toolbar_edit_note)
     Toolbar toolbar;
 
@@ -47,12 +44,8 @@ public class EditNoteActivity extends AppCompatActivity {
         note = (Note)bundle.get("Note");
         if (note != null) {
             // 如果是已经有一个打开了的note
-            String titleString = note.getTitle();
-            String noteAbstractString = note.getNoteAbstract();
             String contentString = note.getContent();
-            noteTitle.setText(titleString);
-            noteAbstract.setText(noteAbstractString);
-            noteContent.setText(contentString);
+            content.setText(contentString);
         } else {
             note = new Note();
         }
@@ -79,9 +72,7 @@ public class EditNoteActivity extends AppCompatActivity {
     }
 
     public void finishNoteEdit(View v) {
-        note.setContent(noteContent.getText().toString());
-        note.setNoteAbstract(noteAbstract.getText().toString());
-        note.setTitle(noteTitle.getText().toString());
+        note.setContent(content.getText().toString());
         note.setDate(getCurrentTimeString());
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
