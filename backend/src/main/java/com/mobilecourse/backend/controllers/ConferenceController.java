@@ -45,8 +45,7 @@ public class ConferenceController extends CommonController {
         }
         if (index == -1) return "{ \"accepted\": 0, \"msg\": \"getConferenceInfos meet unknown query\" }";
         String[] methods = { "selectByDate", "selectByTags", "selectByKeywords" };
-        String[] attrs = { "conference_id", "organization", "introduction", "date",
-                "chairs", "place", "start_time", "end_time", "tags", "visible" };
+        String[] attrs = { "name", "date", "chairs", "place", "start_time", "end_time", "tags", "visible" };
         try {
             List<Conference> infos = (List<Conference>) conferenceMapper.getClass()
                     .getMethod(methods[index], String.class).invoke(conferenceMapper, param);
