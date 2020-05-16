@@ -19,8 +19,6 @@ import java.util.List;
 @EnableAutoConfiguration
 public class ConferenceController extends CommonController {
 
-    //TODO: 在数据库中把note改成TEXT/MEDIUMTEXT/LONGTEXT类型
-    //TODO: 在查询所有的conference时均要要求visible=1，否则即为未公开的
     @Autowired
     private ConferenceDao conferenceMapper;
 
