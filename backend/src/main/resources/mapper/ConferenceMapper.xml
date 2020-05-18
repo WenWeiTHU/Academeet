@@ -28,7 +28,7 @@
     </select>
 
     <select id="selectSessionById" resultType="com.mobilecourse.backend.model.Session">
-        SELECT * FROM session NATURAL JOIN (SELECT visible FROM conference WHERE conference=)
+        SELECT * FROM session
         WHERE session_id=${session_id} AND (establisher_id=#{user_id} OR (visible=1 AND conference_visible=1))
     </select>
 

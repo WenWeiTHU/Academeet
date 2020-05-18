@@ -58,3 +58,38 @@ insert into paper (title, authors, abstr, content, session_id, establisher_id, v
 select 'title3-1', '["author1", "author2"]', 'abstr3', 'content3', session_id, establisher_id, 1, visible, conference_visible
 from session where topic='topic2-1' and not exists (select * from paper where title = 'title3-1');
 
+insert into conference (name, organization, introduction, date, chairs, place, start_time, end_time, tags, visible, establisher_id)
+select 'conference21', 'organization21', 'introduction21', '2020-05-21', '["chair21-1", "chair21-2"]', 'Apartment21',
+'2020-05-21 08:00:00', '2020-05-21 10:00:00', '["algo21", "part21"]', 1, user_id from user
+where username='admin1' and not exists (select * from conference where
+(organization, introduction) = ('organization21', 'introduction21'));
+
+insert into conference (name, organization, introduction, date, chairs, place, start_time, end_time, tags, visible, establisher_id)
+select 'conference19', 'organization19', 'introduction19', '2020-05-19', '["chair19-1", "chair19-2"]', 'Apartment19',
+'2020-05-19 08:00:00', '2020-05-19 10:00:00', '["algo19", "part19"]', 1, user_id from user
+where username='admin1' and not exists (select * from conference where
+(organization, introduction) = ('organization19', 'introduction19'));
+
+insert into conference (name, organization, introduction, date, chairs, place, start_time, end_time, tags, visible, establisher_id)
+select 'conference18', 'organization18', 'introduction18', '2020-05-18', '["chair18-1", "chair18-2"]', 'Apartment18',
+'2020-05-18 08:00:00', '2020-05-18 10:00:00', '["algo18", "part18"]', 1, user_id from user
+where username='admin1' and not exists (select * from conference where
+(organization, introduction) = ('organization18', 'introduction18'));
+
+insert into conference (name, organization, introduction, date, chairs, place, start_time, end_time, tags, visible, establisher_id)
+select 'conference17', 'organization17', 'introduction17', '2020-05-17', '["chair17-1", "chair17-2"]', 'Apartment17',
+'2020-05-17 08:00:00', '2020-05-17 10:00:00', '["algo17", "part17"]', 1, user_id from user
+where username='admin1' and not exists (select * from conference where
+(organization, introduction) = ('organization17', 'introduction17'));
+
+insert into conference (name, organization, introduction, date, chairs, place, start_time, end_time, tags, visible, establisher_id)
+select 'conference16', 'organization16', 'introduction16', '2020-05-16', '["chair16-1", "chair16-2"]', 'Apartment16',
+'2020-05-16 08:00:00', '2020-05-16 10:00:00', '["algo16", "part16"]', 1, user_id from user
+where username='admin1' and not exists (select * from conference where
+(organization, introduction) = ('organization16', 'introduction16'));
+
+insert into conference (name, organization, introduction, date, chairs, place, start_time, end_time, tags, visible, establisher_id)
+select 'conference20', 'organization20', 'introduction20', '2020-05-20', '["chair20-1", "chair20-2"]', 'Apartment20',
+'2020-05-20 08:00:00', '2020-05-20 10:00:00', '["algo20", "part20"]', 1, user_id from user
+where username='admin1' and not exists (select * from conference where
+(organization, introduction) = ('organization20', 'introduction20'));

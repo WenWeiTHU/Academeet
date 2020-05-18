@@ -250,9 +250,9 @@ public class UserController extends CommonController {
                            HttpServletRequest request) {
         int index;
         switch (gtype) {
-            case "writes":
-                index = 0;
-                break;
+            // case "writes":
+            //     index = 0;
+            //     break;
             case "sends":
                 index = 1;
                 break;

@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS conference(
     visible int,
     establisher_id int,
     foreign key(establisher_id) references user(user_id) on delete cascade on update cascade,
-    fulltext(organization, introduction) with parser ngram
+    fulltext(name, organization, introduction) with parser ngram
 ) default charset=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS message(

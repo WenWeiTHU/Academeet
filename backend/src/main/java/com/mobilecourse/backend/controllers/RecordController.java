@@ -1,5 +1,6 @@
 package com.mobilecourse.backend.controllers;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mobilecourse.backend.dao.RecordDao;
 import com.mobilecourse.backend.model.Message;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.ArrayList;
 
 @RestController
 @EnableAutoConfiguration
@@ -34,20 +36,46 @@ public class RecordController extends CommonController {
         return JSONObject.toJSONString(recordMapper.selectMessageById(message_id));
     }
 
-    @RequestMapping(value = "/api/insert/note")
+    @RequestMapping(value = "/api/note/get_all_notes")
+    public String getInfos(@RequestParam(value = "id")int id) {
+        // int curuserid = getUserId(s);
+				// if (curuserid == -1) return LOGIN_MSG;
+				String[] attrs = { "note_id", "title", "text", "create_time", "update_time" };
+        ArrayList<Note> infos = recordMapper.selectAllNotes(id);
+				try {
+						JSONArray allinfos = new JSONArray();
+						for (Note info: infos) {
+          		  JSONObject jsoninfo = new JSONObject();
+          		  for (String attr: attrs) {
+          		      String getAttr = "get" + Character.toUpperCase(attr.charAt(0)) + attr.substring(1);
+          		      jsoninfo.put(attr, info.getClass().getMethod(getAttr).invoke(info));
+          		  }
+          		  allinfos.add(jsoninfo);
+        		}
+						JSONObject resp = new JSONObject();
+        		resp.put("notes", allinfos);
+        		resp.put("note_num", infos.size());
+        		return resp.toJSONString();
+				} catch (Exception e) {
+					return wrapperMsg(0, e.getMessage());
+				}
+    }
+ 
+    @RequestMapping(value = "/api/note/insert")
     public String createNote(@RequestParam(value = "title")String title,
                              @RequestParam(value = "text")String text,
                              @RequestParam(value = "create_time")String create_time,
                              HttpSession s) {
         int userid = getUserId(s);
         if (userid == -1) return LOGIN_MSG;
-        int rlt = recordMapper.insertNote(new Note(userid, title, text, create_time));
+				Note newnote = new Note(userid, title, text, create_time);
+        int rlt = recordMapper.insertNote(newnote);
         if (rlt == 0) return wrapperMsg(0, "insert failed");
-        return ACCEPT_MSG;
+        return "{\"accepted\": 1, \"note_id\": " + newnote.getNote_id() + " }";
     }
 
-    @RequestMapping(value = "/api/update/note")
-    public String updateNote(@RequestParam(value = "id")int note_id,
+    @RequestMapping(value = "/api/note/update")
+    public String updateNote(@RequestParam(value = "note_id")int note_id,
                              @RequestParam(value = "title")String title,
                              @RequestParam(value = "text")String text,
                              HttpSession s) {
@@ -58,7 +86,7 @@ public class RecordController extends CommonController {
         return ACCEPT_MSG;
     }
 
-    @RequestMapping(value = "/api/user/delete/note")
+    @RequestMapping(value = "/api/note/delete")
     public String deleteNote(@RequestParam(value = "note_id")int note_id,
                              HttpSession s) {
         int userid = getUserId(s);

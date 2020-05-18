@@ -18,7 +18,7 @@ public class Globals {
     private static final BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
     public static final String defaultPassword = encode.encode("123456");
     public static final String appId = "105519";
-    public static final String appSecret = "5b551fd7-dbb2-4024-a32e-9a83d5a246cd";
+    public static final String appSecret = "NTY4NzBhZjktMGVhNS00YzAyLWIzOWUtYWI5ZTc5MDE0ZDM3";
     public static final String apiUrl = "https://sms_developer.zhenzikj.com";
     public static final boolean USERINIT = true;
 }
