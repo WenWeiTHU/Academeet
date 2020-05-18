@@ -72,9 +72,19 @@ public class MainActivity extends AppCompatActivity {
     public void startLogin(View v) {
         // 登录
         // TODO: 向服务器发送登录信息
-        Intent intent = new Intent(this,HomeActivity.class);
-        intent.setFlags(intent.FLAG_ACTIVITY_CLEAR_TASK | intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_NO_HISTORY);
-        startActivity(intent);
+        RadioGroup loginRadios = currentFragment.getView().findViewById(R.id.login_type_radio);
+        String userType = ((RadioButton)currentFragment.getView().findViewById(loginRadios.getCheckedRadioButtonId())).getText().toString();
+        if (userType.equals("Scholar")) {
+            // 学者登录
+            Intent intent = new Intent(this, UserHomeActivity.class);
+            // TODO: 和服务器的交互
+            startActivity(intent);
+        } else {
+            // 管理员登录
+            Intent intent = new Intent(this, AdminHomeActivity.class);
+            // TODO: 和服务器的交互
+            startActivity(intent);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

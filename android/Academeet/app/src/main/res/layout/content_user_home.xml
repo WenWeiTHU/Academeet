@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <View
-        android:id="@+id/home_view_statusbar"
+        android:id="@+id/user_home_view_statusbar"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorPrimary"
@@ -22,7 +22,7 @@
         >
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/home_tool_bar"
+            android:id="@+id/user_home_tool_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|enterAlways"
@@ -32,7 +32,7 @@
             />
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/home_tab_layout"
+            android:id="@+id/user_home_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabMode="scrollable"
@@ -45,7 +45,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/home_view_pager"
+        android:id="@+id/user_home_view_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"

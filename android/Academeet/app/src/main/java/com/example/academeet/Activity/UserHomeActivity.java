@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -33,20 +32,20 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HomeActivity extends AppCompatActivity {
+public class UserHomeActivity extends AppCompatActivity {
 
     private String TAG = "com.example.academeet.Activity.HomeActivity";
-    @BindView(R.id.home_view_statusbar)
+    @BindView(R.id.user_home_view_statusbar)
     View mStatusbar;
-    @BindView(R.id.home_tool_bar)
+    @BindView(R.id.user_home_tool_bar)
     Toolbar mToolbar;
-    @BindView(R.id.home_view_pager)
+    @BindView(R.id.user_home_view_pager)
     ViewPager mHomeViewerPager;
-    @BindView(R.id.home_tab_layout)
+    @BindView(R.id.user_home_tab_layout)
     TabLayout mHomeTabLayout;
-    @BindView(R.id.home_menu_item_favorite)
+    @BindView(R.id.user_home_menu_item_favorite)
     LinearLayout mHomeMenuItemFavorite;
-    @BindView(R.id.home_menu_item_reminder)
+    @BindView(R.id.user_home_menu_item_reminder)
     LinearLayout mHomeMenuItemReminder;
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
 
@@ -55,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_user_home);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
@@ -94,7 +93,7 @@ public class HomeActivity extends AppCompatActivity {
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, statusBarHeight);
         mStatusbar.setLayoutParams(params);
-        final DrawerLayout drawerLayout = (DrawerLayout)findViewById(R.id.home_drawer_layout);
+        final DrawerLayout drawerLayout = (DrawerLayout)findViewById(R.id.user_home_drawer_layout);
         setSupportActionBar(mToolbar);
 
         //另外openDrawerContentDescRes 打开图片   closeDrawerContentDescRes 关闭图片
@@ -162,7 +161,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public void onFavoriteItemClicked(View v) {
         Toast toast = Toast.makeText(this, "You clicked favorite item", Toast.LENGTH_SHORT);
-        Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+        Intent intent = new Intent(UserHomeActivity.this, MainActivity.class);
         startActivity(intent);
         toast.show();
     }
@@ -173,7 +172,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void onNoteItemClicked(View v) {
-        Intent intent = new Intent(HomeActivity.this, UserNotePreviewActivity.class);
+        Intent intent = new Intent(UserHomeActivity.this, UserNotePreviewActivity.class);
         startActivity(intent);
     }
 

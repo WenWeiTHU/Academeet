@@ -25,6 +25,10 @@ public class ShowNoteActivity extends AppCompatActivity {
     TextView showNoteTextView;
     @BindView(R.id.show_note_toolbar)
     Toolbar showNoteToolbar;
+    @BindView(R.id.show_note_edit_time)
+    TextView showNoteEditTime;
+    @BindView(R.id.show_note_word_count)
+    TextView showNoteWordCount;
     String wordSizePrefs;
     private AlarmManager alarmManager;
     private PendingIntent pi;
@@ -38,6 +42,7 @@ public class ShowNoteActivity extends AppCompatActivity {
 
         initData();
         // 初始化上方的任务栏
+        showNoteToolbar.setTitle(note.getTitle());
         setSupportActionBar(showNoteToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -46,6 +51,9 @@ public class ShowNoteActivity extends AppCompatActivity {
         // 初始化note数据
         String content = note.getContent();
         showNoteTextView.setText(content);
+        showNoteEditTime.setText(note.getDate());
+        showNoteWordCount.setText("Words: " +
+                String.valueOf(content.trim().length()));
     }
 
     private void initData() {
