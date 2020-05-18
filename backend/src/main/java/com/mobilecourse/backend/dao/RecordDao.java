@@ -10,6 +10,7 @@ public interface RecordDao {
     Note selectNoteById(int note_id, int user_id);
     Message selectMessageById(int message_id);
 
+    int insertNote(Note note);
     int updateNoteById(int note_id, int user_id, String title, String text);
     int deleteNoteById(int note_id, int user_id);
 }

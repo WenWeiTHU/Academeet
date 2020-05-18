@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Activity.UserNotePreviewActivity"
-    tools:showIn="@layout/activity_user_note_preview">
+    tools:showIn="@layout/activity_note_preview">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -15,7 +15,11 @@
             android:id="@+id/user_note_preview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+<<<<<<< HEAD
             android:background="@color/colorPrimary" />
+=======
+            android:background="@color/lightGray" />
+>>>>>>> 5677864f9bbbe7bb1b73a693203ab7024108d5bc
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -82,20 +82,20 @@ public class UserController extends CommonController {
     @RequestMapping(value = "/api/captcha")
     public String sendSms(HttpServletRequest request, @RequestParam(value = "phone")String phone) {
         String verifyCode = String.valueOf(new Random().nextInt(899999)+100000);
-//        ZhenziSmsClient client = new ZhenziSmsClient(Globals.apiUrl, Globals.appId, Globals.appSecret);
-//        HashMap<String, String> params = new HashMap<>();
-//        params.put("message", "您的验证码为:" + verifyCode + "，该码有效期为5分钟，该码只能使用一次！");
-//        params.put("number", phone);
+        ZhenziSmsClient client = new ZhenziSmsClient(Globals.apiUrl, Globals.appId, Globals.appSecret);
+        HashMap<String, String> params = new HashMap<>();
+        params.put("message", "您的验证码为:" + verifyCode + "，该码有效期为5分钟，该码只能使用一次！");
+        params.put("number", phone);
         JSONObject json = null;
-//        try {
-//            String result = client.send(params);
-//            json = JSONObject.parseObject(result);
-//            if (json.getIntValue("code") != 0) {
-//                return "{ \"accepted\": 0 }";
-//            }
-//        } catch (Exception e) {
-//            return "{ \"accepted\": 0 }";
-//        }
+        try {
+            String result = client.send(params);
+            json = JSONObject.parseObject(result);
+            if (json.getIntValue("code") != 0) {
+                return "{ \"accepted\": 0 }";
+            }
+        } catch (Exception e) {
+            return "{ \"accepted\": 0 }";
+        }
         HttpSession session = request.getSession();
         json = new JSONObject();
         json.put("phone", phone);

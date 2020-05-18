@@ -36,7 +36,7 @@ public class UserNotePreviewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_note_preview);
+        setContentView(R.layout.activity_note_preview);
 
         ButterKnife.bind(this);
         initNotes();

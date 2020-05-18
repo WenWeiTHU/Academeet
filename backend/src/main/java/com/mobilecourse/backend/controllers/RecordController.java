@@ -34,6 +34,18 @@ public class RecordController extends CommonController {
         return JSONObject.toJSONString(recordMapper.selectMessageById(message_id));
     }
 
+    @RequestMapping(value = "/api/insert/note")
+    public String createNote(@RequestParam(value = "title")String title,
+                             @RequestParam(value = "text")String text,
+                             @RequestParam(value = "create_time")String create_time,
+                             HttpSession s) {
+        int userid = getUserId(s);
+        if (userid == -1) return LOGIN_MSG;
+        int rlt = recordMapper.insertNote(new Note(userid, title, text, create_time));
+        if (rlt == 0) return wrapperMsg(0, "insert failed");
+        return ACCEPT_MSG;
+    }
+
     @RequestMapping(value = "/api/update/note")
     public String updateNote(@RequestParam(value = "id")int note_id,
                              @RequestParam(value = "title")String title,

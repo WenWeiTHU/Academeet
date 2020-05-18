@@ -33,6 +33,18 @@ public class Note implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+        try {
+            setTitle(content.substring(0, 20));
+        } catch (StringIndexOutOfBoundsException e) {
+            setTitle(content.substring(0, content.length()));
+            setNoteAbstract("");
+            return;
+        }
+        try{
+            setNoteAbstract(content.substring(20, 100));
+        } catch (StringIndexOutOfBoundsException e) {
+            setNoteAbstract(content.substring(20, content.length()));
+        }
     }
 
     public void setNoteAbstract(String noteAbstract) {
