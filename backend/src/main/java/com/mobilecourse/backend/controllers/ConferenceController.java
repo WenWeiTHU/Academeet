@@ -261,7 +261,7 @@ public class ConferenceController extends CommonController {
           		  allinfos.add(jsoninfo);
         		}
 						JSONObject resp = new JSONObject();
-        		resp.put("sessionss", allinfos);
+        		resp.put("sessions", allinfos);
         		resp.put("session_num", infos.size());
         		return resp.toJSONString();
 				} catch (Exception e) {

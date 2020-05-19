@@ -286,13 +286,8 @@ public class UserController extends CommonController {
             Info = Class.forName(entities[index]);
             Dao = UserDao.class;
             if (index == 2) {
-                if (curuserid != id) {
-                    Method method = Dao.getMethod(methods[index], int.class, String.class);
-                    infos = (ArrayList<Object>) method.invoke(userMapper, id, gtype);
-                } else {
-                    Method method = Dao.getMethod(methods[3], int.class);   // 查看自己建立的会议可以看见隐藏会议
-                    infos = (ArrayList<Object>) method.invoke(userMapper, id);
-                }
+                Method method = Dao.getMethod(methods[index], int.class, String.class);
+                infos = (ArrayList<Object>) method.invoke(userMapper, id, gtype.substring(0, gtype.length() - 1));
             } else {
                 Method method = Dao.getMethod(methods[index], int.class);
                 infos = (ArrayList<Object>) method.invoke(userMapper, id);
@@ -312,6 +307,7 @@ public class UserController extends CommonController {
             resp.put(names[index] + "_num", infos.size());
             return resp.toJSONString();
         } catch (Exception e) {
+            e.printStackTrace();
             return "{ \"accepted\": 0, \"msg\": \"" + e.getMessage() + "\" }";
         }
     }
