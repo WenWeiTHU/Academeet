@@ -247,12 +247,26 @@ public class ConferenceController extends CommonController {
     @RequestMapping(value = "/api/conference/contains")
     public String getSessions(@RequestParam(value = "conference_id")int conference_id,
                               HttpSession s) {
-        int userid = getUserId(s);
-        List<Session> sessions = conferenceMapper.selectSessionByConference(conference_id, userid);
-        JSONObject rlt = new JSONObject();
-        rlt.put("sessions", sessions);
-        rlt.put("session_num", sessions.size());
-        return rlt.toJSONString();
+        int userid = getUserId(s); 
+				String[] attrs = { "session_id", "name", "start_time", "end_time", "topic", "reporters", "visible" };
+        List<Session> infos = conferenceMapper.selectSessionByConference(conference_id, userid);
+				try {
+						JSONArray allinfos = new JSONArray();
+						for (Session info: infos) {
+          		  JSONObject jsoninfo = new JSONObject();
+          		  for (String attr: attrs) {
+          		      String getAttr = "get" + Character.toUpperCase(attr.charAt(0)) + attr.substring(1);
+          		      jsoninfo.put(attr, info.getClass().getMethod(getAttr).invoke(info));
+          		  }
+          		  allinfos.add(jsoninfo);
+        		}
+						JSONObject resp = new JSONObject();
+        		resp.put("sessionss", allinfos);
+        		resp.put("session_num", infos.size());
+        		return resp.toJSONString();
+				} catch (Exception e) {
+					return wrapperMsg(0, e.getMessage());
+				}
     }
 
     @RequestMapping(value = "/api/session/id")

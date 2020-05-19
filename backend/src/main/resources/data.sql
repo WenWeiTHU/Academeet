@@ -31,18 +31,18 @@ select user_id, conference_id, 'dislikes' from user, conference
 where user.username='user2' and conference.organization='organization3'
 and not exists (select * from user_conference natural join conference where organization = 'organization3');
 
-insert into session (topic, description, start_time, end_time, reporters, rating, conference_id, establisher_id, visible, conference_visible)
-select 'topic1-1', 'description1-1', '2020-05-01 08:10:00', '2020-05-01 08:30:00',
+insert into session (name, topic, description, start_time, end_time, reporters, rating, conference_id, establisher_id, visible, conference_visible)
+select 'name1-1', 'topic1-1', 'description1-1', '2020-05-01 08:10:00', '2020-05-01 08:30:00',
 '["reportor1", "reportor2"]', 9, conference_id, establisher_id, 0, visible from conference where organization='organization1'
 and not exists (select * from session where topic = 'topic1-1');
 
-insert into session (topic, description, start_time, end_time, reporters, rating, conference_id, establisher_id, visible, conference_visible)
-select 'topic1-2', 'description1-2', '2020-05-01 08:40:00', '2020-05-01 09:00:00',
+insert into session (name, topic, description, start_time, end_time, reporters, rating, conference_id, establisher_id, visible, conference_visible)
+select 'name1-2', 'topic1-2', 'description1-2', '2020-05-01 08:40:00', '2020-05-01 09:00:00',
 '["reportor1", "reportor2"]', 10, conference_id, establisher_id, 1, visible from conference where organization='organization1'
 and not exists (select * from session where topic = 'topic1-2');
 
-insert into session (topic, description, start_time, end_time, reporters, rating, conference_id, establisher_id, visible, conference_visible)
-select 'topic2-1', 'description2-1', '2020-05-02 08:40:00', '2020-05-01 09:00:00',
+insert into session (name, topic, description, start_time, end_time, reporters, rating, conference_id, establisher_id, visible, conference_visible)
+select 'name2-1', 'topic2-1', 'description2-1', '2020-05-02 08:40:00', '2020-05-01 09:00:00',
 '["reportor1", "reportor2"]', 10, conference_id, establisher_id, 1, visible from conference where organization='organization2'
 and not exists (select * from session where topic = 'topic2-1');
 
