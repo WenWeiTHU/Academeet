@@ -3,15 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/home_drawer_layout"
+    android:id="@+id/user_home_drawer_layout"
     android:background="@color/colorRem">
 
     <!-- 主页内容 -->
     <FrameLayout
-        android:id="@+id/home_content_frame"
+        android:id="@+id/user_home_content_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <include layout="@layout/content_home"/>
+        <include layout="@layout/content_user_home"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start">
-        <include layout="@layout/menu_home_layout"/>
+        <include layout="@layout/menu_user_home"/>
     </FrameLayout>
 
 

@@ -1,7 +1,5 @@
 package com.example.academeet.Fragment;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,20 +10,16 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.transition.ChangeScroll;
 
-import com.example.academeet.Activity.SearchActivity;
 import com.example.academeet.Adapter.ConferenceListAdapter;
 import com.example.academeet.Item.ConferenceItem;
 import com.example.academeet.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import kotlin.random.Random;
 
 public class ConferenceListFragment extends Fragment {
 
@@ -36,14 +30,14 @@ public class ConferenceListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
-        View v = inflater.inflate(R.layout.conference_list_fragment, container, false);
+        View v = inflater.inflate(R.layout.fragment_conference_list, container, false);
 
         ButterKnife.bind(this, v);
         initConference();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(layoutManager.VERTICAL);
         mConferenceListView.setLayoutManager(layoutManager);
-        ConferenceListAdapter conferenceListAdapter = new ConferenceListAdapter(conferenceList);
+        ConferenceListAdapter conferenceListAdapter = new ConferenceListAdapter(conferenceList, ConferenceListAdapter.USER);
         // 设置间隔
         mConferenceListView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         mConferenceListView.setItemAnimator(new DefaultItemAnimator());

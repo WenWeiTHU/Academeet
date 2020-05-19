@@ -20,6 +20,9 @@ import java.util.List;
 
 public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAdapter.ConfViewHolder> {
     private List<ConferenceItem> mConferenceList;
+    public final static int USER = 0;
+    public final static int ADMIN = 1;
+    private int type;
     class ConfViewHolder extends RecyclerView.ViewHolder {
         TextView conferenceName;
 
@@ -29,8 +32,9 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
         }
     }
 
-    public ConferenceListAdapter(List<ConferenceItem> conferenceItemList) {
+    public ConferenceListAdapter(List<ConferenceItem> conferenceItemList, int type) {
         mConferenceList = conferenceItemList;
+        this.type = type;
     }
 
 
@@ -47,16 +51,18 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
     public void onBindViewHolder(@NonNull ConfViewHolder holder, int position) {
         ConferenceItem conference = mConferenceList.get(position);
         holder.conferenceName.setText(conference.getName());
-        holder.conferenceName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = view.getContext();
-                Intent intent = new Intent(context, ConfDetailActivity.class);
-                intent.putExtra("CONFERENCE_NAME", conference.getName());
+        if (type == USER) {
+            holder.conferenceName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Context context = view.getContext();
+                    Intent intent = new Intent(context, ConfDetailActivity.class);
+                    intent.putExtra("CONFERENCE_NAME", conference.getName());
 
-                context.startActivity(intent);
-            }
-        });
+                    context.startActivity(intent);
+                }
+            });
+        }
     }
 
     @Override
