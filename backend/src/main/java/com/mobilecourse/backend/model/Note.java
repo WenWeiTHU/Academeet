@@ -1,5 +1,6 @@
 package com.mobilecourse.backend.model;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 
 public class Note {
@@ -9,6 +10,15 @@ public class Note {
     Timestamp create_time;
     Timestamp update_time;
     int user_id;
+
+    public Note() { }
+
+    public Note(int user_id, String title, String text, String create_time) {
+        this.user_id = user_id;
+        this.title = title;
+        this.text = text;
+        this.create_time = Timestamp.valueOf(create_time);
+    }
 
     public int getNote_id() {
         return note_id;

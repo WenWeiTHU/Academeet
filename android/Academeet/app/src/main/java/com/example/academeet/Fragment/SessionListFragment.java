@@ -11,7 +11,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.example.academeet.Adapter.SessionListAdapter;
-import com.example.academeet.Item.ConferenceItem;
 import com.example.academeet.Item.SessionItem;
 import com.example.academeet.R;
 import com.example.academeet.Utils.HTTPSUtils;
@@ -76,7 +75,7 @@ public class SessionListFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        // System.out.println(jsonObject);
+                        System.out.println(jsonObject);
                         if(jsonObject == null){
                             Toast toast = Toast.makeText(getContext(), "Backend wrong", Toast.LENGTH_SHORT);
                             toast.show();

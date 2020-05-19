@@ -8,12 +8,15 @@
     <color name="colorAccent">#84d0f9</color>
     <color name="textColorPrimay">#FFFFFF</color>
     <color name="app_background">#0582c6</color>
+    <color name="adminPrimary">#ee2143</color>
+    <color name="adminAccent">#d83a55</color>
+    <color name="adminDark">#f50f35</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="green">#00FF00</color>
-    <color name="gray">#666666</color>
+    <color name="gray">#AAAAAA</color>
+    <color name="deepgray">#666666</color>
     <color name="lightGray">#E5E5E5</color>
-
     <color name="conferenceItemBackground">#FFFFFF</color>
     <color name="conferenceListBackground">#d5d5d5</color>
     <color name="conferenceItemTitle">#000000</color>
@@ -21,4 +24,5 @@
     <color name="home_menu_user_name">#FFFFFF</color>
     <color name="home_menu_item">#EEEEEE</color>
     <color name="home_menu_item_background">#00000000</color>
+    <color name="tab_selected">#333333</color>
 </resources>

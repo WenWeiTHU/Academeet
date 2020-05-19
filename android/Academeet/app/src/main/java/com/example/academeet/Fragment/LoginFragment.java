@@ -32,4 +32,9 @@ public class LoginFragment extends Fragment {
         ButterKnife.bind(this, view);
         return view;
     }
+
+
+    public View getLoginView(int id) {
+        return getActivity().findViewById(id);
+    }
 }

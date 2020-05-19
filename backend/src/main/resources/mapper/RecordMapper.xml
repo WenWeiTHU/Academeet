@@ -16,6 +16,10 @@
     </select>
 
 
+    <insert id="insertNote" keyProperty="note_id" useGeneratedKeys="true" parameterType="com.mobilecourse.backend.model.Note">
+        INSERT INTO note (user_id, title, text, create_time) values (${user_id}, #{title}, #{text}, #{create_time})
+    </insert>
+
     <update id="updateNoteById">
         UPDATE note SET title=#{title}, text=#{text} WHERE note_id=${note_id} AND user_id=${user_id}
     </update>

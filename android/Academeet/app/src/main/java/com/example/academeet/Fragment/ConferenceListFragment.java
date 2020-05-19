@@ -1,5 +1,6 @@
 package com.example.academeet.Fragment;
 
+import com.example.academeet.Utils.ConfManager;
 import com.example.academeet.Utils.HTTPSUtils;
 import android.os.Bundle;
 import android.os.Looper;
@@ -25,8 +26,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.FormBody;
 import com.alibaba.fastjson.*;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -36,36 +35,69 @@ public class ConferenceListFragment extends Fragment {
     @BindView(R.id.conference_list)
     RecyclerView mConferenceListView;
     ConferenceListAdapter conferenceListAdapter;
+    ArrayList<String> disliked_id = new ArrayList<>();
     private final String SERVER_ADDR = "https://49.232.141.126:8080";
     private final String QUERY_DATE_URL = "/api/conference/day";
     String date;
+    int type;
 
-    public ConferenceListFragment(String date){
+    public ConferenceListFragment(String date, int type){
         this.date = date;
+        this.type = type;
+    }
+
+    public ConferenceListFragment(){
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getDisliked();
         initConference();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
-        View v = inflater.inflate(R.layout.conference_list_fragment, container, false);
+        View v = inflater.inflate(R.layout.fragment_conference_list, container, false);
 
         ButterKnife.bind(this, v);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(layoutManager.VERTICAL);
         mConferenceListView.setLayoutManager(layoutManager);
-        conferenceListAdapter = new ConferenceListAdapter(conferenceList);
+
+        conferenceListAdapter = new ConferenceListAdapter(conferenceList, type);
+
         // 设置间隔
         mConferenceListView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         mConferenceListView.setItemAnimator(new DefaultItemAnimator());
         mConferenceListView.setAdapter(conferenceListAdapter);
         return v;
 
+    }
+
+    private void getDisliked() {
+        Runnable query = new Runnable() {
+            @Override
+            public void run() {
+                JSONObject dislikedObject = ConfManager.userQuery("Dislike");
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        JSONArray disliked_conferences = dislikedObject.getJSONArray("conferences");
+                        if (disliked_conferences != null) {
+                            for (int i = 0; i < disliked_conferences.size(); i++) {
+                                JSONObject conference = disliked_conferences.getJSONObject(i);
+                                synchronized (disliked_id){
+                                    disliked_id.add(conference.getString("conference_id"));
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        };
+        new Thread(query).start();
     }
 
     private void initConference() {
@@ -87,13 +119,15 @@ public class ConferenceListFragment extends Fragment {
                             JSONArray conferences = jsonObject.getJSONArray("conferences");
                             for(int i = 0; i < num; i++){
                                 JSONObject conference = conferences.getJSONObject(i);
-                                // System.out.println(conference);
+                                String id = conference.getString("conference_id");
+                                if(disliked_id.contains(id)){
+                                    continue;
+                                }
                                 String name = conference.getString("name");
                                 String place = conference.getString("place");
                                 String date = conference.getString("date");
                                 String startTime = conference.getString("start_time");
                                 String endTime = conference.getString("end_time");
-                                String id = conference.getString("conference_id");
                                 JSONArray chairs = JSONArray.parseArray(conference.getString("chairs"));
                                 String chairsStr = "";
                                 for(int j = 0; j < chairs.size(); j++){
@@ -101,6 +135,7 @@ public class ConferenceListFragment extends Fragment {
                                     if(j != chairs.size()-1)
                                         chairsStr += ", ";
                                 }
+
                                 int size = conferenceList.size();
                                 conferenceList.add(new ConferenceItem(id, name, date, place, startTime, endTime, chairsStr));
                                 conferenceListAdapter.notifyItemInserted(size);
@@ -111,7 +146,6 @@ public class ConferenceListFragment extends Fragment {
                         }
                     }
                 });
-
             }
         };
         new Thread(query).start();
@@ -135,6 +169,5 @@ public class ConferenceListFragment extends Fragment {
         } catch(IOException | JSONException e) {
             return null;
         }
-
     }
 }

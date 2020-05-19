@@ -37,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
     private User user = new User();
 
 
+    private final int SUCCESS_CODE = 200;
+    private final int EXCEPTION_CODE_1 = 300;
+    private final int EXCEPTION_CODE_2 = 400;
+
     private final String LOGIN_FRAGMENT_KEY = "LOGIN_FRAGMENT";
     private final String REGISTER_PAGE_1_FRAGMENT_KEY = "REGISTER_PAGE_1_FRAGMENT";
     private final String REGISTER_PAGE_2_FRAGMENT_KEY = "REGISTER_PAGE_2_FRAGMENT";
@@ -65,11 +69,51 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+
     public void startLogin(View v) {
         // 登录
         // TODO: 向服务器发送登录信息
-        Intent intent = new Intent(this,HomeActivity.class);
-        startActivity(intent);
+        String username = ((EditText)((LoginFragment)currentFragment).getLoginView(R.id.login_username))
+                .getText().toString();
+        String password = ((EditText)((LoginFragment)currentFragment).getLoginView(R.id.login_password))
+                .getText().toString();
+        user.setUsername(username);
+        user.setPassword(password);
+
+        Runnable login = new Runnable() {
+            @Override
+            public void run() {
+                int resultCode = user.login(new HTTPSUtils(MainActivity.this));
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        switch (resultCode) {
+                            case SUCCESS_CODE: {
+                                Intent intent = new Intent(MainActivity.this, UserHomeActivity.class);
+                                startActivity(intent);
+                                break;
+                            }
+                            case EXCEPTION_CODE_1: {
+                                Toast.makeText(MainActivity.this, getResources().getString(R.string.login_user_not_exist),
+                                        Toast.LENGTH_SHORT).show();
+                                break;
+                            }
+                            case EXCEPTION_CODE_2: {
+                                Toast.makeText(MainActivity.this, getResources().getString(R.string.login_with_error_password),
+                                        Toast.LENGTH_SHORT).show();
+                                break;
+                            }
+                            case User.ERROR_CODE: {
+                                Toast.makeText(MainActivity.this, getResources().getString(R.string.wrong_status),
+                                        Toast.LENGTH_SHORT).show();
+                                break;
+                            }
+                        }
+                    }
+                });
+            }
+        };
+        new Thread(login).start();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -86,9 +130,6 @@ public class MainActivity extends AppCompatActivity {
     public void nextRegisterPage(View v) {
         // 更换到注册的第二个页面
         // 获取当前的信息
-
-
-
         // 获取用户用户名
         String username = ((EditText)((RegisterFragment)currentFragment).
                 getRegisterView(R.id.register_username)).getText().toString();
