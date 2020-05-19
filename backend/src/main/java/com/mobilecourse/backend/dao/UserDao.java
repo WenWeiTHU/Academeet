@@ -36,8 +36,6 @@ public interface UserDao {
 
     int updateAvatar(int id, String avatar);
 
-    ArrayList<Note> selectAllNotes(int id);
-
     ArrayList<Message> selectAllMessages(int id);
 
     ArrayList<Conference> selectAllUserConferences(int id, String gtype);

@@ -2,10 +2,10 @@ CREATE DATABASE IF NOT EXISTS Test;
 SET time_zone='+8:00';  -- 不生效
 SET global time_zone='+8:00';
 
--- drop table if exists paper;
+drop table if exists paper;
 -- drop table if exists user_conference;
--- drop table if exists user_session;
--- drop table if exists session;
+drop table if exists user_session;
+drop table if exists session;
 -- drop table if exists message;
 -- drop table if exists chatroom;
 -- drop table if exists note;
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS conference(
     visible int,
     establisher_id int,
     foreign key(establisher_id) references user(user_id) on delete cascade on update cascade,
-    fulltext(organization, introduction) with parser ngram
+    fulltext(name, organization, introduction) with parser ngram
 ) default charset=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS message(
@@ -66,6 +66,7 @@ CREATE TABLE IF NOT EXISTS note(
 
 CREATE TABLE IF NOT EXISTS session(
     session_id int primary key auto_increment,
+		name varchar(100),
     topic varchar(100),
     description varchar(500),
     start_time datetime,

@@ -7,6 +7,10 @@
         SELECT * FROM note WHERE note_id=${note_id} AND user_id=${user_id}
     </select>
 
+    <select id="selectAllNotes" resultType="com.mobilecourse.backend.model.Note">
+        SELECT * FROM note  WHERE user_id=${id}
+    </select>
+
     <select id="selectMessageById" resultType="com.mobilecourse.backend.model.Message">
         SELECT * FROM message WHERE message_id=${message_id}
     </select>

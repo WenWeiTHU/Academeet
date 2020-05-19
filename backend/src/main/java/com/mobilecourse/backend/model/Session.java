@@ -8,6 +8,7 @@ import java.util.List;
 public class Session {
     int session_id;
     String topic;
+		String name;
     String description;
     Timestamp start_time;
     Timestamp end_time;
@@ -23,6 +24,7 @@ public class Session {
 
     public Session(JSONObject obj) {
         this.session_id = obj.getIntValue("sessions_id");
+				this.name = obj.getString("name");
         this.topic = obj.getString("topic");
         this.description = obj.getString("description");
         this.start_time = Timestamp.valueOf(obj.getString("start_time"));
@@ -30,6 +32,14 @@ public class Session {
         this.reporters =  obj.getJSONArray("reporters").toJSONString();
         this.rating = 0;
     }
+
+		public String getName() {
+				return name;
+		}
+
+		public void setName(String name) {
+				this.name = name;
+		}
 
     public int getVisible() {
         return visible;
