@@ -29,15 +29,15 @@
         <activity android:name=".Activity.UserNotePreviewActivity" />
         <activity android:name=".Activity.FavoriteActivity" />
         <activity android:name=".Activity.HomeActivity">
+
+        </activity>
+
+        <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <activity android:name=".Activity.MainActivity">
-
         </activity>
     </application>
 

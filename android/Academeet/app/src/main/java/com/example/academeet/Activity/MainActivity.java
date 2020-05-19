@@ -11,8 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.academeet.Fragment.LoginFragment;
@@ -59,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         ScreenInfoUtils.fullScreen(this);
     }
 
-
     private void replaceFragment(Fragment fragment) {
         // 更换主活动中的Fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -68,12 +65,10 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-
     public void startLogin(View v) {
         // 登录
         // TODO: 向服务器发送登录信息
         Intent intent = new Intent(this,HomeActivity.class);
-        intent.setFlags(intent.FLAG_ACTIVITY_CLEAR_TASK | intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
     }
 
@@ -92,11 +87,6 @@ public class MainActivity extends AppCompatActivity {
         // 更换到注册的第二个页面
         // 获取当前的信息
 
-        // 获取用户类型
-        RadioGroup registerRadios = (RadioGroup)(((RegisterFragment)currentFragment).
-                getRegisterView(R.id.register_type_radio));
-        String userType = (String)((RadioButton)(((RegisterFragment)currentFragment).
-                getRegisterView(registerRadios.getCheckedRadioButtonId()))).getText();
 
 
         // 获取用户用户名
@@ -134,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
         user.setUsername(username);
         user.setPassword(password);
-        user.setUserType(userType);
+        user.setUserType("Scholar");
 
         if ((currentFragment = fragmentMap.getOrDefault(REGISTER_PAGE_2_FRAGMENT_KEY, null)) == null) {
             currentFragment = new RegisterFragment(R.layout.fragment_register_page2);
@@ -200,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         new Thread(getCapcha).start();
-
     }
 
     public void backToRegisterPage1(View v) {

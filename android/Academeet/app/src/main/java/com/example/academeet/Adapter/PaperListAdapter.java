@@ -1,10 +1,9 @@
 package com.example.academeet.Adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,14 +19,21 @@ import java.util.List;
 public class PaperListAdapter extends RecyclerView.Adapter<PaperListAdapter.PaperViewHolder> {
 
     private List<PaperItem> mPaperList;
+    private final String SERVER_ADDR = "https://49.232.141.126:8080";
 
 
     class PaperViewHolder extends RecyclerView.ViewHolder {
         TextView paperName;
+        TextView paperAuthor;
+        TextView paperAbstracts;
+        ImageButton paperDownload;
 
         public PaperViewHolder(View view) {
             super(view);
             paperName = (TextView)view.findViewById(R.id.paper_name_text_view);
+            paperAuthor = (TextView)view.findViewById(R.id.paper_author_text_view);
+            paperAbstracts = (TextView)view.findViewById(R.id.paper_abstract_text_view);
+            paperDownload = (ImageButton)view.findViewById(R.id.paper_download_button);
         }
     }
 
@@ -48,11 +54,13 @@ public class PaperListAdapter extends RecyclerView.Adapter<PaperListAdapter.Pape
     @Override
     public void onBindViewHolder(@NonNull PaperViewHolder holder, int position) {
         PaperItem paper = mPaperList.get(position);
-        holder.paperName.setText(paper.getName());
-        holder.paperName.setOnClickListener(new View.OnClickListener() {
+        holder.paperName.setText(paper.getTitle());
+        holder.paperAbstracts.setText(paper.getAbstracts());
+        holder.paperAuthor.setText(paper.getAuthors());
+        holder.paperDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TO DO
+                System.out.println("Download"+paper.getFileUrl());
             }
         });
     }

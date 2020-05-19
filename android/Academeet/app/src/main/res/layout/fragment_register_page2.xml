@@ -57,7 +57,7 @@
 
     </com.github.florent37.materialtextfield.MaterialTextField>
         <mehdi.sakout.fancybuttons.FancyButton
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="1.5"
             android:paddingLeft="10dp"
@@ -66,7 +66,7 @@
             android:paddingBottom="5dp"
             android:layout_gravity="bottom"
             android:layout_marginRight="10dp"
-            fancy:fb_text="Get Capcha"
+            fancy:fb_text="Send"
             fancy:fb_textColor="@color/white"
             fancy:fb_defaultColor="@color/colorPrimary"
             fancy:fb_borderWidth="1dp"
@@ -111,7 +111,7 @@
         android:layout_marginTop="35dp"
         app:layout_constraintTop_toBottomOf="@id/register_capcha_textfield">
         <mehdi.sakout.fancybuttons.FancyButton
-            android:layout_width="140dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/register2_finish_button"
             android:paddingTop="10dp"
@@ -129,7 +129,7 @@
             />
 
         <mehdi.sakout.fancybuttons.FancyButton
-            android:layout_width="140dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/register2_back_button"
             android:paddingTop="10dp"
