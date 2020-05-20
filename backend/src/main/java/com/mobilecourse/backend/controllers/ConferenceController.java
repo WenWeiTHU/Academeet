@@ -273,6 +273,8 @@ public class ConferenceController extends CommonController {
     public String getSessionById(@RequestParam(value = "session_id")int session_id,
                                  HttpSession s) {
         int userid = getUserId(s);
+        JSONObject rlt = JSONObject.parseObject(JSONObject
+                .toJSONString(conferenceMapper.selectSessionById(session_id, userid)));
         return JSONObject.toJSONString(conferenceMapper.selectSessionById(session_id, userid));
     }
 
