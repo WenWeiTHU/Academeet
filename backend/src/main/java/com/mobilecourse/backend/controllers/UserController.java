@@ -245,7 +245,7 @@ public class UserController extends CommonController {
         return "{ \"accepted\": 1 }";
     }
 
-    @RequestMapping(value = "/api/user/{gtype}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/api/user/{gtype}")
     public String getInfos(@PathVariable String gtype, @RequestParam(value = "id")int id,
                            HttpServletRequest request) {
         int index;
@@ -278,7 +278,7 @@ public class UserController extends CommonController {
         String[][] attrs = {
                 { "note_id", "title", "text", "create_time", "update_time" },
                 { "message_id", "details", "time" },
-                { "conference_id", "organization", "introduction", "date",
+                { "name", "conference_id", "date",
                         "chairs", "place", "start_time", "end_time", "tags", "visible" }};
         Class<?> Info, Dao;
         ArrayList<Object> infos;
@@ -287,7 +287,7 @@ public class UserController extends CommonController {
             Dao = UserDao.class;
             if (index == 2) {
                 Method method = Dao.getMethod(methods[index], int.class, String.class);
-                infos = (ArrayList<Object>) method.invoke(userMapper, id, gtype.substring(0, gtype.length() - 1));
+                infos = (ArrayList<Object>) method.invoke(userMapper, id, gtype);
             } else {
                 Method method = Dao.getMethod(methods[index], int.class);
                 infos = (ArrayList<Object>) method.invoke(userMapper, id);
@@ -313,16 +313,12 @@ public class UserController extends CommonController {
     }
 
     @RequestMapping(value = "/api/user/update/rating")
-    public String updateSession(HttpServletRequest request,
-                                @RequestParam(value = "session_id")int session_id,
-                                @RequestParam(value = "rating")float rating) {
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            return LOGIN_MSG;
-        }
-        int user_id = ((JSONObject) session.getAttribute("user")).getIntValue("id");
-        int result = userMapper.updateSessionRating(user_id, session_id, rating);
-        if (result == 1) return "{ \"accepted\": 1 }";
+    public String updateSession(@RequestParam(value = "session_id")int session_id,
+                                HttpSession s) {
+        int user_id = getUserId(s);
+        if (user_id == -1) return LOGIN_MSG;
+        int result = userMapper.updateSessionRating(user_id, session_id);
+        if (result > 0) return "{ \"accepted\": 1 }";
         return "{ \"accepted\": 0, \"msg\": \"not update.\" }";
     }
 

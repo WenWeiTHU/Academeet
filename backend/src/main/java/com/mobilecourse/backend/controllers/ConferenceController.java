@@ -156,9 +156,9 @@ public class ConferenceController extends CommonController {
         }
         if (!legalparam) return "{ \"accepted\": 0, \"msg\": \"" + "updateUserConference meets unknown param." + "\" }";
         if (type == 0) return "{ \"accepted\": " +
-                conferenceMapper.deleteUserConference(user_id, conference_id, uctype) + " \"type\": \"0\" }";
+                conferenceMapper.deleteUserConference(user_id, conference_id, uctype) + ", \"type\": \"0\" }";
         else return "{ \"accepted\": " +
-                conferenceMapper.insertUserConference(user_id, conference_id, uctype) + " \"type\": \"1\" }";
+                conferenceMapper.insertUserConference(user_id, conference_id, uctype) + ", \"type\": \"1\" }";
     }
 
     @RequestMapping(value = "/api/user/establishing/sessions")
@@ -273,7 +273,10 @@ public class ConferenceController extends CommonController {
     public String getSessionById(@RequestParam(value = "session_id")int session_id,
                                  HttpSession s) {
         int userid = getUserId(s);
-        return JSONObject.toJSONString(conferenceMapper.selectSessionById(session_id, userid));
+        Session session = conferenceMapper.selectSessionById(session_id, userid);
+        JSONObject rlt = JSONObject.parseObject(JSONObject.toJSONString(session));
+        rlt.put("conference_name", conferenceMapper.selectById(session.getConference_id(), userid).getName());
+        return JSONObject.toJSONString(rlt);
     }
 
     @RequestMapping(value = "/api/session/talks")

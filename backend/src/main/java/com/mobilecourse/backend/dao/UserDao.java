@@ -42,6 +42,6 @@ public interface UserDao {
 
     Conference selectUserConference(int id, int conference_id, String gtype);
 
-    int updateSessionRating(int user_id, int session_id, float rating);
+    int updateSessionRating(int user_id, int session_id);
 
 }

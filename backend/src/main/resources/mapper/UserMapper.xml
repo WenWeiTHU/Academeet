@@ -91,7 +91,7 @@
     <select id="selectAllUserConferences" resultType="com.mobilecourse.backend.model.Conference">
         SELECT conference.*
         FROM user_conference NATURAL JOIN conference
-        WHERE user_id=#{id} AND uctype=#{gtype} AND visible=1
+        WHERE user_id=#{id} AND uctype=#{gtype}
     </select>
 
     <select id="selectUserConference" resultType="com.mobilecourse.backend.model.Conference">
@@ -101,8 +101,10 @@
     </select>
 
     <update id="updateSessionRating">
-        UPDATE user_session SET rating=${rating}
-        WHERE user_id=${user_id} AND session_id=${session_id}
+        INSERT INTO user_session (user_id, session_id) SELECT ${user_id}, ${session_id} FROM dual
+        WHERE NOT EXISTS (SELECT * FROM user_session WHERE user_id=${user_id} AND session_id=${session_id});
+        UPDATE session SET rating=rating+1
+        WHERE session_id=${session_id}
     </update>
 
 </mapper>
