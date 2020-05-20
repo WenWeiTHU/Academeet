@@ -314,12 +314,23 @@ public class UserController extends CommonController {
 
     @RequestMapping(value = "/api/user/update/rating")
     public String updateSession(@RequestParam(value = "session_id")int session_id,
+																@RequestParam(value = "type")int type,
                                 HttpSession s) {
         int user_id = getUserId(s);
         if (user_id == -1) return LOGIN_MSG;
-        int result = userMapper.updateSessionRating(user_id, session_id);
+        int result = 0;
+				if (type == 1)
+					result = userMapper.updateSessionRating(user_id, session_id);
+				else result = userMapper.cancelRating(user_id, session_id);
         if (result > 0) return "{ \"accepted\": 1 }";
         return "{ \"accepted\": 0, \"msg\": \"not update.\" }";
     }
+
+		@RequestMapping(value = "/api/user/query/rating")
+		public String getSessionRating(@RequestParam(value = "session_id")int session_id,
+															@RequestParam(value = "user_id")int user_id) {
+				int result = userMapper.queryRating(session_id, user_id);
+				return "{\"is_rated\": " + result + "}";
+		}
 
 }

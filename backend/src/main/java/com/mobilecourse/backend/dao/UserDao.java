@@ -44,4 +44,8 @@ public interface UserDao {
 
     int updateSessionRating(int user_id, int session_id);
 
+		int cancelRating(int user_id, int session_id);
+
+		int queryRating(int session_id, int user_id);
+
 }

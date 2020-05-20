@@ -101,10 +101,19 @@
     </select>
 
     <update id="updateSessionRating">
-        INSERT INTO user_session (user_id, session_id) SELECT ${user_id}, ${session_id} FROM dual
-        WHERE NOT EXISTS (SELECT * FROM user_session WHERE user_id=${user_id} AND session_id=${session_id});
         UPDATE session SET rating=rating+1
-        WHERE session_id=${session_id}
+        WHERE session_id=${session_id} AND NOT EXISTS (SELECT * FROM user_session WHERE user_id=${user_id} AND session_id = ${session_id});
+        INSERT INTO user_session (user_id, session_id) values (${user_id}, ${session_id})
     </update>
+
+		<select id="queryRating" resultType="int">
+				SELECT COUNT(*) from user_session WHERE user_id=${user_id} AND session_id=${session_id}
+		</select>
+
+		<delete id="cancelRating">
+				UPDATE session SET rating=rating-1 WHERE session_id=${session_id}
+				AND EXISTS (SELECT * FROM user_session WHERE user_id=${user_id} AND session_id = ${session_id});
+				DELETE FROM user_session WHERE user_id=${user_id} AND session_id=${session_id};
+		</delete>
 
 </mapper>
