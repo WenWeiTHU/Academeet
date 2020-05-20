@@ -313,16 +313,12 @@ public class UserController extends CommonController {
     }
 
     @RequestMapping(value = "/api/user/update/rating")
-    public String updateSession(HttpServletRequest request,
-                                @RequestParam(value = "session_id")int session_id,
-                                @RequestParam(value = "rating")float rating) {
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            return LOGIN_MSG;
-        }
-        int user_id = ((JSONObject) session.getAttribute("user")).getIntValue("id");
-        int result = userMapper.updateSessionRating(user_id, session_id, rating);
-        if (result == 1) return "{ \"accepted\": 1 }";
+    public String updateSession(@RequestParam(value = "session_id")int session_id,
+                                HttpSession s) {
+        int user_id = getUserId(s);
+        if (user_id == -1) return LOGIN_MSG;
+        int result = userMapper.updateSessionRating(user_id, session_id);
+        if (result > 0) return "{ \"accepted\": 1 }";
         return "{ \"accepted\": 0, \"msg\": \"not update.\" }";
     }
 
