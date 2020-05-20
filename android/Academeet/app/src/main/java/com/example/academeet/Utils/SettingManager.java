@@ -6,5 +6,5 @@ public class SettingManager {
     private static int userId;
     public static String session;
 
-    public static final String CHANGE_PSWD = "/api/user"
+    public static final String CHANGE_PSWD = "/api/user/update/password";
 }
