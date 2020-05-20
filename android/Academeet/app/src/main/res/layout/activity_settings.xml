@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.SettingsActivity">
+
+    <com.example.myapplication.components.MenuComponent
+        android:id="@+id/change_username_menu"
+        app:text="修改用户名"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onClick"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sub_menu_height" />
+
+    <com.example.myapplication.components.MenuComponent
+        android:id="@+id/change_password_menu"
+        app:text="修改密码"
+        app:layout_constraintTop_toBottomOf="@id/change_username_menu"
+        android:layout_marginTop="@dimen/sub_menu_gap"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onClick"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sub_menu_height" />
+
+    <com.example.myapplication.components.MenuComponent
+        android:id="@+id/change_signature_menu"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sub_menu_height"
+        android:layout_marginTop="@dimen/sub_menu_gap"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onClick"
+        app:layout_constraintTop_toBottomOf="@id/change_password_menu"
+        app:text="修改个性签名" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
