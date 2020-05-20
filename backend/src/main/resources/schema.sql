@@ -2,10 +2,10 @@ CREATE DATABASE IF NOT EXISTS Test;
 SET time_zone='+8:00';  -- 不生效
 SET global time_zone='+8:00';
 
-drop table if exists paper;
+-- drop table if exists paper;
 -- drop table if exists user_conference;
---drop table if exists user_session;
---drop table if exists session;
+-- drop table if exists user_session;
+-- drop table if exists session;
 -- drop table if exists message;
 -- drop table if exists chatroom;
 -- drop table if exists note;
