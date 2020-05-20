@@ -4,8 +4,8 @@ SET global time_zone='+8:00';
 
 drop table if exists paper;
 -- drop table if exists user_conference;
-drop table if exists user_session;
-drop table if exists session;
+--drop table if exists user_session;
+--drop table if exists session;
 -- drop table if exists message;
 -- drop table if exists chatroom;
 -- drop table if exists note;
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS note(
 
 CREATE TABLE IF NOT EXISTS session(
     session_id int primary key auto_increment,
-		name varchar(100),
+    name varchar(100),
     topic varchar(100),
     description varchar(500),
     start_time datetime,
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS paper(
     title varchar(30),
     authors varchar(300),
     abstr varchar(600),
-    content varchar(100),
+    content varchar(200),
     visible int,
     session_visible int,
     conference_visible int,
