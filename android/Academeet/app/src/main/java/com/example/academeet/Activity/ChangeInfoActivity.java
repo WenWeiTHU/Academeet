@@ -48,40 +48,6 @@ public class ChangeInfoActivity extends AppCompatActivity implements View.OnClic
     public void returnMenu() {
         // TODO: 发送请求
         String info = ((EditText) findViewById(R.id.new_info)).getText().toString();
-        Runnable login = new Runnable() {
-            @Override
-            public void run() {
-                int resultCode = user.login(new HTTPSUtils(MainActivity.this));
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        switch (resultCode) {
-                            case SUCCESS_CODE: {
-                                Intent intent = new Intent(MainActivity.this, UserHomeActivity.class);
-                                startActivity(intent);
-                                break;
-                            }
-                            case EXCEPTION_CODE_1: {
-                                Toast.makeText(MainActivity.this, getResources().getString(R.string.login_user_not_exist),
-                                        Toast.LENGTH_SHORT).show();
-                                break;
-                            }
-                            case EXCEPTION_CODE_2: {
-                                Toast.makeText(MainActivity.this, getResources().getString(R.string.login_with_error_password),
-                                        Toast.LENGTH_SHORT).show();
-                                break;
-                            }
-                            case User.ERROR_CODE: {
-                                Toast.makeText(MainActivity.this, getResources().getString(R.string.wrong_status),
-                                        Toast.LENGTH_SHORT).show();
-                                break;
-                            }
-                        }
-                    }
-                });
-            }
-        };
-        new Thread(login).start();
         finish();
     }
 
