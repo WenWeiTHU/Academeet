@@ -13,7 +13,15 @@ public class SessionItem implements Serializable {
     private String endTime;
     private String reporters;
     private String id;
+    private String conferenceName;
 
+    public String getConferenceName() {
+        return conferenceName;
+    }
+
+    public void setConferenceName(String conferenceName) {
+        this.conferenceName = conferenceName;
+    }
 
     public String getName() {
         return name;

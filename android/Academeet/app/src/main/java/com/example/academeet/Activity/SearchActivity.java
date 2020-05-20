@@ -30,8 +30,6 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchListFragment.searchConference(query);
-                Toast toast = Toast.makeText(getApplicationContext(), query, Toast.LENGTH_SHORT);
-                toast.show();
                 return false;
             }
 

@@ -66,7 +66,7 @@ public class ConferenceListFragment extends Fragment {
         layoutManager.setOrientation(layoutManager.VERTICAL);
         mConferenceListView.setLayoutManager(layoutManager);
 
-        conferenceListAdapter = new ConferenceListAdapter(conferenceList, type);
+        conferenceListAdapter = new ConferenceListAdapter(conferenceList, "Default");
 
         // 设置间隔
         mConferenceListView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));

@@ -49,13 +49,8 @@ public class CustomFragment extends Fragment {
             @Override
             public void run() {
                 JSONObject jsonObject;
-                if(type.equals("Favorite")){
-                    jsonObject = ConfManager.userQuery("Favors");
-                } else if(type.equals("Reminder")){
-                    jsonObject = ConfManager.userQuery("Reminds");
-                } else{
-                    jsonObject = ConfManager.userQuery("Dislikes");
-                }
+                jsonObject = ConfManager.userQuery(type);
+
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -110,7 +105,7 @@ public class CustomFragment extends Fragment {
         layoutManager.setOrientation(layoutManager.VERTICAL);
         mConferenceListView.setLayoutManager(layoutManager);
 
-        conferenceListAdapter = new ConferenceListAdapter(conferenceList, -1);
+        conferenceListAdapter = new ConferenceListAdapter(conferenceList, type);
 
         // 设置间隔
         mConferenceListView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));

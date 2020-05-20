@@ -51,7 +51,7 @@ public class SearchListFragment extends Fragment {
         layoutManager.setOrientation(layoutManager.VERTICAL);
         mSearchListView.setLayoutManager(layoutManager);
 
-        conferenceListAdapter = new ConferenceListAdapter(conferenceList, 0);
+        conferenceListAdapter = new ConferenceListAdapter(conferenceList, "Searches");
 
         // 设置间隔
         mSearchListView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));

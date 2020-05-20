@@ -5,13 +5,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.academeet.Item.PaperItem;
 import com.example.academeet.R;
-
+import com.example.academeet.Utils.ConfManager;
 
 
 import java.util.List;
@@ -57,10 +59,19 @@ public class PaperListAdapter extends RecyclerView.Adapter<PaperListAdapter.Pape
         holder.paperName.setText(paper.getTitle());
         holder.paperAbstracts.setText(paper.getAbstracts());
         holder.paperAuthor.setText(paper.getAuthors());
+
+        Runnable download = new Runnable() {
+            @Override
+            public void run() {
+                ConfManager.downloadURL();
+            }
+        };
+
         holder.paperDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Download"+paper.getFileUrl());
+                new Thread(download).start();
+                Toast.makeText(view.getContext(), "Downloading the paper", Toast.LENGTH_SHORT).show();
             }
         });
     }

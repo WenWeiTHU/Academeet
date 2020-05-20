@@ -1,5 +1,6 @@
 package com.example.academeet.Utils;
 
+import android.os.Environment;
 import android.os.Looper;
 
 import com.alibaba.fastjson.JSONException;
@@ -23,27 +24,34 @@ public class ConfManager {
     private static final String USER_FAVORS  = "/api/user/update/favors";
     private static final String USER_REMINDS  = "/api/user/update/reminds";
     private static final String USER_DISLIKES  = "/api/user/update/dislikes";
+    private static final String USER_LIKES  = "/api/user/update/rating";
     private static final String QUERY_FAVORS  = "/api/user/favors";
     private static final String QUERY_REMINDS  = "/api/user/reminds";
     private static final String QUERY_DISLIKES  = "/api/user/dislikes";
+    private static final String QUERY_LIKES  = "/api/user/query/rating";
 
 
     public static void setId(int id) {
         userId = id;
     }
 
+
     public static JSONObject userMenu(String confId, String action, String type) {
         String url;
+        String parameter = "conference_id";
         if(action.equals("Favors")){
             url = USER_FAVORS;
         } else if(action.equals("Reminds")){
             url = USER_REMINDS;
-        } else {
+        } else if(action.equals("Dislikes")) {
             url = USER_DISLIKES;
+        } else {
+            url = USER_LIKES;
+            parameter = "session_id";
         }
 
         FormBody formBody = new FormBody.Builder()
-                .add("conference_id", confId)
+                .add(parameter, confId)
                 .add("user_id", String.valueOf(userId))
                 .add("type", type)
                 .build();
@@ -93,6 +101,44 @@ public class ConfManager {
         } catch(IOException | JSONException e) {
             System.out.println(e);
             return null;
+        }
+    }
+
+    public static JSONObject queryLikes(String sessId){
+        FormBody formBody = new FormBody.Builder()
+                .add("session_id", sessId)
+                .add("user_id", String.valueOf(userId))
+                .build();
+        Request request = new Request.Builder()
+                .url(SERVER_ADDR + QUERY_LIKES)
+                .post(formBody)
+                .addHeader("cookie", session)
+                .build();
+        try{
+            Response response = httpsUtils.getInstance().newCall(request).execute();
+            Looper.prepare();
+            String content = response.body().string();
+            // System.out.println(content);
+            JSONObject jsonObject = JSONObject.parseObject(content);
+            return jsonObject;
+        } catch(IOException | JSONException e) {
+            // System.out.println(e);
+            return null;
+        }
+    }
+
+    public static void downloadURL(){
+        Request request = new Request.Builder()
+                .url("https://49.232.141.126:8080/file/static/paper/academeet.pptx")
+                .build();
+
+        try{
+            Response response = httpsUtils.getInstance().newCall(request).execute();
+            Looper.prepare();
+
+            System.out.println(response.body().byteStream());
+        } catch(IOException | JSONException e) {
+            System.out.println(e);
         }
     }
 
