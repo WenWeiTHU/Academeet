@@ -156,9 +156,9 @@ public class ConferenceController extends CommonController {
         }
         if (!legalparam) return "{ \"accepted\": 0, \"msg\": \"" + "updateUserConference meets unknown param." + "\" }";
         if (type == 0) return "{ \"accepted\": " +
-                conferenceMapper.deleteUserConference(user_id, conference_id, uctype) + " \"type\": \"0\" }";
+                conferenceMapper.deleteUserConference(user_id, conference_id, uctype) + ", \"type\": \"0\" }";
         else return "{ \"accepted\": " +
-                conferenceMapper.insertUserConference(user_id, conference_id, uctype) + " \"type\": \"1\" }";
+                conferenceMapper.insertUserConference(user_id, conference_id, uctype) + ", \"type\": \"1\" }";
     }
 
     @RequestMapping(value = "/api/user/establishing/sessions")
