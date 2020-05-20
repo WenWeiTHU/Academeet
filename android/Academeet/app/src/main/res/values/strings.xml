@@ -54,4 +54,7 @@
     <string name="title_activity_custom">CustomActivity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+
+    <string name="settings_title">修改信息</string>
+    <string name="execute_change">确认修改</string>
 </resources>

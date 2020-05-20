@@ -25,4 +25,5 @@
     <color name="home_menu_item">#EEEEEE</color>
     <color name="home_menu_item_background">#00000000</color>
     <color name="tab_selected">#333333</color>
+    <color name="sub_menu_text_color">#000000</color>
 </resources>
