@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import com.example.academeet.Object.Note;
 import com.example.academeet.R;
+import com.example.academeet.Utils.NoteManager;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +36,11 @@ public class ShowNoteActivity extends AppCompatActivity {
     private AlarmManager alarmManager;
     private PendingIntent pi;
     private long date1;
+    private int pos;
+
+    // 常量
+    public static final String CONTENT_CHANGED = "CONTENT_CHANGED";
+    public static final int SHOW_RESULT = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +69,7 @@ public class ShowNoteActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("data");
         note = (Note)bundle.getSerializable("Note");
+        pos = intent.getIntExtra("pos", -1);
     }
 
     public void editNote(View v) {
@@ -72,6 +81,8 @@ public class ShowNoteActivity extends AppCompatActivity {
         startActivityForResult(intent, EditNoteActivity.EDIT);
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -79,6 +90,17 @@ public class ShowNoteActivity extends AppCompatActivity {
             Bundle bundle = data.getBundleExtra("data");
             note = (Note)bundle.getSerializable("Note");
             showNoteTextView.setText(note.getContent());
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (pos != -1) {
+                        NoteManager.setNote(note, pos);
+                    }
+                }
+            }).start();
+            Intent intent = new Intent();
+            intent.putExtra(CONTENT_CHANGED, true);
+            setResult(SHOW_RESULT, intent);
         }
     }
 }

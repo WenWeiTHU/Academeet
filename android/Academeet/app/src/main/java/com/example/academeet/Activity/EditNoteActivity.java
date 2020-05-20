@@ -66,7 +66,12 @@ public class EditNoteActivity extends AppCompatActivity {
         int hour = calendar.get(calendar.HOUR_OF_DAY);
         int minute = calendar.get(calendar.MINUTE);
 
-        String timeString = year + "-" + month + "-" + day + " " + hour + ":" + minute;
+        String timeString = year + "-" + month + "-" + day + " " + hour + ":";
+        if (minute < 10) {
+            timeString = timeString + "0" + minute;
+        } else {
+            timeString = timeString + minute;
+        }
 
         return timeString;
     }

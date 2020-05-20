@@ -17,11 +17,6 @@ import butterknife.ButterKnife;
 import mehdi.sakout.fancybuttons.FancyButton;
 
 public class LoginFragment extends Fragment {
-    @BindView(R.id.login_type_radio)
-    RadioGroup mLoginTypeRadio;
-    @BindView(R.id.login_type_scholar_radio)
-    RadioButton mLoginTypeScholarRadio;
-    @BindView(R.id.login_type_admin_radio)
     RadioButton mLoginTypeAdminRadio;
     @BindView(R.id.login_button)
     FancyButton mLoginButton;
@@ -38,4 +33,8 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
+
+    public View getLoginView(int id) {
+        return getActivity().findViewById(id);
+    }
 }

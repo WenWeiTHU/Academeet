@@ -19,8 +19,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_show_note"/>
-
+    <include layout="@layout/content_note"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/note_edit_btn"
         android:layout_width="wrap_content"

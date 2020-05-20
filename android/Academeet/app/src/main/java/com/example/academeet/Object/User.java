@@ -6,7 +6,9 @@ import android.se.omapi.Session;
 import android.util.Log;
 
 import com.example.academeet.Activity.MainActivity;
+import com.example.academeet.Utils.ConfManager;
 import com.example.academeet.Utils.HTTPSUtils;
+import com.example.academeet.Utils.NoteManager;
 
 
 import org.json.JSONException;
@@ -34,6 +36,7 @@ public class User {
     private String phone;
     private String capcha;
     private String userType;
+    private int id;
 
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
@@ -41,6 +44,8 @@ public class User {
     private final String SERVER_ADDR = "https://49.232.141.126:8080";
     private final String CAPTCHA_URL = "/api/captcha";
     private final String REGISTER_URL = "/api/register";
+    private final String LOGIN_URL = "/api/login";
+    private String session;
 
     public User() {
     }
@@ -53,6 +58,8 @@ public class User {
         this.phone = phone;
         this.capcha = capcha;
     }
+
+    public int getId() { return id; }
 
     public String getUsername() {
         return username;
@@ -102,8 +109,6 @@ public class User {
         this.userType = userType;
     }
 
-
-
     public Boolean getCapchaFromServer(HTTPSUtils httpsUtils) {
         if (phone == null) {
             // 未设置手机号
@@ -117,11 +122,13 @@ public class User {
                 .build();
         try (Response response = httpsUtils.getInstance().newCall(request).execute()) {
             Looper.prepare();
+            String s = response.headers("Set-Cookie").get(0);
+            session = s.substring(0, s.indexOf(";"));
             String content = response.body().string();
             JSONTokener jsonParser = new JSONTokener(content);
             JSONObject jsonObject = null;
             jsonObject = (JSONObject)jsonParser.nextValue();
-            if (jsonObject.getInt("accept") == 1) {
+            if (jsonObject.getInt("accepted") == 1) {
                 return true;
             }
         } catch (IOException | JSONException e) {
@@ -138,16 +145,17 @@ public class User {
             userCode = 1;
         }
         FormBody formBody = new FormBody.Builder()
-                        .add("username", username)
-                        .add("password", password)
-                        .add("phone", phone)
-                        .add("type", String.valueOf(userCode))
-                        .add("captcha", capcha)
-                        .build();
+                .add("username", username)
+                .add("password", password)
+                .add("phone", phone)
+                .add("type", String.valueOf(userCode))
+                .add("captcha", capcha)
+                .build();
         Request request = new Request.Builder()
-                            .url(SERVER_ADDR + REGISTER_URL)
-                            .post(formBody)
-                            .build();
+                .url(SERVER_ADDR + REGISTER_URL)
+                .addHeader("cookie", session)
+                .post(formBody)
+                .build();
         try(Response response = httpsUtils.getInstance().newCall(request).execute()) {
             Looper.prepare();
             String content = response.body().string();
@@ -155,6 +163,46 @@ public class User {
             JSONObject jsonObject = (JSONObject)jsonParser.nextValue();
             return jsonObject.getInt("code");
         } catch(IOException | JSONException e) {
+            e.printStackTrace();
+        }
+        return ERROR_CODE;
+    }
+
+    public int login(HTTPSUtils httpsUtils) {
+        int userCode = 0;
+        if (userType == "Admin") {
+            userCode = 1;
+        }
+        FormBody formBody = new FormBody.Builder()
+                .add("username", username)
+                .add("password", password)
+                .add("type", String.valueOf(userCode))
+                .build();
+        Request request = new Request.Builder()
+                .url(SERVER_ADDR + LOGIN_URL)
+                .post(formBody)
+                .build();
+
+        try(Response response = httpsUtils.getInstance().newCall(request).execute()) {
+            Looper.prepare();
+            // 解析内容
+            String content = response.body().string();
+            JSONTokener jsonParser = new JSONTokener(content);
+            JSONObject jsonObject = (JSONObject)jsonParser.nextValue();
+            int resultCode = jsonObject.getInt("code");
+            if (resultCode != 200) {
+                return resultCode;
+            }
+            // 获取 session
+            String s = response.headers("Set-Cookie").get(0);
+            session = s.substring(0, s.indexOf(";"));
+            NoteManager.session = session;
+            ConfManager.session = session;
+            id = jsonObject.getInt("id");
+            NoteManager.setId(id);
+            ConfManager.setId(id);
+            return resultCode;
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
         return ERROR_CODE;

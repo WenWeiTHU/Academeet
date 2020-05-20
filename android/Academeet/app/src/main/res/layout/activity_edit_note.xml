@@ -21,9 +21,8 @@
             />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include android:id="@+id/include"
-        layout="@layout/content_edit_note"
-        />
+   <include android:id="@+id/include" layout="@layout/content_new_note"/>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/new_note_complete_button"

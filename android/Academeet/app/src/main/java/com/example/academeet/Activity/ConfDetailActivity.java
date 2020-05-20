@@ -1,35 +1,34 @@
 package com.example.academeet.Activity;
-
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.academeet.Adapter.ConfDetailAdapter;
+import com.example.academeet.Fragment.ConfDetailFragment;
+import com.example.academeet.Fragment.SessionListFragment;
+import com.example.academeet.Item.ConferenceItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-
-import android.view.View;
-
 import com.example.academeet.R;
 import com.google.android.material.tabs.TabLayout;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConfDetailActivity extends AppCompatActivity {
-
+    private List<Fragment> fragmentList = new ArrayList<Fragment>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conf_detail);
         Intent intent = getIntent();
+        ConferenceItem conference = (ConferenceItem)intent.getSerializableExtra("conference");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(intent.getStringExtra("CONFERENCE_NAME"));
+        toolbar.setTitle(conference.getName());
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -47,9 +46,11 @@ public class ConfDetailActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Sessions"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+        fragmentList.add(new ConfDetailFragment(conference));
+        fragmentList.add(new SessionListFragment(conference.getId()));
 
         final ViewPager viewPager = findViewById(R.id.conf_detail_view_pager);
-        final ConfDetailAdapter adapter = new ConfDetailAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        final ConfDetailAdapter adapter = new ConfDetailAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(adapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
