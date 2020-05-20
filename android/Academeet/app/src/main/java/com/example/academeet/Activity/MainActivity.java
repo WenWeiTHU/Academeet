@@ -11,8 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.academeet.Fragment.LoginFragment;
@@ -39,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
     private User user = new User();
 
 
+    private final int SUCCESS_CODE = 200;
+    private final int EXCEPTION_CODE_1 = 300;
+    private final int EXCEPTION_CODE_2 = 400;
+
     private final String LOGIN_FRAGMENT_KEY = "LOGIN_FRAGMENT";
     private final String REGISTER_PAGE_1_FRAGMENT_KEY = "REGISTER_PAGE_1_FRAGMENT";
     private final String REGISTER_PAGE_2_FRAGMENT_KEY = "REGISTER_PAGE_2_FRAGMENT";
@@ -59,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
         ScreenInfoUtils.fullScreen(this);
     }
 
-
     private void replaceFragment(Fragment fragment) {
         // 更换主活动中的Fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -72,19 +73,47 @@ public class MainActivity extends AppCompatActivity {
     public void startLogin(View v) {
         // 登录
         // TODO: 向服务器发送登录信息
-        RadioGroup loginRadios = currentFragment.getView().findViewById(R.id.login_type_radio);
-        String userType = ((RadioButton)currentFragment.getView().findViewById(loginRadios.getCheckedRadioButtonId())).getText().toString();
-        if (userType.equals("Scholar")) {
-            // 学者登录
-            Intent intent = new Intent(this, UserHomeActivity.class);
-            // TODO: 和服务器的交互
-            startActivity(intent);
-        } else {
-            // 管理员登录
-            Intent intent = new Intent(this, AdminHomeActivity.class);
-            // TODO: 和服务器的交互
-            startActivity(intent);
-        }
+        String username = ((EditText)((LoginFragment)currentFragment).getLoginView(R.id.login_username))
+                .getText().toString();
+        String password = ((EditText)((LoginFragment)currentFragment).getLoginView(R.id.login_password))
+                .getText().toString();
+        user.setUsername(username);
+        user.setPassword(password);
+
+        Runnable login = new Runnable() {
+            @Override
+            public void run() {
+                int resultCode = user.login(new HTTPSUtils(MainActivity.this));
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        switch (resultCode) {
+                            case SUCCESS_CODE: {
+                                Intent intent = new Intent(MainActivity.this, UserHomeActivity.class);
+                                startActivity(intent);
+                                break;
+                            }
+                            case EXCEPTION_CODE_1: {
+                                Toast.makeText(MainActivity.this, getResources().getString(R.string.login_user_not_exist),
+                                        Toast.LENGTH_SHORT).show();
+                                break;
+                            }
+                            case EXCEPTION_CODE_2: {
+                                Toast.makeText(MainActivity.this, getResources().getString(R.string.login_with_error_password),
+                                        Toast.LENGTH_SHORT).show();
+                                break;
+                            }
+                            case User.ERROR_CODE: {
+                                Toast.makeText(MainActivity.this, getResources().getString(R.string.wrong_status),
+                                        Toast.LENGTH_SHORT).show();
+                                break;
+                            }
+                        }
+                    }
+                });
+            }
+        };
+        new Thread(login).start();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -101,14 +130,6 @@ public class MainActivity extends AppCompatActivity {
     public void nextRegisterPage(View v) {
         // 更换到注册的第二个页面
         // 获取当前的信息
-
-        // 获取用户类型
-        RadioGroup registerRadios = (RadioGroup)(((RegisterFragment)currentFragment).
-                getRegisterView(R.id.register_type_radio));
-        String userType = (String)((RadioButton)(((RegisterFragment)currentFragment).
-                getRegisterView(registerRadios.getCheckedRadioButtonId()))).getText();
-
-
         // 获取用户用户名
         String username = ((EditText)((RegisterFragment)currentFragment).
                 getRegisterView(R.id.register_username)).getText().toString();
@@ -144,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
         user.setUsername(username);
         user.setPassword(password);
-        user.setUserType(userType);
+        user.setUserType("Scholar");
 
         if ((currentFragment = fragmentMap.getOrDefault(REGISTER_PAGE_2_FRAGMENT_KEY, null)) == null) {
             currentFragment = new RegisterFragment(R.layout.fragment_register_page2);
@@ -210,7 +231,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         new Thread(getCapcha).start();
-
     }
 
     public void backToRegisterPage1(View v) {

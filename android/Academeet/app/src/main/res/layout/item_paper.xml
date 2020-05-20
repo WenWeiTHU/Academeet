@@ -39,17 +39,18 @@
             android:layout_marginBottom="4dp"
             android:ellipsize="end"
             android:maxLines="2"
+            android:text="None"
             android:textColor="@color/conferenceItemTitle"
             android:textSize="18sp" />
         <TextView
-            android:id="@+id/session_author_text_view"
+            android:id="@+id/paper_author_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxWidth="200dp"
             android:layout_marginLeft="16dp"
             android:maxLines="1"
-            android:text="Micheal Jodan, Benjo Brude, Van Darkhome"
+            android:text="None"
             android:textColor="#03A9F4" />
         <TextView
             android:id="@+id/paper_abstract_text_view"
@@ -61,7 +62,7 @@
             android:layout_marginBottom="8dp"
             android:maxLines="2"
             android:ellipsize="end"
-            android:text="@string/large_text"
+            android:text="None"
             android:textColor="#B6B2B2" />
 
 

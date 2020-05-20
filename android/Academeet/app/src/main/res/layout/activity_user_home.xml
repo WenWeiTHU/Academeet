@@ -32,6 +32,4 @@
         <include layout="@layout/menu_user_home"/>
     </FrameLayout>
 
-
-
 </androidx.drawerlayout.widget.DrawerLayout>

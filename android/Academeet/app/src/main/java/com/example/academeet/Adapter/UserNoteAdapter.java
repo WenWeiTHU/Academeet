@@ -7,9 +7,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.academeet.Object.Note;
 import com.example.academeet.R;
+import com.example.academeet.Utils.NoteManager;
 
 import java.util.List;
 
@@ -42,14 +42,28 @@ public class UserNoteAdapter extends RecyclerView.Adapter<UserNoteAdapter.ViewHo
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_note, parent, false);
         ViewHolder holder = new ViewHolder(view);
+        // 按下打开
         holder.noteView.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 //  TODO: 打开note的详细内容
                 if (onRecyclerViewItemClickListener != null) {
-                    onRecyclerViewItemClickListener.onItemClick(v, (Note)view.getTag());
+                    onRecyclerViewItemClickListener.onItemClick(v, (Note)view.getTag(R.id.noteKey), (Integer) view.getTag(R.id.posKey));
                 }
+            }
+        });
+
+        // 长按跳出删除界面
+        holder.noteView.setLongClickable(true);
+        holder.noteView.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View v) {
+                if (onRecyclerViewItemClickListener != null) {
+                    onRecyclerViewItemClickListener.onItemLongClick(v, (Note)v.getTag(R.id.noteKey));
+                }
+                return true;
             }
         });
         return holder;
@@ -58,14 +72,16 @@ public class UserNoteAdapter extends RecyclerView.Adapter<UserNoteAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Note note = mNoteList.get(position);
-        holder.itemView.setTag(note);
+        holder.itemView.setTag(R.id.noteKey, note);
+        holder.itemView.setTag(R.id.posKey, position);
         holder.titleTextView.setText(note.getTitle());
         holder.abstractTextView.setText(note.getNoteAbstract());
         holder.dateTextView.setText(note.getDate());
     }
 
     public interface OnRecyclerViewItemClickListener {
-        void onItemClick(View view, Note note);
+        void onItemClick(View view, Note note, int pos);
+        void onItemLongClick(View view, Note note);
     }
 
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
@@ -79,6 +95,11 @@ public class UserNoteAdapter extends RecyclerView.Adapter<UserNoteAdapter.ViewHo
 
     public void addNote(Note note) {
         mNoteList.add(note);
+    }
+
+    public void refreshAdapter() {
+        mNoteList = NoteManager.getNotes();
+        notifyDataSetChanged();
     }
 
 }

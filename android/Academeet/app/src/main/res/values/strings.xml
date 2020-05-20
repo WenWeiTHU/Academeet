@@ -48,4 +48,10 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="login_with_error_password">Wrong username or password</string>
+    <string name="login_user_not_exist">User not exists</string>
+    <string name="wrong_status">Something is wrong...</string>
+    <string name="title_activity_custom">CustomActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 </resources>

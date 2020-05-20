@@ -21,13 +21,18 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import com.example.academeet.Adapter.HomePagerAdapter;
 import com.example.academeet.Fragment.ConferenceListFragment;
 import com.example.academeet.R;
+import com.example.academeet.Utils.ConfManager;
+import com.example.academeet.Utils.HTTPSUtils;
 import com.example.academeet.Utils.ScreenInfoUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,12 +54,13 @@ public class UserHomeActivity extends AppCompatActivity {
     LinearLayout mHomeMenuItemReminder;
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
 
-    String[] titles = {"Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"};
+    ArrayList<String> titles = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
+        ConfManager.httpsUtils = new HTTPSUtils(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
@@ -63,7 +69,6 @@ public class UserHomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, SearchActivity.class);
-
 
                 context.startActivity(intent);
             }
@@ -80,7 +85,6 @@ public class UserHomeActivity extends AppCompatActivity {
 
         super.onDestroy();
     }
-
 
     void initFrame() {
         // 初始化页面的框架
@@ -103,8 +107,6 @@ public class UserHomeActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-
-
         //蒙层颜色
         drawerLayout.setScrimColor(Color.TRANSPARENT);
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
@@ -123,10 +125,8 @@ public class UserHomeActivity extends AppCompatActivity {
                 float scale = 1 - slideOffset;//1~0
                 float leftScale = (float) (1 - 0.3 * scale);
                 float rightScale = (float) (0.7f + 0.3 * scale);//0.7~1
-//                menu.setScaleX(leftScale);//1~0.7
                 menu.setScaleY(leftScale);//1~0.7
 
-//                content.setScaleX(rightScale);
                 content.setScaleY(rightScale);
                 content.setTranslationX(menu.getMeasuredWidth() * slideOffset);//0~width
                 Log.d(TAG, "slideOffset=" + slideOffset + ",leftScale=" + leftScale + ",rightScale=" + rightScale);
@@ -144,15 +144,24 @@ public class UserHomeActivity extends AppCompatActivity {
 
     void initMainContent() {
         // 初始化主体部分
-        for (int i =0; i < 7; ++i) {
-            // 一周七天
-            fragmentList.add(new ConferenceListFragment());
+        Date curDate = new Date();
+        long currTime = curDate.getTime();
+        long startTime = currTime - 3 * 86400000;
+        SimpleDateFormat formatterWeek = new SimpleDateFormat("EEEE");
+        SimpleDateFormat formatterDay =  new SimpleDateFormat("yyyy-MM-dd");
+        for (int i=0; i < 7; ++i) {
+            Date date = new Date(startTime);
+            titles.add(formatterWeek.format(date).substring(0, 3));
+            fragmentList.add(new ConferenceListFragment(formatterDay.format(date), 0));
+            startTime += 86400000;
         }
 
         HomePagerAdapter pagerAdapter = new HomePagerAdapter(getSupportFragmentManager(),
-                fragmentList, Arrays.asList(titles));
+                fragmentList, titles);
         mHomeViewerPager.setAdapter(pagerAdapter);
         mHomeTabLayout.setupWithViewPager(mHomeViewerPager);
+        mHomeViewerPager.setCurrentItem(3);
+
     }
 
     public void initMenu() {
@@ -160,10 +169,8 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     public void onFavoriteItemClicked(View v) {
-        Toast toast = Toast.makeText(this, "You clicked favorite item", Toast.LENGTH_SHORT);
-        Intent intent = new Intent(UserHomeActivity.this, MainActivity.class);
+        Intent intent = new Intent(UserHomeActivity.this, CustomActivity.class);
         startActivity(intent);
-        toast.show();
     }
 
     public void onReminderItemClicked(View v) {

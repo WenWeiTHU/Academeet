@@ -6,11 +6,15 @@ import android.os.Bundle;
 
 import com.example.academeet.Adapter.ConfDetailAdapter;
 import com.example.academeet.Adapter.SessDetailAdapter;
+import com.example.academeet.Fragment.PaperListFragment;
+import com.example.academeet.Fragment.SessDetailFragment;
+import com.example.academeet.Item.SessionItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.View;
@@ -18,18 +22,22 @@ import android.view.View;
 import com.example.academeet.R;
 import com.google.android.material.tabs.TabLayout;
 
-public class SessDetailActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
 
+public class SessDetailActivity extends AppCompatActivity {
+    private List<Fragment> fragmentList = new ArrayList<Fragment>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sess_detail);
         Intent intent = getIntent();
+        SessionItem session = (SessionItem)intent.getSerializableExtra("session");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(intent.getStringExtra("SESSION_NAME"));
+        toolbar.setTitle(session.getName());
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -50,9 +58,12 @@ public class SessDetailActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Papers"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+        fragmentList.add(new SessDetailFragment(session));
+        fragmentList.add(new PaperListFragment(session.getId()));
+
 
         final ViewPager viewPager = findViewById(R.id.sess_detail_view_pager);
-        final SessDetailAdapter adapter = new SessDetailAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        final SessDetailAdapter adapter = new SessDetailAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(adapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

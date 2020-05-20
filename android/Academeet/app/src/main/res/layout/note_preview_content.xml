@@ -15,11 +15,8 @@
             android:id="@+id/user_note_preview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-<<<<<<< HEAD
-            android:background="@color/colorPrimary" />
-=======
             android:background="@color/lightGray" />
->>>>>>> 5677864f9bbbe7bb1b73a693203ab7024108d5bc
+
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
