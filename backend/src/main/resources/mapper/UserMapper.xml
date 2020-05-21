@@ -52,6 +52,11 @@
     </delete>
 
     <!-- 更新操作 -->
+    <update id="updateUsername">
+        UPDATE user SET username = #{username}
+        WHERE user_id=${id}
+    </update>
+
     <update id="updatePassword">
         UPDATE user
         SET password=#{password}
@@ -106,14 +111,14 @@
         INSERT INTO user_session (user_id, session_id) values (${user_id}, ${session_id})
     </update>
 
-		<select id="queryRating" resultType="int">
-				SELECT COUNT(*) from user_session WHERE user_id=${user_id} AND session_id=${session_id}
-		</select>
+    <select id="queryRating" resultType="int">
+            SELECT COUNT(*) from user_session WHERE user_id=${user_id} AND session_id=${session_id}
+    </select>
 
-		<delete id="cancelRating">
-				UPDATE session SET rating=rating-1 WHERE session_id=${session_id}
-				AND EXISTS (SELECT * FROM user_session WHERE user_id=${user_id} AND session_id = ${session_id});
-				DELETE FROM user_session WHERE user_id=${user_id} AND session_id=${session_id};
-		</delete>
+    <delete id="cancelRating">
+            UPDATE session SET rating=rating-1 WHERE session_id=${session_id}
+            AND EXISTS (SELECT * FROM user_session WHERE user_id=${user_id} AND session_id = ${session_id});
+            DELETE FROM user_session WHERE user_id=${user_id} AND session_id=${session_id};
+    </delete>
 
 </mapper>
