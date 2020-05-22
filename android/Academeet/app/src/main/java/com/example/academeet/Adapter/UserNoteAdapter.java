@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.academeet.Object.Note;
 import com.example.academeet.R;
-import com.example.academeet.Utils.NoteManager;
+import com.example.academeet.Utils.UserManager;
 
 import java.util.List;
 
@@ -98,7 +98,7 @@ public class UserNoteAdapter extends RecyclerView.Adapter<UserNoteAdapter.ViewHo
     }
 
     public void refreshAdapter() {
-        mNoteList = NoteManager.getNotes();
+        mNoteList = UserManager.getNotes();
         notifyDataSetChanged();
     }
 

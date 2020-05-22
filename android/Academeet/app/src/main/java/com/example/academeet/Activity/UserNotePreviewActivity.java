@@ -16,7 +16,7 @@ import com.example.academeet.Adapter.UserNoteAdapter;
 import com.example.academeet.Object.Note;
 import com.example.academeet.R;
 import com.example.academeet.Utils.HTTPSUtils;
-import com.example.academeet.Utils.NoteManager;
+import com.example.academeet.Utils.UserManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,14 +43,11 @@ public class UserNotePreviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_note_preview);
 
         ButterKnife.bind(this);
-        if (NoteManager.httpsUtils == null) {
-            NoteManager.httpsUtils = new HTTPSUtils(this);
-        }
 
         StaggeredGridLayoutManager layoutManager = new
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new UserNoteAdapter(NoteManager.getNotes());
+        adapter = new UserNoteAdapter(UserManager.getNotes());
         adapter.setOnItemClickListener(new UserNoteAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, Note note, int pos) {
@@ -83,7 +80,7 @@ public class UserNotePreviewActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         // 删除note
-                                        NoteManager.deleteNote(note);
+                                        UserManager.deleteNote(note);
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
@@ -105,7 +102,7 @@ public class UserNotePreviewActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                NoteManager.initData();
+                UserManager.initData();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -144,7 +141,7 @@ public class UserNotePreviewActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        NoteManager.addNote(note);
+                        UserManager.addNote(note);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -167,6 +164,6 @@ public class UserNotePreviewActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         // 退出前将笔记保存在服务器上
-        NoteManager.saveNote();
+        UserManager.saveNote();
     }
 }

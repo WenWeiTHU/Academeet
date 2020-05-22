@@ -12,7 +12,7 @@
         android:layout_marginTop="10dp"
         >
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/home_menu_head"
+            android:id="@+id/home_menu_avatar"
             android:layout_width="80dp"
             android:layout_height="80dp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -26,7 +26,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/home_menu_head"
+            app:layout_constraintTop_toBottomOf="@id/home_menu_avatar"
             android:textColor="@color/home_menu_user_name"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -65,60 +65,60 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/user_home_menu_item_favorite"
-        android:gravity="left"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:onClick="onFavoriteItemClicked"
-        >
-        <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:src="@mipmap/ic_launcher"
-            android:gravity="bottom"
-            android:layout_marginRight="10dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/user_home_menu_item_favorite"
+            android:gravity="left"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:onClick="onCustomItemClicked"
+            >
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/ic_launcher"
+                android:gravity="bottom"
+                android:layout_marginRight="10dp"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="18dp"
-            android:gravity="bottom"
-            android:text="Favorite"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:background="@color/home_menu_item_background"
-            android:textSize="17sp"
-            android:onClick="onFavoriteItemClicked"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/user_home_menu_item_reminder"
-        android:gravity="left"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:onClick="onReminderItemClicked"
-        android:layout_gravity="center"
-        >
-        <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:src="@mipmap/ic_launcher"
-            android:gravity="bottom"
-            android:layout_marginRight="10dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="18dp"
-            android:gravity="bottom"
-            android:text="Reminder"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:background="@color/home_menu_item_background"
-            android:textSize="17sp"
-            android:onClick="onReminderItemClicked"/>
-    </LinearLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:gravity="bottom"
+                android:text="Favorites"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:background="@color/home_menu_item_background"
+                android:textSize="17sp"
+                android:onClick="onCustomItemClicked"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/user_home_menu_item_reminder"
+            android:gravity="left"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:onClick="onSettingsItemClicked"
+            android:layout_gravity="center"
+            >
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/ic_launcher"
+                android:gravity="bottom"
+                android:layout_marginRight="10dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:gravity="bottom"
+                android:text="Settings"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:background="@color/home_menu_item_background"
+                android:textSize="17sp"
+                android:onClick="onSettingsItemClicked"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -139,12 +139,39 @@
                 android:layout_width="wrap_content"
                 android:layout_height="18dp"
                 android:gravity="bottom"
-                android:text="Note"
+                android:text="Notes"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:background="@color/home_menu_item_background"
                 android:textSize="17sp"
                 android:onClick="onNoteItemClicked"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/home_menu_item_logout"
+            android:gravity="left"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:onClick="onNoteItemClicked"
+            android:layout_gravity="center"
+            >
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/ic_launcher"
+                android:gravity="bottom"
+                android:layout_marginRight="10dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:gravity="bottom"
+                android:text="Logout"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:background="@color/home_menu_item_background"
+                android:textSize="17sp"
+                android:onClick="onLogoutItemClicked"/>
         </LinearLayout>
     </LinearLayout>
 

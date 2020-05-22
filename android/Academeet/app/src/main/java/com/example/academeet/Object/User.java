@@ -1,26 +1,14 @@
 package com.example.academeet.Object;
 
 import android.os.Looper;
-import android.provider.MediaStore;
-import android.se.omapi.Session;
-import android.util.Log;
-
-import com.example.academeet.Activity.MainActivity;
 import com.example.academeet.Utils.ConfManager;
 import com.example.academeet.Utils.HTTPSUtils;
-import com.example.academeet.Utils.NoteManager;
-
-
+import com.example.academeet.Utils.UserManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-
 import java.io.IOException;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
-
+import java.io.Serializable;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -28,7 +16,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.Request;
 
-public class User {
+public class User{
 
     private String username;
     private String password;
@@ -38,8 +26,9 @@ public class User {
     private String userType;
     private int id;
 
+
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
-    OkHttpClient client = new OkHttpClient();
+
     public static final int ERROR_CODE = 100;
     private final String SERVER_ADDR = "https://49.232.141.126:8080";
     private final String CAPTCHA_URL = "/api/captcha";
@@ -196,11 +185,12 @@ public class User {
             // 获取 session
             String s = response.headers("Set-Cookie").get(0);
             session = s.substring(0, s.indexOf(";"));
-            NoteManager.session = session;
+            UserManager.session = session;
             ConfManager.session = session;
             id = jsonObject.getInt("id");
-            NoteManager.setId(id);
+            UserManager.setId(id);
             ConfManager.setId(id);
+
             return resultCode;
         } catch (IOException | JSONException e) {
             e.printStackTrace();

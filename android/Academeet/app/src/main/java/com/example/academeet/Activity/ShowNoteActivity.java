@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.academeet.Object.Note;
 import com.example.academeet.R;
-import com.example.academeet.Utils.NoteManager;
+import com.example.academeet.Utils.UserManager;
 
 import java.util.List;
 
@@ -94,7 +94,7 @@ public class ShowNoteActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     if (pos != -1) {
-                        NoteManager.setNote(note, pos);
+                        UserManager.setNote(note, pos);
                     }
                 }
             }).start();

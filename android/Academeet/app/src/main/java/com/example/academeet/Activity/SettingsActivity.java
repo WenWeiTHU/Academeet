@@ -13,7 +13,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_settings);
     }
 
     @Override
@@ -26,15 +26,24 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 intent = new Intent(this, ChangePasswordActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.change_avatar_menu:
+                // TODO
+                break;
             case R.id.change_username_menu:
                 intent = new Intent(this, ChangeInfoActivity.class);
-                bundle.putString("name", "修改用户名");
+                bundle.putString("name", "Username");
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
             case R.id.change_signature_menu:
                 intent = new Intent(this, ChangeInfoActivity.class);
-                bundle.putString("name", "修改个性签名");
+                bundle.putString("name", "Signature");
+                intent.putExtras(bundle);
+                startActivity(intent);
+                break;
+            case R.id.change_phone_menu:
+                intent = new Intent(this, ChangeInfoActivity.class);
+                bundle.putString("name", "Phone");
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;

@@ -7,12 +7,18 @@ import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import okhttp3.FormBody;
 
 import okhttp3.Request;
 import okhttp3.Response;
+import okio.BufferedSink;
+import okio.Okio;
+import okio.Sink;
 
 public class ConfManager {
     // 全局化管理用户会议的类
@@ -34,7 +40,6 @@ public class ConfManager {
     public static void setId(int id) {
         userId = id;
     }
-
 
     public static JSONObject userMenu(String confId, String action, String type) {
         String url;
@@ -95,7 +100,7 @@ public class ConfManager {
             Response response = httpsUtils.getInstance().newCall(request).execute();
             Looper.prepare();
             String content = response.body().string();
-            System.out.println(content);
+            //System.out.println(content);
             JSONObject jsonObject = JSONObject.parseObject(content);
             return jsonObject;
         } catch(IOException | JSONException e) {
@@ -124,21 +129,6 @@ public class ConfManager {
         } catch(IOException | JSONException e) {
             // System.out.println(e);
             return null;
-        }
-    }
-
-    public static void downloadURL(){
-        Request request = new Request.Builder()
-                .url("https://49.232.141.126:8080/file/static/paper/academeet.pptx")
-                .build();
-
-        try{
-            Response response = httpsUtils.getInstance().newCall(request).execute();
-            Looper.prepare();
-
-            System.out.println(response.body().byteStream());
-        } catch(IOException | JSONException e) {
-            System.out.println(e);
         }
     }
 

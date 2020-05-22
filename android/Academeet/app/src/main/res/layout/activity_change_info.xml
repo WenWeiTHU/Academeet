@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Activity.ChangeInfoActivity">
 
-    <com.example.myapplication.components.SettingTitleComponent
+    <com.example.academeet.components.SettingTitleComponent
         android:id="@+id/change_info"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         android:layout_height="wrap_content"
-        android:hint="请输入新信息"
+        android:hint="Input something new"
         android:autofillHints=""
         android:inputType="text" />
 

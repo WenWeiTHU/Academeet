@@ -1,12 +1,12 @@
 package com.example.academeet.Utils;
 
+import android.os.Environment;
 import android.os.Looper;
-
+import com.alibaba.fastjson.*;
 import com.example.academeet.Object.Note;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONTokener;
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,7 +16,7 @@ import okhttp3.HttpUrl;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class NoteManager {
+public class UserManager {
     // 全局化管理 Note 的类
     private static ArrayList<Note> noteList = new ArrayList<>();
     private static boolean hasInit = false;
@@ -29,6 +29,12 @@ public class NoteManager {
     private static final String NEW_NOTE = "note/insert";
     private static final String EDIT_NOTE = "note/update";
     private static final String DELETE_NOTE = "note/delete";
+    private static final String UPDATE_PHONE = "user/update/phone";
+    private static final String UPDATE_SIGNATURE = "user/update/signature";
+    private static final String UPDATE_USERNAME = "user/update/username";
+    private static final String UPDATE_PASSWORD = "user/update/password";
+    private static final String USER_INFO = "user/info";
+
 
     public static ArrayList<Note> getNotes() {
         return noteList;
@@ -44,6 +50,87 @@ public class NoteManager {
             return;
         hasInit = true;
         noteList = loadNotes();
+    }
+
+    public static JSONObject changeInfo(String newInfo, String type){
+        String parameter;
+        String url;
+        if(type.equals("Phone")){
+            parameter = "phone";
+            url = UPDATE_PHONE;
+        } else if (type.equals("Username")){
+            parameter = "username";
+            url = UPDATE_USERNAME;
+        } else {
+            parameter = "signature";
+            url = UPDATE_SIGNATURE;
+        }
+
+        FormBody formBody = new FormBody.Builder()
+                .add(parameter, newInfo)
+                .add("id", String.valueOf(userId))
+                .build();
+        Request request = new Request.Builder()
+                .url(SERVER_ADDR + url)
+                .post(formBody)
+                .addHeader("cookie", session)
+                .build();
+        try{
+            Response response = httpsUtils.getInstance().newCall(request).execute();
+            Looper.prepare();
+            String content = response.body().string();
+            // System.out.println(content);
+            JSONObject jsonObject = JSONObject.parseObject(content);
+            return jsonObject;
+        } catch(IOException | JSONException e) {
+            // System.out.println(e);
+            return null;
+        }
+    }
+
+    public static JSONObject changePasswd(String newPasswd, String oldPasswd){
+        FormBody formBody = new FormBody.Builder()
+                .add("old_password", oldPasswd)
+                .add("password", newPasswd)
+                .add("id", String.valueOf(userId))
+                .build();
+        Request request = new Request.Builder()
+                .url(SERVER_ADDR + UPDATE_PASSWORD)
+                .post(formBody)
+                .addHeader("cookie", session)
+                .build();
+        try{
+            Response response = httpsUtils.getInstance().newCall(request).execute();
+            Looper.prepare();
+            String content = response.body().string();
+            // System.out.println(content);
+            JSONObject jsonObject = JSONObject.parseObject(content);
+            return jsonObject;
+        } catch(IOException | JSONException e) {
+            // System.out.println(e);
+            return null;
+        }
+    }
+
+    public static JSONObject queryUserInfo(){
+        FormBody formBody = new FormBody.Builder()
+                .add("id", String.valueOf(userId))
+                .build();
+        Request request = new Request.Builder()
+                .url(SERVER_ADDR + USER_INFO)
+                .post(formBody)
+                .addHeader("cookie", session)
+                .build();
+        try{
+            Response response = httpsUtils.getInstance().newCall(request).execute();
+            Looper.prepare();
+            String content = response.body().string();
+            // System.out.println("content"+content);
+            JSONObject jsonObject = JSONObject.parseObject(content);
+            return jsonObject;
+        } catch(IOException | JSONException e) {
+            return null;
+        }
     }
 
     public static boolean addNote(Note note) {
@@ -66,11 +153,9 @@ public class NoteManager {
             Looper.prepare();
             // 解析内容
             String content = response.body().string();
-            JSONTokener jsonParser = new JSONTokener(content);
-            JSONObject jsonObject = (JSONObject)jsonParser.nextValue();
-            int result = jsonObject.getInt("accepted");
-            note.setId(String.valueOf(jsonObject.getInt("note_id")));
-            return result == 1;
+            JSONObject jsonObject = JSONObject.parseObject(content);
+            note.setId(jsonObject.getString("note_id"));
+            return jsonObject.getString("accepted").equals("1");
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -94,9 +179,8 @@ public class NoteManager {
             Looper.prepare();
             // 解析内容
             String content = response.body().string();
-            JSONTokener jsonParser = new JSONTokener(content);
-            JSONObject jsonObject = (JSONObject) jsonParser.nextValue();
-            return jsonObject.getInt("accepted") == 1;
+            JSONObject jsonObject = JSONObject.parseObject(content);
+            return jsonObject.getString("accepted").equals("1");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -124,9 +208,8 @@ public class NoteManager {
             Looper.prepare();
             // 解析内容
             String content = response.body().string();
-            JSONTokener jsonParser = new JSONTokener(content);
-            JSONObject jsonObject = (JSONObject) jsonParser.nextValue();
-            return jsonObject.getInt("accepted") == 1;
+            JSONObject jsonObject = JSONObject.parseObject(content);
+            return jsonObject.getString("accepted").equals("1");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -148,12 +231,14 @@ public class NoteManager {
             Looper.prepare();
             // 解析内容
             String content = response.body().string();
-            JSONTokener jsonParser = new JSONTokener(content);
-            JSONObject jsonObject = (JSONObject)jsonParser.nextValue();
+            JSONObject jsonObject = JSONObject.parseObject(content);
+
             JSONArray noteJson = jsonObject.getJSONArray("notes");
+
+
             ArrayList<Note> notes = new ArrayList<>();
             // 将JSONArray 转化为 list
-            for (int i = 0; i < noteJson.length(); ++i) {
+            for (int i = 0; i < noteJson.size(); ++i) {
                 JSONObject s = (JSONObject)noteJson.get(i);
                 Note note = new Note();
                 note.setContent((String)s.get("text"));
@@ -174,4 +259,16 @@ public class NoteManager {
         // TODO: 将 Note 存在服务器中
     }
 
+    public static byte[] downloadAvatar(String url){
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        try{
+            Response response = httpsUtils.getInstance().newCall(request).execute();
+            Looper.prepare();
+            return response.body().bytes();
+        } catch(IOException | JSONException e) {
+            return null;
+        }
+    }
 }
