@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 public class Globals {
     public static final String avatarpath = System.getProperty("user.dir") + "/../static/";
     public static final String avatarurl = "/file/static/pic/";
-    public static final String defaultAvatar = avatarurl + "avatar.jpg";
+    public static final String defaultAvatar = avatarurl + "avatar1.jpg";
     public static final String defaultSignature = "Hello Academeet!";
     private static final BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
     public static final String defaultPassword = encode.encode("123456");

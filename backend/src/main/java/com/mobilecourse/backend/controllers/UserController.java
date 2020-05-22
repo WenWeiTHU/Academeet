@@ -162,6 +162,7 @@ public class UserController extends CommonController {
         resp.put("signature", user.getSignature());
         resp.put("avatar", user.getAvatar());
         resp.put("type", user.getType());
+        resp.put("phone", user.getPhone());
         return resp.toJSONString();
     }
 
@@ -200,24 +201,27 @@ public class UserController extends CommonController {
         return "{ \"accepted\": 1 }";
     }
 
+    @RequestMapping(value = "/api/user/update/username")
+    public String changeUsername(@RequestParam(value = "username")String username,
+                                 HttpSession s) {
+        int userid = getUserId(s);
+        if (userid == -1) return LOGIN_MSG;
+        return wrapperMsg(userMapper.updateUsername(userid, username), "");
+    }
+
     @RequestMapping(value = "/api/user/update/password", method = RequestMethod.POST)
     public String changePassword(@RequestParam(value = "password")String password,
                                  @RequestParam(value = "old_password")String old_password,
-                                 HttpServletRequest request,
-                                 HttpServletResponse response) {
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            response.setStatus(401);
-            return LOGIN_MSG;
-        }
-        int id = ((JSONObject)session.getAttribute("user")).getIntValue("id");
-        User user = userMapper.select(id);
+                                 HttpSession s) {
+        int userid = getUserId(s);
+        if (userid == -1) return LOGIN_MSG;
+        User user = userMapper.select(userid);
         BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
         if (encode.matches(old_password, user.getPassword())) {
-            userMapper.updatePassword(id, encode.encode(password));
+            userMapper.updatePassword(userid, encode.encode(password));
             return "{ \"accepted\": 1 }";
         }
-        return "{ \"accepted\": 0 }";
+        return "{ \"accepted\": -1 }";
     }
 
     @RequestMapping(value = "/api/user/update/phone", method = {RequestMethod.POST})
@@ -314,12 +318,23 @@ public class UserController extends CommonController {
 
     @RequestMapping(value = "/api/user/update/rating")
     public String updateSession(@RequestParam(value = "session_id")int session_id,
+																@RequestParam(value = "type")int type,
                                 HttpSession s) {
         int user_id = getUserId(s);
         if (user_id == -1) return LOGIN_MSG;
-        int result = userMapper.updateSessionRating(user_id, session_id);
+        int result = 0;
+				if (type == 1)
+					result = userMapper.updateSessionRating(user_id, session_id);
+				else result = userMapper.cancelRating(user_id, session_id);
         if (result > 0) return "{ \"accepted\": 1 }";
         return "{ \"accepted\": 0, \"msg\": \"not update.\" }";
     }
+
+		@RequestMapping(value = "/api/user/query/rating")
+		public String getSessionRating(@RequestParam(value = "session_id")int session_id,
+															@RequestParam(value = "user_id")int user_id) {
+				int result = userMapper.queryRating(session_id, user_id);
+				return "{\"is_rated\": " + result + "}";
+		}
 
 }

@@ -28,6 +28,8 @@ public interface UserDao {
     void delete(int id);
 
     // 更新, 可以使用param对参数进行重新命名，则mapper解析按照重新命名以后的参数名进行
+    int updateUsername(int id, String username);
+
     int updatePassword(@Param("id")int idff, String password);
 
     int updatePhone(int id, String phone);
@@ -43,5 +45,9 @@ public interface UserDao {
     Conference selectUserConference(int id, int conference_id, String gtype);
 
     int updateSessionRating(int user_id, int session_id);
+
+    int cancelRating(int user_id, int session_id);
+
+    int queryRating(int session_id, int user_id);
 
 }
