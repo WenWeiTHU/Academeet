@@ -13,7 +13,10 @@ import java.util.Date;
 
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class UserManager {
@@ -33,6 +36,7 @@ public class UserManager {
     private static final String UPDATE_SIGNATURE = "user/update/signature";
     private static final String UPDATE_USERNAME = "user/update/username";
     private static final String UPDATE_PASSWORD = "user/update/password";
+    private static final String UPLOAD_AVATAR = "user/update/avatar";
     private static final String USER_INFO = "user/info";
 
 
@@ -108,27 +112,6 @@ public class UserManager {
             return jsonObject;
         } catch(IOException | JSONException e) {
             // System.out.println(e);
-            return null;
-        }
-    }
-
-    public static JSONObject queryUserInfo(){
-        FormBody formBody = new FormBody.Builder()
-                .add("id", String.valueOf(userId))
-                .build();
-        Request request = new Request.Builder()
-                .url(SERVER_ADDR + USER_INFO)
-                .post(formBody)
-                .addHeader("cookie", session)
-                .build();
-        try{
-            Response response = httpsUtils.getInstance().newCall(request).execute();
-            Looper.prepare();
-            String content = response.body().string();
-            // System.out.println("content"+content);
-            JSONObject jsonObject = JSONObject.parseObject(content);
-            return jsonObject;
-        } catch(IOException | JSONException e) {
             return null;
         }
     }
@@ -267,6 +250,51 @@ public class UserManager {
             Response response = httpsUtils.getInstance().newCall(request).execute();
             Looper.prepare();
             return response.body().bytes();
+        } catch(IOException | JSONException e) {
+            return null;
+        }
+    }
+
+    public static JSONObject queryUserInfo(){
+        FormBody formBody = new FormBody.Builder()
+                .add("id", String.valueOf(userId))
+                .build();
+        Request request = new Request.Builder()
+                .url(SERVER_ADDR + USER_INFO)
+                .post(formBody)
+                .addHeader("cookie", session)
+                .build();
+        try{
+            Response response = httpsUtils.getInstance().newCall(request).execute();
+            Looper.prepare();
+            String content = response.body().string();
+            // System.out.println("content"+content);
+            JSONObject jsonObject = JSONObject.parseObject(content);
+            return jsonObject;
+        } catch(IOException | JSONException e) {
+            return null;
+        }
+    }
+
+    public static JSONObject uploadAvatar(File file){
+        MediaType mediaType = MediaType.parse("image/jpg");
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("id", String.valueOf(userId))
+                .addFormDataPart("avatar", "avatar.jpg",
+                        RequestBody.create(file, mediaType)).build();
+
+        Request request = new Request.Builder()
+                .url(SERVER_ADDR + UPLOAD_AVATAR)
+                .post(requestBody)
+                .addHeader("cookie", session)
+                .build();
+        try{
+            Response response = httpsUtils.getInstance().newCall(request).execute();
+            Looper.prepare();
+            String content = response.body().string();
+            JSONObject jsonObject = JSONObject.parseObject(content);
+            return jsonObject;
         } catch(IOException | JSONException e) {
             return null;
         }

@@ -9,7 +9,6 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.ChangeAvatarActivity"></activity>
         <activity android:name=".Activity.ChangePasswordActivity" />
         <activity android:name=".Activity.ChangeInfoActivity" />
         <activity android:name=".Activity.SettingsActivity" />
@@ -44,5 +43,6 @@
     </application>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
 </manifest>

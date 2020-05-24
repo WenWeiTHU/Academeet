@@ -18,6 +18,8 @@ import com.example.academeet.R;
 
 import com.example.academeet.Activity.ConfDetailActivity;
 import com.example.academeet.Utils.ConfManager;
+import com.veinhorn.tagview.TagView;
+
 import java.util.List;
 
 public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAdapter.ConfViewHolder> {
@@ -32,6 +34,7 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
         TextView conferenceName;
         TextView conferenceTime;
         TextView conferenceHost;
+        TagView conferenceTag;
         ImageButton conferenceFavor;
         ImageButton conferenceRemind;
         ImageButton conferenceDislike;
@@ -45,6 +48,7 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
             conferenceName = (TextView)view.findViewById(R.id.conference_name_text_view);
             conferenceTime = (TextView)view.findViewById(R.id.conference_time_text_view);
             conferenceHost = (TextView)view.findViewById(R.id.conference_host_text_view);
+            conferenceTag = (TagView) view.findViewById(R.id.conference_tag);
             conferenceFavor = (ImageButton)view.findViewById(R.id.conference_fav_button);
             conferenceRemind = (ImageButton)view.findViewById(R.id.conference_remind_button);
             conferenceDislike = (ImageButton)view.findViewById(R.id.conference_dislike_button);
@@ -90,6 +94,7 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
         holder.conferenceTime.setText(
                 conference.getDate()+", "+ conference.getStartTime() + "-"+conference.getEndTime()+" | "+conference.getPlace());
         holder.conferenceHost.setText(conference.getChairs());
+        holder.conferenceTag.setText(conference.getTag());
         holder.conferenceName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
