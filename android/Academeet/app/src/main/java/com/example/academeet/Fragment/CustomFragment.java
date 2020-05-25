@@ -72,6 +72,7 @@ public class CustomFragment extends Fragment {
                                 String startTime = conference.getString("start_time");
                                 String endTime = conference.getString("end_time");
                                 String id = conference.getString("conference_id");
+                                String tag = conference.getString("tags");
                                 JSONArray chairs = JSONArray.parseArray(conference.getString("chairs"));
                                 String chairsStr = "";
                                 for(int j = 0; j < chairs.size(); j++){
@@ -80,7 +81,7 @@ public class CustomFragment extends Fragment {
                                         chairsStr += ", ";
                                 }
                                 int size = conferenceList.size();
-                                conferenceList.add(new ConferenceItem(id, name, date, place, startTime, endTime, chairsStr));
+                                conferenceList.add(new ConferenceItem(id, name, date, place, startTime, endTime, chairsStr, tag));
                                 conferenceListAdapter.notifyItemInserted(size);
                             }
                         } catch (Exception e){

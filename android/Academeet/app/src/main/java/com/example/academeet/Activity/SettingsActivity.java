@@ -118,16 +118,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     photo.compress(Bitmap.CompressFormat.JPEG, 100, out);
                     out.flush();
                     out.close();
-                    System.out.println(file);
+                    // System.out.println(file);
                     uploadPicture(file);
-
-                    // RequestBody.create(MediaType.parse("image/png"), file));
-
-//                    Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-//                    Uri uri = Uri.fromFile(file);
-//                    intent.setData(uri);
-//                    getBaseContext().sendBroadcast(intent);
+                    Toast.makeText(SettingsActivity.this, "Update avatar successfully", Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
+                    Toast.makeText(SettingsActivity.this, "Something wrong", Toast.LENGTH_SHORT).show();
                     System.out.println(e);
                 }
             }
