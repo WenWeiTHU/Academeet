@@ -150,12 +150,12 @@ public class UserController extends CommonController {
         return wrapperMsg(200, "user "+session.getAttribute("user"));
     }
 
-    @RequestMapping(value = "/api/user/info", method = {RequestMethod.GET})
+    @RequestMapping(value = "/api/user/info")
     public String getUserInfo(@RequestParam(value = "id")int id, HttpServletResponse response) {
         User user = userMapper.select(id);
         if (user == null) {
             response.setStatus(300);
-            return "{\"msg\": \"no such user.\" }";
+            return "{ \"msg\": \"no such user.\" }";
         }
         JSONObject resp = new JSONObject();
         resp.put("username", user.getUsername());
@@ -164,6 +164,14 @@ public class UserController extends CommonController {
         resp.put("type", user.getType());
         resp.put("phone", user.getPhone());
         return resp.toJSONString();
+    }
+
+    @RequestMapping(value = "/api/user/avatar")
+    public void getAvatar(@RequestParam(value = "id")int userid,
+                          HttpServletResponse response) throws IOException {
+        User user = userMapper.select(userid);
+        String path = user.getAvatar();
+        sendFile(response, path);
     }
 
     @RequestMapping(value = "/api/user/logout", method = {RequestMethod.GET})
