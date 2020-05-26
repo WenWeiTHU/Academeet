@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-
     public void startLogin(View v) {
         // 登录
         // TODO: 向服务器发送登录信息
@@ -163,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        Toast.makeText(MainActivity.this, "Welcome to Academeet", Toast.LENGTH_SHORT);
         user.setUsername(username);
         user.setPassword(password);
         user.setUserType("Scholar");

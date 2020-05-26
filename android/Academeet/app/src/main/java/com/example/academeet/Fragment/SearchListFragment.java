@@ -51,7 +51,7 @@ public class SearchListFragment extends Fragment {
         layoutManager.setOrientation(layoutManager.VERTICAL);
         mSearchListView.setLayoutManager(layoutManager);
 
-        conferenceListAdapter = new ConferenceListAdapter(conferenceList, 0);
+        conferenceListAdapter = new ConferenceListAdapter(conferenceList, "Searches");
 
         // 设置间隔
         mSearchListView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
@@ -89,6 +89,7 @@ public class SearchListFragment extends Fragment {
                                 String startTime = conference.getString("start_time");
                                 String endTime = conference.getString("end_time");
                                 String id = conference.getString("conference_id");
+                                String tag = conference.getString("tags");
                                 JSONArray chairs = JSONArray.parseArray(conference.getString("chairs"));
                                 String chairsStr = "";
                                 for(int j = 0; j < chairs.size(); j++) {
@@ -97,7 +98,7 @@ public class SearchListFragment extends Fragment {
                                         chairsStr += ", ";
                                 }
                                 int size = conferenceList.size();
-                                conferenceList.add(new ConferenceItem(id, name, date, place, startTime, endTime, chairsStr));
+                                conferenceList.add(new ConferenceItem(id, name, date, place, startTime, endTime, chairsStr, tag));
                                 conferenceListAdapter.notifyItemInserted(size);
                             }
                         } catch (Exception e){

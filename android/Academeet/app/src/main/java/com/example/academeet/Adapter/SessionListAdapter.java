@@ -8,14 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.academeet.Item.SessionItem;
 import com.example.academeet.R;
 import com.example.academeet.Activity.SessDetailActivity;
-
+import com.example.academeet.Utils.ConfManager;
 
 
 import java.util.List;
@@ -32,13 +34,15 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
         TextView sessionTime;
         TextView sessionReporter;
         ImageButton sessionRating;
+        SessionListAdapter adapter;
 
-        public SessViewHolder(View view) {
+        public SessViewHolder(View view, SessionListAdapter adapter) {
             super(view);
             sessionName = (TextView)view.findViewById(R.id.session_name_text_view);
             sessionTime = (TextView)view.findViewById(R.id.session_time_text_view);
             sessionReporter = (TextView)view.findViewById(R.id.session_reporter_text_view);
             sessionRating = (ImageButton)view.findViewById(R.id.session_rating_button);
+            this.adapter = adapter;
         }
     }
 
@@ -52,7 +56,7 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
     public SessViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_session, parent, false);
-        SessViewHolder holder = new SessViewHolder(view);
+        SessViewHolder holder = new SessViewHolder(view, this);
         return holder;
     }
 
@@ -73,10 +77,21 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
                 context.startActivity(intent);
             }
         });
+
+        Runnable queryLikes = new Runnable() {
+            @Override
+            public void run() {
+                JSONObject jsonObject;
+                jsonObject = ConfManager.userMenu(session.getId(), "Likes", "1");
+                System.out.println(jsonObject);
+            }
+        };
+
         holder.sessionRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Favors"+session.getName());
+                new Thread(queryLikes).start();
+                Toast.makeText(view.getContext(), "Likes the session", Toast.LENGTH_SHORT).show();
             }
         });
     }

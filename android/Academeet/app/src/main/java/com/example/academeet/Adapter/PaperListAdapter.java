@@ -1,19 +1,18 @@
 package com.example.academeet.Adapter;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.academeet.Item.PaperItem;
 import com.example.academeet.R;
-
-
-
 import java.util.List;
 
 public class PaperListAdapter extends RecyclerView.Adapter<PaperListAdapter.PaperViewHolder> {
@@ -57,13 +56,24 @@ public class PaperListAdapter extends RecyclerView.Adapter<PaperListAdapter.Pape
         holder.paperName.setText(paper.getTitle());
         holder.paperAbstracts.setText(paper.getAbstracts());
         holder.paperAuthor.setText(paper.getAuthors());
+
+
         holder.paperDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Download"+paper.getFileUrl());
+                Toast.makeText(view.getContext(), "Downloading paper from "+ SERVER_ADDR + paper.getFileUrl(), Toast.LENGTH_SHORT).show();
+
+                Intent downloadIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(SERVER_ADDR + paper.getFileUrl()));
+                Intent chooser = Intent.createChooser(downloadIntent, "Open");
+
+                // Find an activity to hand the intent and start that activity.
+                if(downloadIntent.resolveActivity(view.getContext().getPackageManager()) != null) {
+                    view.getContext().startActivity(chooser);
+                }
             }
         });
     }
+
 
     @Override
     public int getItemCount() {

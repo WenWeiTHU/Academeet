@@ -28,11 +28,11 @@ public class CustomActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         titles.add("Favorite");
         titles.add("Reminder");
-        titles.add("Dislike");
+        //titles.add("Dislike");
 
-        fragmentList.add(new CustomFragment("Favorite"));
-        fragmentList.add(new CustomFragment("Reminder"));
-        fragmentList.add(new CustomFragment("Dislike"));
+        fragmentList.add(new CustomFragment("Favors"));
+        fragmentList.add(new CustomFragment("Reminds"));
+        //fragmentList.add(new CustomFragment("Dislikes"));
 
         HomePagerAdapter pagerAdapter = new HomePagerAdapter(getSupportFragmentManager(),
                 fragmentList, titles);

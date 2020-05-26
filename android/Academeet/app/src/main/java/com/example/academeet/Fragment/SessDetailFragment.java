@@ -41,6 +41,8 @@ public class SessDetailFragment extends Fragment {
     TextView sessionLikes;
     @BindView(R.id.session_detail_description)
     TextView sessionDescription;
+    @BindView(R.id.session_detail_conf)
+    TextView sessionConference;
 
     public SessDetailFragment(SessionItem session) {
         this.session = session;
@@ -69,8 +71,10 @@ public class SessDetailFragment extends Fragment {
                         try{
                             session.setRating(jsonObject.getString("rating"));
                             session.setDescription(jsonObject.getString("description"));
+                            session.setConferenceName(jsonObject.getString("conference_name"));
                             sessionLikes.setText(session.getRating());
                             sessionDescription.setText(session.getDescription());
+                            sessionConference.setText(session.getConferenceName());
                         } catch (Exception e){
                             Toast toast = Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT);
                             toast.show();

@@ -7,11 +7,11 @@
     <string name="login_button">Go</string>
     <string name="register_button">Register</string>
 
-    <string name="getting_capcha_too_busily_hint">Capcha has been sent to you, please try again in %s seconds.</string>
-    <string name="register_password_not_equals_confirm_password">Password entered twice are inconsistent.</string>
-    <string name="register_username_is_empty">Username cannot be empty.</string>
-    <string name="register_password_is_empty">Password cannot be empty.</string>
-    <string name="register_phone_illegal">Your phone number is wrong format.</string>
+    <string name="getting_capcha_too_busily_hint">Capcha has been sent to you, please try again in %s seconds</string>
+    <string name="register_password_not_equals_confirm_password">Password entered twice are inconsistent</string>
+    <string name="register_username_is_empty">Username cannot be empty</string>
+    <string name="register_password_is_empty">Password cannot be empty</string>
+    <string name="register_phone_illegal">Your phone number is wrong format</string>
     <string name="title_activity_conf_detail">ConfDetailActivity</string>
     <string name="large_text">
         "A material metaphor is the unifying theory of a rationalized space and a system of motion."
@@ -55,6 +55,6 @@
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
 
-    <string name="settings_title">修改信息</string>
-    <string name="execute_change">确认修改</string>
+    <string name="settings_title">Modify</string>
+    <string name="execute_change">Confirm</string>
 </resources>

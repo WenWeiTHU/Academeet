@@ -49,13 +49,8 @@ public class CustomFragment extends Fragment {
             @Override
             public void run() {
                 JSONObject jsonObject;
-                if(type.equals("Favorite")){
-                    jsonObject = ConfManager.userQuery("Favors");
-                } else if(type.equals("Reminder")){
-                    jsonObject = ConfManager.userQuery("Reminds");
-                } else{
-                    jsonObject = ConfManager.userQuery("Dislikes");
-                }
+                jsonObject = ConfManager.userQuery(type);
+
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -77,6 +72,7 @@ public class CustomFragment extends Fragment {
                                 String startTime = conference.getString("start_time");
                                 String endTime = conference.getString("end_time");
                                 String id = conference.getString("conference_id");
+                                String tag = conference.getString("tags");
                                 JSONArray chairs = JSONArray.parseArray(conference.getString("chairs"));
                                 String chairsStr = "";
                                 for(int j = 0; j < chairs.size(); j++){
@@ -85,7 +81,7 @@ public class CustomFragment extends Fragment {
                                         chairsStr += ", ";
                                 }
                                 int size = conferenceList.size();
-                                conferenceList.add(new ConferenceItem(id, name, date, place, startTime, endTime, chairsStr));
+                                conferenceList.add(new ConferenceItem(id, name, date, place, startTime, endTime, chairsStr, tag));
                                 conferenceListAdapter.notifyItemInserted(size);
                             }
                         } catch (Exception e){
@@ -110,7 +106,7 @@ public class CustomFragment extends Fragment {
         layoutManager.setOrientation(layoutManager.VERTICAL);
         mConferenceListView.setLayoutManager(layoutManager);
 
-        conferenceListAdapter = new ConferenceListAdapter(conferenceList, -1);
+        conferenceListAdapter = new ConferenceListAdapter(conferenceList, type);
 
         // 设置间隔
         mConferenceListView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));

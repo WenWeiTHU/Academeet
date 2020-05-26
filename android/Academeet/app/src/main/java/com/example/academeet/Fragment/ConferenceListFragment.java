@@ -66,7 +66,7 @@ public class ConferenceListFragment extends Fragment {
         layoutManager.setOrientation(layoutManager.VERTICAL);
         mConferenceListView.setLayoutManager(layoutManager);
 
-        conferenceListAdapter = new ConferenceListAdapter(conferenceList, type);
+        conferenceListAdapter = new ConferenceListAdapter(conferenceList, "Default");
 
         // 设置间隔
         mConferenceListView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
@@ -128,6 +128,7 @@ public class ConferenceListFragment extends Fragment {
                                 String date = conference.getString("date");
                                 String startTime = conference.getString("start_time");
                                 String endTime = conference.getString("end_time");
+                                String tag = conference.getString("tags");
                                 JSONArray chairs = JSONArray.parseArray(conference.getString("chairs"));
                                 String chairsStr = "";
                                 for(int j = 0; j < chairs.size(); j++){
@@ -137,7 +138,7 @@ public class ConferenceListFragment extends Fragment {
                                 }
 
                                 int size = conferenceList.size();
-                                conferenceList.add(new ConferenceItem(id, name, date, place, startTime, endTime, chairsStr));
+                                conferenceList.add(new ConferenceItem(id, name, date, place, startTime, endTime, chairsStr, tag));
                                 conferenceListAdapter.notifyItemInserted(size);
                             }
                         } catch (Exception e){

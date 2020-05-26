@@ -15,7 +15,15 @@ public class ConferenceItem implements Serializable {
     private String endTime;
     private String id;
     private String chairs;
+    private String tag;
 
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 
     public String getName() {
         return name;
@@ -94,7 +102,7 @@ public class ConferenceItem implements Serializable {
     }
 
     public ConferenceItem(String id, String name, String date, String place,
-                String startTime, String endTime, String chairs) {
+                String startTime, String endTime, String chairs, String tag) {
         setName(name);
         setPlace(place);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd");
@@ -103,6 +111,7 @@ public class ConferenceItem implements Serializable {
         setStartTime(simpleTimeFormat.format(new Date(new Long(startTime))));
         setEndTime(simpleTimeFormat.format(new Date(new Long(endTime))));
         setChairs(chairs);
+        setTag(tag);
         setId(id);
     }
 }

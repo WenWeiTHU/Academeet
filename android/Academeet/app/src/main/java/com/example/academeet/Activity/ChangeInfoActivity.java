@@ -1,29 +1,23 @@
 package com.example.academeet.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.academeet.Object.User;
-import com.example.academeet.Utils.HTTPSUtils;
+import com.alibaba.fastjson.JSONObject;
+import com.example.academeet.Utils.UserManager;
 import com.example.academeet.components.SettingTitleComponent;
 import com.example.academeet.R;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ChangeInfoActivity extends AppCompatActivity implements View.OnClickListener {
-
+    private String type;
 
 
     @Override
@@ -35,7 +29,8 @@ public class ChangeInfoActivity extends AppCompatActivity implements View.OnClic
         SettingTitleComponent component = findViewById(R.id.change_info);
         //接收name值
         if (bundle != null) {
-            component.updateText(bundle.getString("name"), 0);
+            type = bundle.getString("name");
+            component.updateText("Change "+ type, 0);
         }
 
         TextView submit = findViewById(R.id.submit);
@@ -46,9 +41,54 @@ public class ChangeInfoActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void returnMenu() {
-        // TODO: 发送请求
         String info = ((EditText) findViewById(R.id.new_info)).getText().toString();
+        if(type.equals("Phone") && !isMobile(info)){
+            Toast.makeText(ChangeInfoActivity.this, R.string.register_phone_illegal, Toast.LENGTH_SHORT);
+            return;
+        }
+        if(type.equals("Username") && info.length() == 0){
+            Toast.makeText(ChangeInfoActivity.this, R.string.register_username_is_empty, Toast.LENGTH_SHORT);
+            return;
+        }
+        // System.out.println("info: "+info);
+        Runnable update = new Runnable() {
+            @Override
+            public void run() {
+                JSONObject jsonObject = UserManager.changeInfo(info, type);
+                System.out.println(jsonObject);
+                runOnUiThread(new Runnable() {
+                    @Override
+
+                    public void run() {
+                        if (jsonObject == null) {
+                            Toast toast = Toast.makeText(ChangeInfoActivity.this, "Backend wrong", Toast.LENGTH_SHORT);
+                            toast.show();
+                            return;
+                        }
+                        try {
+                            if(jsonObject.getString("accepted").equals("1")){
+                                Toast.makeText(ChangeInfoActivity.this, "Update "+type.toLowerCase()+" successfully", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ChangeInfoActivity.this, "Fail to update "+type.toLowerCase(), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            Toast toast = Toast.makeText(ChangeInfoActivity.this, "Something wrong", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                    }
+                });
+            }
+        };
+        new Thread(update).start();
         finish();
+    }
+
+    public boolean isMobile(String phone) {
+        // 判断手机号是否合法
+        String regex = "^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\\d{8}$";
+        Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(phone);
+        return m.matches();
     }
 
     @Override

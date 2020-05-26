@@ -50,6 +50,7 @@ public class ConfDetailFragment extends Fragment {
         initConferenceDetail();
     }
 
+
     public void initConferenceDetail(){
         Runnable query = new Runnable() {
             @Override
