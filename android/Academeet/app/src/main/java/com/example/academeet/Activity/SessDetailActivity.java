@@ -58,7 +58,7 @@ public class SessDetailActivity extends AppCompatActivity {
                         } else {
                             try {
                                 String is_rated = jsonObject.getString("is_rated");
-                                System.out.println("ISRATED: "+ is_rated);
+                                // System.out.println("ISRATED: "+ is_rated);
                                 if(!is_rated.equals("1")) return;
                                 fab.setImageResource(R.drawable.ic_liked);
                                 liked = true;

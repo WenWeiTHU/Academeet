@@ -54,6 +54,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserHomeActivity extends AppCompatActivity {
 
@@ -75,7 +76,7 @@ public class UserHomeActivity extends AppCompatActivity {
     @BindView(R.id.home_menu_user_signature)
     TextView signatureText;
     @BindView(R.id.home_menu_avatar)
-    AppCompatImageView avatarView;
+    CircleImageView avatarView;
     private final String SERVER_ADDR = "https://49.232.141.126:8080";
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
@@ -140,6 +141,7 @@ public class UserHomeActivity extends AppCompatActivity {
             public void run() {
                 byte[] Picture = UserManager.downloadAvatar(SERVER_ADDR+avatar);
                 Bitmap bitmap = BitmapFactory.decodeByteArray(Picture, 0, Picture.length);
+                System.out.println(bitmap);
                 //通过ImageView,设置图片
                 runOnUiThread(new Runnable() {
                     @Override
@@ -179,7 +181,8 @@ public class UserHomeActivity extends AppCompatActivity {
         toggle.syncState();
 
         //蒙层颜色
-        drawerLayout.setScrimColor(Color.TRANSPARENT);
+        // drawerLayout.setScrimColor(Color.TRANSPARENT);
+        drawerLayout.setBackgroundColor(Color.RED);
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerStateChanged(int newState) {
@@ -189,18 +192,18 @@ public class UserHomeActivity extends AppCompatActivity {
             public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
                 // 滑动的过程中执行 slideOffset：从0到1
                 //主页内容
-                View content = drawerLayout.getChildAt(0);
+                // View content = drawerLayout.getChildAt(0);
                 //侧边栏
-                View menu = drawerView;
+                // View menu = drawerView;
                 //
-                float scale = 1 - slideOffset;//1~0
-                float leftScale = (float) (1 - 0.3 * scale);
-                float rightScale = (float) (0.7f + 0.3 * scale);//0.7~1
-                menu.setScaleY(leftScale);//1~0.7
+//                float scale = 1 - slideOffset;//1~0
+//                float leftScale = (float) (1 - 0.3 * scale);
+//                float rightScale = (float) (0.7f + 0.3 * scale);//0.7~1
+//                menu.setScaleY(leftScale);//1~0.7
 
-                content.setScaleY(rightScale);
-                content.setTranslationX(menu.getMeasuredWidth() * slideOffset);//0~width
-                Log.d(TAG, "slideOffset=" + slideOffset + ",leftScale=" + leftScale + ",rightScale=" + rightScale);
+                // content.setScaleY(rightScale);
+                // content.setTranslationX(menu.getMeasuredWidth() * slideOffset);//0~width
+                // Log.d(TAG, "slideOffset=" + slideOffset + ",leftScale=" + leftScale + ",rightScale=" + rightScale);
             }
 
             @Override

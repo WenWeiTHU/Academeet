@@ -247,8 +247,10 @@ public class UserManager {
                 .url(url)
                 .build();
         try{
+            System.out.println(url);
             Response response = httpsUtils.getInstance().newCall(request).execute();
             Looper.prepare();
+
             return response.body().bytes();
         } catch(IOException | JSONException e) {
             return null;
