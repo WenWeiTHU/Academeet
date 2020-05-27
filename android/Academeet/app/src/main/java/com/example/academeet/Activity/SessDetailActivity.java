@@ -46,6 +46,7 @@ public class SessDetailActivity extends AppCompatActivity {
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        TextView likesView = findViewById(R.id.session_detail_likes);
         Runnable queryLikes = new Runnable() {
             @Override
             public void run() {
@@ -86,6 +87,15 @@ public class SessDetailActivity extends AppCompatActivity {
                     fab.setImageResource(R.drawable.ic_liked);
                     liked = true;
                 }
+//                System.out.println(session.getRating());
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if(!liked){
+//                            likesView.setText("0");
+//                        }
+//                    }
+//                });
                 // System.out.println(jsonObject);
             }
         };

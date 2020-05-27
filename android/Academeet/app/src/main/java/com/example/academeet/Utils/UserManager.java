@@ -38,6 +38,7 @@ public class UserManager {
     private static final String UPDATE_PASSWORD = "user/update/password";
     private static final String UPLOAD_AVATAR = "user/update/avatar";
     private static final String USER_INFO = "user/info";
+    private static final String USER_AVATAR = "user/avatar";
 
 
     public static ArrayList<Note> getNotes() {
@@ -242,7 +243,7 @@ public class UserManager {
         // TODO: 将 Note 存在服务器中
     }
 
-    public static byte[] downloadAvatar(String url){
+    public static byte[] downloadFile(String url){
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -250,7 +251,6 @@ public class UserManager {
             System.out.println(url);
             Response response = httpsUtils.getInstance().newCall(request).execute();
             Looper.prepare();
-
             return response.body().bytes();
         } catch(IOException | JSONException e) {
             return null;
@@ -273,6 +273,24 @@ public class UserManager {
             // System.out.println("content"+content);
             JSONObject jsonObject = JSONObject.parseObject(content);
             return jsonObject;
+        } catch(IOException | JSONException e) {
+            return null;
+        }
+    }
+
+    public static byte[] queryUserAvatar(){
+        FormBody formBody = new FormBody.Builder()
+                .add("id", String.valueOf(userId))
+                .build();
+        Request request = new Request.Builder()
+                .url(SERVER_ADDR + USER_AVATAR)
+                .post(formBody)
+                .addHeader("cookie", session)
+                .build();
+        try{
+            Response response = httpsUtils.getInstance().newCall(request).execute();
+            Looper.prepare();
+            return response.body().bytes();
         } catch(IOException | JSONException e) {
             return null;
         }

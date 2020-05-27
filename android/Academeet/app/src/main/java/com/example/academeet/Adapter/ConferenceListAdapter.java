@@ -92,7 +92,7 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
         holder.conferenceName.setText(conference.getName());
 
         holder.conferenceTime.setText(
-                conference.getDate()+", "+ conference.getStartTime() + "-"+conference.getEndTime()+" | "+conference.getPlace());
+                conference.getDate()+" | "+conference.getPlace());
         holder.conferenceHost.setText(conference.getChairs());
         holder.conferenceTag.setText(conference.getTag());
         holder.conferenceName.setOnClickListener(new View.OnClickListener() {

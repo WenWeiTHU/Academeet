@@ -21,7 +21,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:minHeight="90dp"
@@ -54,20 +54,39 @@
             android:text="None"
             android:textColor="#B6B2B2" />
 
-        <TextView
-            android:id="@+id/session_reporter_text_view"
-            android:layout_width="wrap_content"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxWidth="200dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginBottom="6dp"
-            android:maxLines="1"
-            android:text="None"
-            android:textColor="#03A9F4" />
+            android:layout_marginBottom="10dp">
+            <TextView
+                android:id="@+id/session_reporter_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="6dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:ellipsize="end"
+                android:maxWidth="200dp"
+                android:textSize="14sp"
+                android:maxLines="1"
+                android:text="None"
+                android:textColor="#03A9F4" />
+
+            <com.veinhorn.tagview.TagView
+                android:id="@+id/session_tag"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Main"
+                android:textAlignment="center"
+                android:textSize="8sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/session_reporter_text_view"
+                app:layout_constraintRight_toRightOf="parent"
+                app:tagColor="@color/colorPrimary"
+                app:tagType="classic"
+                app:tagUpperCase="true" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
-
-
-
-
 </com.daimajia.swipe.SwipeLayout>
