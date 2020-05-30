@@ -86,10 +86,10 @@ public class SearchListFragment extends Fragment {
                                 String name = conference.getString("name");
                                 String place = conference.getString("place");
                                 String date = conference.getString("date");
-                                String startTime = conference.getString("start_time");
-                                String endTime = conference.getString("end_time");
+//                                String startTime = conference.getString("start_time");
+//                                String endTime = conference.getString("end_time");
                                 String id = conference.getString("conference_id");
-                                String tag = conference.getString("tags");
+//                                String tag = conference.getString("tags");
                                 JSONArray chairs = JSONArray.parseArray(conference.getString("chairs"));
                                 String chairsStr = "";
                                 for(int j = 0; j < chairs.size(); j++) {
@@ -98,7 +98,7 @@ public class SearchListFragment extends Fragment {
                                         chairsStr += ", ";
                                 }
                                 int size = conferenceList.size();
-                                conferenceList.add(new ConferenceItem(id, name, date, place, startTime, endTime, chairsStr, tag));
+                                conferenceList.add(new ConferenceItem(id, name, date, place, chairsStr));
                                 conferenceListAdapter.notifyItemInserted(size);
                             }
                         } catch (Exception e){

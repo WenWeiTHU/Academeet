@@ -91,6 +91,7 @@ public class SessionListFragment extends Fragment {
                                 String startTime = session.getString("start_time");
                                 String endTime = session.getString("end_time");
                                 String id = session.getString("session_id");
+                                String tag = session.getString("tag");
                                 JSONArray reporters = JSONArray.parseArray(session.getString("reporters"));
                                 String reportersStr = "";
                                 for(int j = 0; j < reporters.size(); j++){
@@ -99,16 +100,15 @@ public class SessionListFragment extends Fragment {
                                         reportersStr += ", ";
                                 }
                                 int size = sessionList.size();
-                                sessionList.add(new SessionItem(id, name, topic, startTime, endTime, reportersStr));
+                                sessionList.add(new SessionItem(id, name, topic, startTime, endTime, reportersStr, tag));
                                 sessionListAdapter.notifyItemInserted(size);
                             }
-                        } catch (Exception e){
+                        } catch (Exception e) {
                             Toast toast = Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT);
                             toast.show();
                         }
                     }
                 });
-
             }
         };
         new Thread(query).start();

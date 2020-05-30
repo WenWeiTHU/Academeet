@@ -3,5 +3,6 @@
     <declare-styleable name="submenu">
         <!--        <attr name="src" format="reference" />-->
         <attr name="text" format="string" />
+        <attr name="text_content" format="string" />
     </declare-styleable>
 </resources>

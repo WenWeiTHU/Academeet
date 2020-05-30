@@ -20,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import android.view.View;
 import android.widget.TextView;
@@ -34,6 +36,7 @@ import java.util.List;
 public class SessDetailActivity extends AppCompatActivity {
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
     private boolean liked = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +46,9 @@ public class SessDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(session.getName());
         setSupportActionBar(toolbar);
-
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        TextView likesView = findViewById(R.id.session_detail_likes);
+
+
         Runnable queryLikes = new Runnable() {
             @Override
             public void run() {
@@ -87,29 +89,9 @@ public class SessDetailActivity extends AppCompatActivity {
                     fab.setImageResource(R.drawable.ic_liked);
                     liked = true;
                 }
-//                System.out.println(session.getRating());
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        if(!liked){
-//                            likesView.setText("0");
-//                        }
-//                    }
-//                });
-                // System.out.println(jsonObject);
             }
         };
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new Thread(doLikes).start();
-                if(!liked){
-                    Toast.makeText(view.getContext(), "Likes the session", Toast.LENGTH_SHORT).show();
-                } else{
-                    Toast.makeText(view.getContext(), "Cancel likes the session", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+
 
         // Create an instance of the tab layout from the view.
         TabLayout tabLayout = findViewById(R.id.sess_detail_tab_layout);
@@ -117,9 +99,9 @@ public class SessDetailActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Papers"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        fragmentList.add(new SessDetailFragment(session));
+        SessDetailFragment sessDetailFragment = new SessDetailFragment(session);
+        fragmentList.add(sessDetailFragment);
         fragmentList.add(new PaperListFragment(session.getId()));
-
 
         final ViewPager viewPager = findViewById(R.id.sess_detail_view_pager);
         final SessDetailAdapter adapter = new SessDetailAdapter(getSupportFragmentManager(), fragmentList);
@@ -138,6 +120,21 @@ public class SessDetailActivity extends AppCompatActivity {
                     public void onTabReselected(TabLayout.Tab tab) {}
                 }
         );
-
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Thread(doLikes).start();
+                if(!liked){
+                    Toast.makeText(view.getContext(), "Likes the session", Toast.LENGTH_SHORT).show();
+                    //likesView.setText(String.valueOf(likes));
+                    sessDetailFragment.updateLikes(liked);
+                } else{
+                    Toast.makeText(view.getContext(), "Cancel likes the session", Toast.LENGTH_SHORT).show();
+                    // int likes =Integer.valueOf(likesView.getText().toString()) - 1;
+                    // likesView.setText(String.valueOf(likes));
+                    sessDetailFragment.updateLikes(liked);
+                }
+            }
+        });
     }
 }

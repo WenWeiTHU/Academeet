@@ -1,6 +1,8 @@
 package com.example.academeet.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -18,6 +20,7 @@ import java.util.regex.Pattern;
 
 public class ChangeInfoActivity extends AppCompatActivity implements View.OnClickListener {
     private String type;
+    private String content;
 
 
     @Override
@@ -25,12 +28,14 @@ public class ChangeInfoActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_change_info);
+        EditText newInfo = findViewById(R.id.new_info);
         Bundle bundle = this.getIntent().getExtras();
         SettingTitleComponent component = findViewById(R.id.change_info);
         //接收name值
         if (bundle != null) {
             type = bundle.getString("name");
             component.updateText("Change "+ type, 0);
+            newInfo.setHint(bundle.getString("content"));
         }
 
         TextView submit = findViewById(R.id.submit);
@@ -43,11 +48,11 @@ public class ChangeInfoActivity extends AppCompatActivity implements View.OnClic
     public void returnMenu() {
         String info = ((EditText) findViewById(R.id.new_info)).getText().toString();
         if(type.equals("Phone") && !isMobile(info)){
-            Toast.makeText(ChangeInfoActivity.this, R.string.register_phone_illegal, Toast.LENGTH_SHORT);
+            Toast.makeText(ChangeInfoActivity.this, R.string.register_phone_illegal, Toast.LENGTH_SHORT).show();
             return;
         }
         if(type.equals("Username") && info.length() == 0){
-            Toast.makeText(ChangeInfoActivity.this, R.string.register_username_is_empty, Toast.LENGTH_SHORT);
+            Toast.makeText(ChangeInfoActivity.this, R.string.register_username_is_empty, Toast.LENGTH_SHORT).show();
             return;
         }
         // System.out.println("info: "+info);
@@ -80,6 +85,9 @@ public class ChangeInfoActivity extends AppCompatActivity implements View.OnClic
             }
         };
         new Thread(update).start();
+        Intent replyIntent = new Intent();
+        replyIntent.putExtra("content", info);
+        setResult(RESULT_OK, replyIntent);
         finish();
     }
 
