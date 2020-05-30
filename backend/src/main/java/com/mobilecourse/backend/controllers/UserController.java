@@ -291,7 +291,7 @@ public class UserController extends CommonController {
                 { "note_id", "title", "text", "create_time", "update_time" },
                 { "message_id", "details", "time" },
                 { "name", "conference_id", "date",
-                        "chairs", "place", "start_time", "end_time", "tags", "visible" }};
+                        "chairs", "place", "visible" }};
         Class<?> Info, Dao;
         ArrayList<Object> infos;
         try {
