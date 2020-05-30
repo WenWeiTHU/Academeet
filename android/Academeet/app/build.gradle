@@ -55,4 +55,5 @@ dependencies {
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'org.conscrypt:conscrypt-android:2.4.0'
 }

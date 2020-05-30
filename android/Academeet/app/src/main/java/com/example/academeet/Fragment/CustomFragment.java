@@ -140,8 +140,8 @@ public class CustomFragment extends Fragment {
             weekList.add(1+calendar.get(Calendar.WEEK_OF_YEAR));
             event.setDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK)-1);
             event.setWeekList(weekList);
-            event.setStartTime("9:00");
-            event.setEndTime("12:00");
+            event.setStartTime("0:00");
+            event.setEndTime("24:00");
             eventList.add(event);
         }
         calendar.setTime(new Date());

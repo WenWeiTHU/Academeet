@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,7 +17,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +52,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -111,7 +116,8 @@ public class UserHomeActivity extends AppCompatActivity {
         }
         ButterKnife.bind(this);
         initFrame();
-        initMainContent();
+        Date curDate = new Date();
+        initMainContent(curDate);
 
     }
 
@@ -225,13 +231,16 @@ public class UserHomeActivity extends AppCompatActivity {
         });
     }
 
-    void initMainContent() {
+    void initMainContent(Date curDate) {
         // 初始化主体部分
-        Date curDate = new Date();
+        // Date curDate = new Date();
         long currTime = curDate.getTime();
+        System.out.println(currTime);
         long startTime = currTime - 3 * 86400000;
         SimpleDateFormat formatterWeek = new SimpleDateFormat("EEEE");
         SimpleDateFormat formatterDay =  new SimpleDateFormat("yyyy-MM-dd");
+        titles.clear();
+        fragmentList.clear();
         for (int i=0; i < 7; ++i) {
             Date date = new Date(startTime);
             titles.add(formatterWeek.format(date).substring(0, 3));
@@ -244,7 +253,6 @@ public class UserHomeActivity extends AppCompatActivity {
         mHomeViewerPager.setAdapter(pagerAdapter);
         mHomeTabLayout.setupWithViewPager(mHomeViewerPager);
         mHomeViewerPager.setCurrentItem(3);
-
     }
 
     public void initUserInfo() {
@@ -303,6 +311,38 @@ public class UserHomeActivity extends AppCompatActivity {
     public void onLogoutItemClicked(View v) {
         // TODO: logout
         Toast.makeText(UserHomeActivity.this, "Clicked logout", Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_user_home, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_change_date){
+            Calendar cldr = Calendar.getInstance();
+            int day = cldr.get(Calendar.DAY_OF_MONTH);
+            int month = cldr.get(Calendar.MONTH);
+            int year = cldr.get(Calendar.YEAR);
+            // date picker dialog
+            DatePickerDialog picker = new DatePickerDialog(UserHomeActivity.this,
+                    new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                initMainContent(calendar.getTime());
+                                Toast.makeText(UserHomeActivity.this, "Change date successfully", Toast.LENGTH_SHORT).show();
+                        }
+                    }, year, month, day);
+            picker.show();
+
+
+        }
+        return true;
     }
 
 }

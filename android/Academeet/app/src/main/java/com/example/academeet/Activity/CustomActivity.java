@@ -1,6 +1,8 @@
 package com.example.academeet.Activity;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -26,8 +28,29 @@ public class CustomActivity extends AppCompatActivity {
     ViewPager mCustomViewerPager;
     @BindView(R.id.custom_tab_layout)
     TabLayout mCustomTabLayout;
-    @BindView(R.id.calendar_fab)
-    FloatingActionButton fab;
+//    @BindView(R.id.calendar_fab)
+//    FloatingActionButton fab;
+    CustomFragment favorsFragment;
+    CustomFragment remindsFragment;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_custom, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_export){
+            if(mCustomViewerPager.getCurrentItem() == 0){
+                favorsFragment.exportCalendar("Favorite conferences");
+            } else if(mCustomViewerPager.getCurrentItem() == 1) {
+                remindsFragment.exportCalendar("Reminded conferences");
+            }
+        }
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +61,9 @@ public class CustomActivity extends AppCompatActivity {
         titles.add("Reminder");
         //titles.add("Dislike");
 
-        CustomFragment favorsFFragment = new CustomFragment("Favors");
-        CustomFragment remindsFragment = new CustomFragment("Reminds");
-        fragmentList.add(favorsFFragment);
+        favorsFragment = new CustomFragment("Favors");
+        remindsFragment = new CustomFragment("Reminds");
+        fragmentList.add(favorsFragment);
         fragmentList.add(remindsFragment);
         //fragmentList.add(new CustomFragment("Dislikes"));
 
@@ -56,15 +79,15 @@ public class CustomActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         toolbar.setNavigationOnClickListener((view) -> {finish();});
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mCustomViewerPager.getCurrentItem() == 0){
-                    favorsFFragment.exportCalendar("Favorite Conferences");
-                } else if(mCustomViewerPager.getCurrentItem() == 1) {
-                    remindsFragment.exportCalendar("Reminded Conferences");
-                }
-            }
-        });
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(mCustomViewerPager.getCurrentItem() == 0){
+//                    favorsFragment.exportCalendar("Favorite Conferences");
+//                } else if(mCustomViewerPager.getCurrentItem() == 1) {
+//                    remindsFragment.exportCalendar("Reminded Conferences");
+//                }
+//            }
+//        });
     }
 }
