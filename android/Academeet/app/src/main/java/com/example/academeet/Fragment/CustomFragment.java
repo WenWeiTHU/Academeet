@@ -18,7 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.academeet.Adapter.ConferenceListAdapter;
 import com.example.academeet.Item.ConferenceItem;
 import com.example.academeet.R;
+import com.paul.eventreminder.CalendarManager;
+import com.paul.eventreminder.model.CalendarEvent;
+
+import java.time.DayOfWeek;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -31,6 +37,7 @@ public class CustomFragment extends Fragment {
     @BindView(R.id.conference_list)
     RecyclerView mConferenceListView;
     ConferenceListAdapter conferenceListAdapter;
+    CalendarManager calendarManager;
     String type;
 
 
@@ -41,6 +48,7 @@ public class CustomFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        calendarManager = new CalendarManager(this.getActivity(), "Academeet Calendar Exporter");
         initConference(this.type);
     }
 
@@ -69,10 +77,10 @@ public class CustomFragment extends Fragment {
                                 String name = conference.getString("name");
                                 String place = conference.getString("place");
                                 String date = conference.getString("date");
-                                String startTime = conference.getString("start_time");
-                                String endTime = conference.getString("end_time");
+//                                String startTime = conference.getString("start_time");
+//                                String endTime = conference.getString("end_time");
                                 String id = conference.getString("conference_id");
-                                String tag = conference.getString("tags");
+//                                String tag = conference.getString("tags");
                                 JSONArray chairs = JSONArray.parseArray(conference.getString("chairs"));
                                 String chairsStr = "";
                                 for(int j = 0; j < chairs.size(); j++){
@@ -81,7 +89,7 @@ public class CustomFragment extends Fragment {
                                         chairsStr += ", ";
                                 }
                                 int size = conferenceList.size();
-                                conferenceList.add(new ConferenceItem(id, name, date, place, startTime, endTime, chairsStr, tag));
+                                conferenceList.add(new ConferenceItem(id, name, date, place, chairsStr));
                                 conferenceListAdapter.notifyItemInserted(size);
                             }
                         } catch (Exception e){
@@ -116,4 +124,42 @@ public class CustomFragment extends Fragment {
 
     }
 
+    public void exportCalendar(String type) {
+        Calendar calendar = Calendar.getInstance();
+        ArrayList<CalendarEvent> eventList = new ArrayList<>();
+        for(int i = 0; i < conferenceList.size(); i++){
+            ConferenceItem conference = conferenceList.get(i);
+            ArrayList<Integer> weekList = new ArrayList<>();
+
+            CalendarEvent event = new CalendarEvent();
+            event.setSummary(conference.getName());
+            event.setContent(type);
+            event.setLoc(conference.getPlace());
+            Date conferenceDate = new Date(new Long(conference.detailedDate));
+            calendar.setTime(conferenceDate);
+            weekList.add(1+calendar.get(Calendar.WEEK_OF_YEAR));
+            event.setDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK)-1);
+            event.setWeekList(weekList);
+            event.setStartTime("9:00");
+            event.setEndTime("12:00");
+            eventList.add(event);
+        }
+        calendar.setTime(new Date());
+        calendarManager.addCalendarEvent(eventList, calendar.get(Calendar.WEEK_OF_YEAR), new CalendarManager.OnExportProgressListener() {
+            @Override
+            public void onProgress(int total, int now) {
+                Toast.makeText(getActivity(), "Export to calendar successfully", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(String msg) {
+                Toast.makeText(getActivity(), "Failed to export to calendar", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess() {
+                Toast.makeText(getActivity(), "Export to calendar successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

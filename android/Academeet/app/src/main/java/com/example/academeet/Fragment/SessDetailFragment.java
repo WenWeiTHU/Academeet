@@ -109,6 +109,15 @@ public class SessDetailFragment extends Fragment {
         }
     }
 
+    public void updateLikes(Boolean liked) {
+        int likes = Integer.valueOf(sessionLikes.getText().toString());
+        if(!liked){
+            sessionLikes.setText(String.valueOf(likes+1));
+        } else {
+            sessionLikes.setText(String.valueOf(likes-1));
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

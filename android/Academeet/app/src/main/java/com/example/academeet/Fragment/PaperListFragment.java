@@ -106,6 +106,7 @@ public class PaperListFragment extends Fragment {
                                 paperListAdapter.notifyItemInserted(size);
                             }
                         } catch (Exception e){
+                            System.out.println(e);
                             Toast toast = Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT);
                             toast.show();
                         }
