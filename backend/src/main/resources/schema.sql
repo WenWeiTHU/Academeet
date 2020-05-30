@@ -66,9 +66,9 @@ CREATE TABLE IF NOT EXISTS note(
 
 CREATE TABLE IF NOT EXISTS session(
     session_id int primary key auto_increment,
-    name varchar(300),
+    name varchar(500),
     topic varchar(300),
-    description varchar(800),
+    description text,
     start_time datetime,
     end_time datetime,
     reporters varchar(500),

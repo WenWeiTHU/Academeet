@@ -2,7 +2,10 @@ package com.example.academeet.Activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -28,6 +31,7 @@ import com.example.academeet.Item.ConferenceItem;
 import com.example.academeet.R;
 import com.example.academeet.Utils.HTTPSUtils;
 import com.example.academeet.Utils.UserManager;
+import com.example.academeet.components.MenuComponent;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,11 +39,40 @@ import java.io.IOException;
 import java.util.UUID;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
+    @BindView(R.id.change_username_menu)
+    public MenuComponent nameComp;
+    @BindView(R.id.change_phone_menu)
+    public MenuComponent phoneComp;
+    @BindView(R.id.change_signature_menu)
+    public MenuComponent signatureComp;
+    @BindView(R.id.show_settings_toolbar)
+    public Toolbar toolbar;
+    private String name;
+    private String phone;
+    private String signature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        ButterKnife.bind(this);
+        toolbar.setTitle("Settings");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        toolbar.setNavigationOnClickListener((view) -> {finish();});
+
+        try{
+            Intent intent = getIntent();
+            name = intent.getStringExtra("username");
+            phone = intent.getStringExtra("phone");
+            signature = intent.getStringExtra("signature");
+            nameComp.setContent(name);
+            phoneComp.setContent(phone);
+            signatureComp.setContent(signature);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     @Override
@@ -60,20 +93,23 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             case R.id.change_username_menu:
                 intent = new Intent(this, ChangeInfoActivity.class);
                 bundle.putString("name", "Username");
+                bundle.putString("content", name);
                 intent.putExtras(bundle);
-                startActivity(intent);
+                startActivityForResult(intent, 2);
                 break;
             case R.id.change_signature_menu:
                 intent = new Intent(this, ChangeInfoActivity.class);
                 bundle.putString("name", "Signature");
+                bundle.putString("content", signature);
                 intent.putExtras(bundle);
-                startActivity(intent);
+                startActivityForResult(intent, 3);
                 break;
             case R.id.change_phone_menu:
                 intent = new Intent(this, ChangeInfoActivity.class);
                 bundle.putString("name", "Phone");
+                bundle.putString("content", phone);
                 intent.putExtras(bundle);
-                startActivity(intent);
+                startActivityForResult(intent, 4);
                 break;
         }
     }
@@ -97,9 +133,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 startActivityForResult(intent, 1);
             }
         } else if(requestCode == 1) {
-            Bundle extra = data.getExtras();
-            if(extra != null) {
+            if(data != null) {
                 try {
+                    Bundle extra = data.getExtras();
                     int permission = ActivityCompat.checkSelfPermission(this,
                             "android.permission.WRITE_EXTERNAL_STORAGE");
                     System.out.println(permission);
@@ -126,6 +162,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     System.out.println(e);
                 }
             }
+        } else if(requestCode == 2) {
+            nameComp.setContent(data.getStringExtra("content"));
+        } else if(requestCode == 3) {
+            signatureComp.setContent(data.getStringExtra("content"));
+        } else if(requestCode == 4) {
+            phoneComp.setContent(data.getStringExtra("content"));
         }
     }
 

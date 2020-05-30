@@ -18,6 +18,7 @@ import com.example.academeet.Item.SessionItem;
 import com.example.academeet.R;
 import com.example.academeet.Activity.SessDetailActivity;
 import com.example.academeet.Utils.ConfManager;
+import com.veinhorn.tagview.TagView;
 
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
         TextView sessionName;
         TextView sessionTime;
         TextView sessionReporter;
+        TagView sessionTag;
         ImageButton sessionRating;
         SessionListAdapter adapter;
 
@@ -40,6 +42,7 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
             super(view);
             sessionName = (TextView)view.findViewById(R.id.session_name_text_view);
             sessionTime = (TextView)view.findViewById(R.id.session_time_text_view);
+            sessionTag = (TagView)view.findViewById(R.id.session_tag);
             sessionReporter = (TextView)view.findViewById(R.id.session_reporter_text_view);
             sessionRating = (ImageButton)view.findViewById(R.id.session_rating_button);
             this.adapter = adapter;
@@ -64,6 +67,10 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
     public void onBindViewHolder(@NonNull SessViewHolder holder, int position) {
         SessionItem session = mSessionList.get(position);
         holder.sessionName.setText(session.getName());
+        holder.sessionTag.setText(session.getTag());
+
+        // holder.sessionTag.setclo
+
         holder.sessionTime.setText(session.getStartTime() + "-"+session.getEndTime()+" | "+session.getTopic());
         holder.sessionReporter.setText(session.getReporters());
         holder.sessionName.setOnClickListener(new View.OnClickListener() {

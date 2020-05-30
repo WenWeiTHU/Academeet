@@ -52,4 +52,5 @@ public class SettingTitleComponent extends RelativeLayout {
             sub_menu_text.setText(info);
         else submit_text.setText(info);
     }
+
 }

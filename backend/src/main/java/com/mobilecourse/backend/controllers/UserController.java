@@ -150,12 +150,12 @@ public class UserController extends CommonController {
         return wrapperMsg(200, "user "+session.getAttribute("user"));
     }
 
-    @RequestMapping(value = "/api/user/info", method = {RequestMethod.GET})
+    @RequestMapping(value = "/api/user/info")
     public String getUserInfo(@RequestParam(value = "id")int id, HttpServletResponse response) {
         User user = userMapper.select(id);
         if (user == null) {
             response.setStatus(300);
-            return "{\"msg\": \"no such user.\" }";
+            return "{ \"msg\": \"no such user.\" }";
         }
         JSONObject resp = new JSONObject();
         resp.put("username", user.getUsername());
@@ -291,7 +291,7 @@ public class UserController extends CommonController {
                 { "note_id", "title", "text", "create_time", "update_time" },
                 { "message_id", "details", "time" },
                 { "name", "conference_id", "date",
-                        "chairs", "place", "start_time", "end_time", "tags", "visible" }};
+                        "chairs", "place", "visible" }};
         Class<?> Info, Dao;
         ArrayList<Object> infos;
         try {

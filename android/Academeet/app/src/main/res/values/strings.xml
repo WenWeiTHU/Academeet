@@ -56,5 +56,5 @@
     <string name="tab_text_2">Tab 2</string>
 
     <string name="settings_title">Modify</string>
-    <string name="execute_change">Confirm</string>
+    <string name="execute_change">OK</string>
 </resources>

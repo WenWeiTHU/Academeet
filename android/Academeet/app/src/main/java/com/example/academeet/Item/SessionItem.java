@@ -13,7 +13,16 @@ public class SessionItem implements Serializable {
     private String endTime;
     private String reporters;
     private String id;
+    private String tag;
     private String conferenceName;
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 
     public String getConferenceName() {
         return conferenceName;
@@ -88,13 +97,14 @@ public class SessionItem implements Serializable {
     }
 
     public SessionItem(String id, String name,  String topic,
-                          String startTime, String endTime, String reporters) {
+                          String startTime, String endTime, String reporters, String tag) {
         setName(name);
         setTopic(topic);
         SimpleDateFormat simpleTimeFormat = new SimpleDateFormat("HH:mm");
         setStartTime(simpleTimeFormat.format(new Date(new Long(startTime))));
         setEndTime(simpleTimeFormat.format(new Date(new Long(endTime))));
         setReporters(reporters);
+        setTag(tag);
         setId(id);
     }
 

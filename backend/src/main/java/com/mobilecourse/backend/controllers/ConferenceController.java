@@ -45,7 +45,7 @@ public class ConferenceController extends CommonController {
         }
         if (index == -1) return "{ \"accepted\": 0, \"msg\": \"getConferenceInfos meet unknown query\" }";
         String[] methods = { "selectByDate", "selectByTags", "selectByKeywords" };
-        String[] attrs = { "conference_id", "name", "date", "chairs", "place", "start_time", "end_time", "tags", "visible" };
+        String[] attrs = { "conference_id", "name", "date", "chairs", "place", "visible" };
         try {
             List<Conference> infos = (List<Conference>) conferenceMapper.getClass()
                     .getMethod(methods[index], String.class).invoke(conferenceMapper, param);
@@ -63,6 +63,7 @@ public class ConferenceController extends CommonController {
             JSONObject resp = new JSONObject();
             resp.put("conferences", allinfos);
             resp.put("conference_num", infos.size());
+						System.out.println(resp.toJSONString());
             return resp.toJSONString();
         } catch (Exception e) {
 						e.printStackTrace();
@@ -129,8 +130,8 @@ public class ConferenceController extends CommonController {
         Conference conference = conferenceMapper.selectById(conference_id, userid);
         if (conference == null) return "{ \"accepted\": 0, \"msg\": \"not owner.\" }";
         long cur_time = System.currentTimeMillis();
-        if (conference.getStart_time().getTime() > cur_time &&
-                conference.getEnd_time().getTime() < cur_time) {
+				long delta = cur_time - conference.getDate().getTime();
+        if (delta >= 0 && delta < 86400000) {
             return "{ \"accepted\": 0, \"msg\": \"Conference is in progress\" }";
         }
         int result1 = conferenceMapper.deleteById(conference_id);
@@ -248,7 +249,7 @@ public class ConferenceController extends CommonController {
     public String getSessions(@RequestParam(value = "conference_id")int conference_id,
                               HttpSession s) {
         int userid = getUserId(s); 
-				String[] attrs = { "session_id", "name", "start_time", "end_time", "topic", "reporters", "visible" };
+				String[] attrs = { "session_id", "name", "start_time", "end_time", "topic", "reporters", "visible", "tag" };
         List<Session> infos = conferenceMapper.selectSessionByConference(conference_id, userid);
 				try {
 						JSONArray allinfos = new JSONArray();

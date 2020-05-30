@@ -105,6 +105,7 @@ public class ConferenceListFragment extends Fragment {
             @Override
             public void run() {
                 JSONObject jsonObject = queryConfByDay();
+                System.out.println(jsonObject);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -126,9 +127,9 @@ public class ConferenceListFragment extends Fragment {
                                 String name = conference.getString("name");
                                 String place = conference.getString("place");
                                 String date = conference.getString("date");
-                                String startTime = conference.getString("start_time");
-                                String endTime = conference.getString("end_time");
-                                String tag = conference.getString("tags");
+//                                String startTime = conference.getString("start_time");
+//                                String endTime = conference.getString("end_time");
+//                                String tag = conference.getString("tags");
                                 JSONArray chairs = JSONArray.parseArray(conference.getString("chairs"));
                                 String chairsStr = "";
                                 for(int j = 0; j < chairs.size(); j++){
@@ -138,7 +139,7 @@ public class ConferenceListFragment extends Fragment {
                                 }
 
                                 int size = conferenceList.size();
-                                conferenceList.add(new ConferenceItem(id, name, date, place, startTime, endTime, chairsStr, tag));
+                                conferenceList.add(new ConferenceItem(id, name, date, place, chairsStr));
                                 conferenceListAdapter.notifyItemInserted(size);
                             }
                         } catch (Exception e){

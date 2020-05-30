@@ -29,8 +29,8 @@ public class ConfDetailFragment extends Fragment {
 
     @BindView(R.id.conference_detail_date)
     TextView conferenceDate;
-    @BindView(R.id.conference_detail_time)
-    TextView conferenceTime;
+//    @BindView(R.id.conference_detail_time)
+//    TextView conferenceTime;
     @BindView(R.id.conference_detail_place)
     TextView conferencePlace;
     @BindView(R.id.conference_detail_chairs)
@@ -111,7 +111,7 @@ public class ConfDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.content_conf_detail, container, false);
         ButterKnife.bind(this, view);
         conferenceDate.setText(conference.getDate());
-        conferenceTime.setText(conference.getStartTime()+"-"+conference.getEndTime());
+//        conferenceTime.setText(conference.getStartTime()+"-"+conference.getEndTime());
         conferencePlace.setText(conference.getPlace());
         conferenceChairs.setText(conference.getChairs());
 

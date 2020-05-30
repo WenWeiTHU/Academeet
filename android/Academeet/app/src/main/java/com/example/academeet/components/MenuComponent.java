@@ -20,6 +20,9 @@ public class MenuComponent extends RelativeLayout {
     @BindView(R.id.sub_menu_text)
     TextView sub_menu_text;
 
+    @BindView(R.id.sub_content_text)
+    TextView sub_content_text;
+
     private View mView;
 
     public MenuComponent(Context context) {
@@ -36,11 +39,16 @@ public class MenuComponent extends RelativeLayout {
         init(context, attrs);
     }
 
+    public void setContent(String content) {
+        sub_content_text.setText(content);
+    }
+
     private void init(Context context, AttributeSet attrs) {
         mView = LayoutInflater.from(context).inflate(R.layout.component_menu,this,true);
         ButterKnife.bind(mView);
 //        @SuppressLint({"Recycle", "CustomViewStyleable"})
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.submenu);
         sub_menu_text.setText(a.getString(R.styleable.submenu_text));
+        sub_content_text.setText(a.getString(R.styleable.submenu_text_content));
     }
 }

@@ -139,14 +139,23 @@ public class UserHomeActivity extends AppCompatActivity {
         Runnable query = new Runnable() {
             @Override
             public void run() {
-                byte[] Picture = UserManager.downloadAvatar(SERVER_ADDR+avatar);
-                Bitmap bitmap = BitmapFactory.decodeByteArray(Picture, 0, Picture.length);
-                System.out.println(bitmap);
+                byte[] Picture = UserManager.queryUserAvatar();
                 //通过ImageView,设置图片
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        avatarView.setImageBitmap(bitmap);
+                        if(Picture == null){
+                            Toast toast = Toast.makeText(UserHomeActivity.this, "Backend wrong", Toast.LENGTH_SHORT);
+                            toast.show();
+                            return;
+                        }
+                        try{
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(Picture, 0, Picture.length);
+                            avatarView.setImageBitmap(bitmap);
+                        } catch (Exception e) {
+                            Toast toast = Toast.makeText(UserHomeActivity.this, "Something wrong", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
                     }
                 });
             }
@@ -244,7 +253,7 @@ public class UserHomeActivity extends AppCompatActivity {
             public void run() {
 
                 JSONObject jsonObject = UserManager.queryUserInfo();
-                // System.out.println(jsonObject);
+                System.out.println(jsonObject);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -262,7 +271,6 @@ public class UserHomeActivity extends AppCompatActivity {
                             signatureText.setText(signature);
                             initAvatar();
                         } catch (Exception e){
-                            System.out.println(e);
                             Toast toast = Toast.makeText(UserHomeActivity.this, "Something wrong", Toast.LENGTH_SHORT);
                             toast.show();
                         }

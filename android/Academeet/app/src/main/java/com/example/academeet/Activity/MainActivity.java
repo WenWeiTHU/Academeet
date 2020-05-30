@@ -19,9 +19,14 @@ import com.example.academeet.Fragment.*;
 import com.example.academeet.Utils.HTTPSUtils;
 import com.example.academeet.Utils.ScreenInfoUtils;
 import com.example.academeet.Object.User;
+import com.paul.eventreminder.CalendarManager;
+import com.paul.eventreminder.model.CalendarEvent;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

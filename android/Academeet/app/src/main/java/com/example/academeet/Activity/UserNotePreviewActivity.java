@@ -117,8 +117,6 @@ public class UserNotePreviewActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         toolbar.setNavigationOnClickListener((view) -> {finish();});
-
-
     }
 
 
