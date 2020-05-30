@@ -15,8 +15,6 @@ public class Conference {
     Timestamp date;
     String chairs;          // in fact it is List<String>, but we can transfer it when used.
     String place;
-    Timestamp start_time;
-    Timestamp end_time;         // timestamp可以传递string："2000-01-01 00:00:00"
     String tags;          // use CsvWriter to write List to String. this.chairs = Arrays.asList(schairs.split(","));
     int visible;    // 0表示只有自己可见（未发布），1表示所有人可见（暂定）
     int establisher_id;
@@ -31,9 +29,6 @@ public class Conference {
         this.date = Timestamp.valueOf(jsonObject.getString("start_time"));
         this.place = jsonObject.getString("place");
         this.chairs = jsonObject.getString("chairs");
-        this.start_time = this.date;
-        this.end_time = Timestamp.valueOf(jsonObject.getString("end_time"));
-        this.tags = jsonObject.getString("tags");
     }
 
     public int getConference_id() {
@@ -100,30 +95,6 @@ public class Conference {
         this.place = place;
     }
 
-    public Timestamp getStart_time() {
-        return start_time;
-    }
-
-    public void setStart_time(Timestamp start_time) {
-        this.start_time = start_time;
-    }
-
-    public Timestamp getEnd_time() {
-        return end_time;
-    }
-
-    public void setEnd_time(Timestamp end_time) {
-        this.end_time = end_time;
-    }
-
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
-
     public int getVisible() {
         return visible;
     }
@@ -141,8 +112,6 @@ public class Conference {
                 ", date=" + date +
                 ", chairs=" + chairs +
                 ", place='" + place + '\'' +
-                ", start_time=" + start_time +
-                ", end_time=" + end_time +
                 ", tags=" + tags +
                 ", visible=" + visible +
                 '}';

@@ -4,7 +4,12 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 
 @Controller
 public class CommonController {
@@ -28,6 +33,27 @@ public class CommonController {
         if ((user = (JSONObject) s.getAttribute("user")) != null)
             userid = user.getIntValue("id");
         return userid;
+    }
+
+    public void sendFile(HttpServletResponse response, String path) throws IOException {
+        try {
+//            String staticpath = ResourceUtils.CLASSPATH_URL_PREFIX;
+            String staticpath = System.getProperty("user.dir") + "/src/main/resources";
+            FileInputStream avatar = new FileInputStream(staticpath + path);
+//            InputStream avatar = this.getClass().getResourceAsStream(path);
+            int size = avatar.available();
+            byte[] data = new byte[size];
+            avatar.read(data);
+            avatar.close();
+            OutputStream respStream = response.getOutputStream();
+            respStream.write(data);
+            respStream.close();
+        } catch (Exception e) {
+            PrintWriter errWriter = response.getWriter();
+            response.setContentType("text/html;charset=gb2312");
+            errWriter.write(e.getLocalizedMessage());
+            errWriter.close();
+        }
     }
 
     // 添加信息到session之中，此部分用途很广泛，比如可以通过session获取到对应的用户名或者用户ID，避免繁冗操作

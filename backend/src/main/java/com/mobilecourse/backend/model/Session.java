@@ -13,6 +13,7 @@ public class Session {
     Timestamp start_time;
     Timestamp end_time;
     String reporters;   // actually List<String>
+		String tag;
     int rating;
     int type;
     int visible;
@@ -30,8 +31,17 @@ public class Session {
         this.start_time = Timestamp.valueOf(obj.getString("start_time"));
         this.end_time = Timestamp.valueOf(obj.getString("end_time"));
         this.reporters =  obj.getJSONArray("reporters").toJSONString();
+				this.tag = obj.getString("tag");
         this.rating = 0;
     }
+
+    public String getTag() {
+			return tag;
+		}
+
+		public void setTag(String tag) {
+			this.tag = tag;
+		}
 
 		public String getName() {
 				return name;
