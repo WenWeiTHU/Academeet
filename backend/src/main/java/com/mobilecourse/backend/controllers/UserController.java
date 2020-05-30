@@ -12,6 +12,7 @@ import com.mobilecourse.backend.model.User;
 import com.zhenzi.sms.ZhenziSmsClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,8 +21,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -160,10 +160,18 @@ public class UserController extends CommonController {
         JSONObject resp = new JSONObject();
         resp.put("username", user.getUsername());
         resp.put("signature", user.getSignature());
-        resp.put("avatar", user.getAvatar());
+//        resp.put("avatar", user.getAvatar());
         resp.put("type", user.getType());
         resp.put("phone", user.getPhone());
         return resp.toJSONString();
+    }
+
+    @RequestMapping(value = "/api/user/avatar")
+    public void getAvatar(@RequestParam(value = "id")int userid,
+                          HttpServletResponse response) throws IOException {
+        User user = userMapper.select(userid);
+        String path = user.getAvatar();
+        sendFile(response, path);
     }
 
     @RequestMapping(value = "/api/user/logout", method = {RequestMethod.GET})

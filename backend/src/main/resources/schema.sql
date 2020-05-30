@@ -2,10 +2,10 @@ CREATE DATABASE IF NOT EXISTS Test;
 SET time_zone='+8:00';  -- 不生效
 SET global time_zone='+8:00';
 
--- drop table if exists paper;
+ drop table if exists paper;
 -- drop table if exists user_conference;
--- drop table if exists user_session;
--- drop table if exists session;
+ drop table if exists user_session;
+ drop table if exists session;
 -- drop table if exists message;
 -- drop table if exists chatroom;
 -- drop table if exists note;
@@ -66,12 +66,12 @@ CREATE TABLE IF NOT EXISTS note(
 
 CREATE TABLE IF NOT EXISTS session(
     session_id int primary key auto_increment,
-    name varchar(100),
-    topic varchar(100),
-    description varchar(500),
+    name varchar(300),
+    topic varchar(300),
+    description varchar(800),
     start_time datetime,
     end_time datetime,
-    reporters varchar(300),
+    reporters varchar(500),
     rating int,
     visible int,
     conference_visible int,
