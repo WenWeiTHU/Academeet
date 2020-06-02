@@ -87,12 +87,16 @@ public class UserHomeActivity extends AppCompatActivity {
     private static String[] PERMISSIONS_STORAGE = {
             "android.permission.WRITE_EXTERNAL_STORAGE" };
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
+    HomePagerAdapter pagerAdapter;
 
     ArrayList<String> titles = new ArrayList<>();
     String username;
     String signature;
     String phone;
     String avatar;
+    int day;
+    int month;
+    int year;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,9 +119,12 @@ public class UserHomeActivity extends AppCompatActivity {
             UserManager.httpsUtils = new HTTPSUtils(this);
         }
         ButterKnife.bind(this);
+        Calendar cldr = Calendar.getInstance();
+        day = cldr.get(Calendar.DAY_OF_MONTH);
+        month = cldr.get(Calendar.MONTH);
+        year = cldr.get(Calendar.YEAR);
         initFrame();
-        Date curDate = new Date();
-        initMainContent(curDate);
+        initMainContent();
 
     }
 
@@ -231,9 +238,9 @@ public class UserHomeActivity extends AppCompatActivity {
         });
     }
 
-    void initMainContent(Date curDate) {
+    void initMainContent() {
         // 初始化主体部分
-        // Date curDate = new Date();
+        Date curDate = new Date();
         long currTime = curDate.getTime();
         System.out.println(currTime);
         long startTime = currTime - 3 * 86400000;
@@ -248,11 +255,28 @@ public class UserHomeActivity extends AppCompatActivity {
             startTime += 86400000;
         }
 
-        HomePagerAdapter pagerAdapter = new HomePagerAdapter(getSupportFragmentManager(),
+        pagerAdapter = new HomePagerAdapter(getSupportFragmentManager(),
                 fragmentList, titles);
         mHomeViewerPager.setAdapter(pagerAdapter);
         mHomeTabLayout.setupWithViewPager(mHomeViewerPager);
         mHomeViewerPager.setCurrentItem(3);
+    }
+
+    void updateMainContent(Date curDate) {
+        long currTime = curDate.getTime();
+        long startTime = currTime - 3 * 86400000;
+        SimpleDateFormat formatterWeek = new SimpleDateFormat("EEEE");
+        SimpleDateFormat formatterDay =  new SimpleDateFormat("yyyy-MM-dd");
+        titles.clear();
+        fragmentList.clear();
+        for (int i=0; i < 7; ++i) {
+            Date date = new Date(startTime);
+            titles.add(formatterWeek.format(date).substring(0, 3));
+            fragmentList.add(new ConferenceListFragment(formatterDay.format(date), 0));
+            startTime += 86400000;
+        }
+
+        pagerAdapter.notifyDataSetChanged();
     }
 
     public void initUserInfo() {
@@ -323,24 +347,22 @@ public class UserHomeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.action_change_date){
-            Calendar cldr = Calendar.getInstance();
-            int day = cldr.get(Calendar.DAY_OF_MONTH);
-            int month = cldr.get(Calendar.MONTH);
-            int year = cldr.get(Calendar.YEAR);
+
             // date picker dialog
             DatePickerDialog picker = new DatePickerDialog(UserHomeActivity.this,
                     new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                Calendar calendar = Calendar.getInstance();
-                                calendar.set(year, monthOfYear, dayOfMonth);
-                                initMainContent(calendar.getTime());
-                                Toast.makeText(UserHomeActivity.this, "Change date successfully", Toast.LENGTH_SHORT).show();
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            updateMainContent(calendar.getTime());
+                            Toast.makeText(UserHomeActivity.this, "Change date successfully", Toast.LENGTH_SHORT).show();
+                            UserHomeActivity.this.year = year;
+                            UserHomeActivity.this.month = monthOfYear;
+                            UserHomeActivity.this.day = dayOfMonth;
                         }
                     }, year, month, day);
             picker.show();
-
-
         }
         return true;
     }

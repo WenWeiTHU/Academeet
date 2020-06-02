@@ -56,6 +56,17 @@ public class ConferenceListFragment extends Fragment {
         initConference();
     }
 
+    public void updateDate(String date) {
+        this.date = date;
+        for(int i = 0; i < conferenceList.size(); i++){
+            conferenceList.remove(i);
+            conferenceListAdapter.notifyItemRemoved(i);
+        }
+        getDisliked();
+        initConference();
+        System.out.println(conferenceList);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
