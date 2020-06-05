@@ -44,9 +44,15 @@ public class CustomActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.action_export){
             if(mCustomViewerPager.getCurrentItem() == 0){
-                favorsFragment.exportCalendar("Favorite conferences");
+                favorsFragment.exportCalendar();
             } else if(mCustomViewerPager.getCurrentItem() == 1) {
-                remindsFragment.exportCalendar("Reminded conferences");
+                remindsFragment.exportCalendar();
+            }
+        } else if (item.getItemId() == R.id.action_delete){
+            if(mCustomViewerPager.getCurrentItem() == 0){
+                favorsFragment.deleteCalendar();
+            } else if(mCustomViewerPager.getCurrentItem() == 1) {
+                remindsFragment.deleteCalendar();
             }
         }
         return true;
