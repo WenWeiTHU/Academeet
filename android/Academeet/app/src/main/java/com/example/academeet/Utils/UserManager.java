@@ -45,6 +45,14 @@ public class UserManager {
         return noteList;
     }
 
+    public static void logout() {
+        noteList = new ArrayList<>();
+        hasInit = false;
+        session = null;
+        userId = -1;
+        httpsUtils = null;
+    }
+
     public static void setId(int id) {
         userId = id;
     }

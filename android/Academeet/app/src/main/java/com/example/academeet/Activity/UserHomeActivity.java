@@ -310,7 +310,8 @@ public class UserHomeActivity extends AppCompatActivity {
 
     public void onLogoutItemClicked(View v) {
         // TODO: logout
-        Toast.makeText(UserHomeActivity.this, "Clicked logout", Toast.LENGTH_SHORT);
+        UserManager.logout();
+        finish();
     }
 
     @Override
