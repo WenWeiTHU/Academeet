@@ -1,5 +1,6 @@
 package com.example.academeet.Activity;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -16,7 +17,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -88,6 +91,7 @@ public class UserHomeActivity extends AppCompatActivity {
             "android.permission.WRITE_EXTERNAL_STORAGE" };
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
     HomePagerAdapter pagerAdapter;
+    private boolean mIsExit;
 
     ArrayList<String> titles = new ArrayList<>();
     String username;
@@ -238,6 +242,29 @@ public class UserHomeActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if(mIsExit){
+                Intent home = new Intent(Intent.ACTION_MAIN);
+                home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                home.addCategory(Intent.CATEGORY_HOME);
+                startActivity(home);
+            } else {
+                Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+                mIsExit = true;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mIsExit = false;
+                    }
+                }, 2000);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
     void initMainContent() {
         // 初始化主体部分
         Date curDate = new Date();
@@ -277,6 +304,7 @@ public class UserHomeActivity extends AppCompatActivity {
         }
 
         pagerAdapter.notifyDataSetChanged();
+        mHomeViewerPager.setCurrentItem(3);
     }
 
     public void initUserInfo() {

@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         userEditor.putString("username", user.getUsername());
         userEditor.putString("password", user.getPassword());
         userEditor.putBoolean("remember_me", ck.isChecked());
+        userEditor.commit();
     }
 
     public void startLogin(View v) {
