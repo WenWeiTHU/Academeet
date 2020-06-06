@@ -83,9 +83,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void readUser(){
+        String username = userPreference.getString("username", "");
+        String password = userPreference.getString("password", "");
+        user.setUsername(username);
+        user.setPassword(password);
         if(userPreference.getBoolean("remember_me", false)){
-            String username = userPreference.getString("username", "");
-            String password = userPreference.getString("password", "");
             login(username, password);
         }
     }

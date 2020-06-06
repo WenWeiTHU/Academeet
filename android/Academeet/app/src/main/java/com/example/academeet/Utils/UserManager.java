@@ -46,9 +46,9 @@ public class UserManager {
         return noteList;
     }
 
-    public static void logout() {
+    public static boolean logout() {
         if (httpsUtils == null) {
-            return;
+            return true;
         }
         FormBody formBody = new FormBody.Builder()
                 .add("id", String.valueOf(userId))
@@ -69,9 +69,13 @@ public class UserManager {
                 session = null;
                 userId = -1;
                 httpsUtils = null;
+                return true;
+            } else {
+                return false;
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 

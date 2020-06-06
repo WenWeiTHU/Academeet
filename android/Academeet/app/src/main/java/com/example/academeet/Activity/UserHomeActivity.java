@@ -12,12 +12,14 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -365,13 +367,20 @@ public class UserHomeActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                UserManager.logout();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        UserHomeActivity.this.finish();
-                    }
-                });
+                if(UserManager.logout()){
+                    SharedPreferences.Editor userEditor = PreferenceManager.getDefaultSharedPreferences(UserHomeActivity.this).edit();
+                    userEditor.putBoolean("remember_me", false);
+                    userEditor.commit();
+                    Toast.makeText(UserHomeActivity.this, "Logout successfully", Toast.LENGTH_SHORT);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            UserHomeActivity.this.finish();
+                        }
+                    });
+                } else {
+                    Toast.makeText(UserHomeActivity.this, "Fail to logout", Toast.LENGTH_SHORT);
+                }
             }
         }).start();
     }
