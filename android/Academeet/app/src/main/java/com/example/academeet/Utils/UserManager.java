@@ -39,6 +39,7 @@ public class UserManager {
     private static final String UPLOAD_AVATAR = "user/update/avatar";
     private static final String USER_INFO = "user/info";
     private static final String USER_AVATAR = "user/avatar";
+    private static final String LOGOUT = "user/logout";
 
 
     public static ArrayList<Note> getNotes() {
@@ -46,11 +47,32 @@ public class UserManager {
     }
 
     public static void logout() {
-        noteList = new ArrayList<>();
-        hasInit = false;
-        session = null;
-        userId = -1;
-        httpsUtils = null;
+        if (httpsUtils == null) {
+            return;
+        }
+        FormBody formBody = new FormBody.Builder()
+                .add("id", String.valueOf(userId))
+                .build();
+        Request request = new Request.Builder()
+                .url (SERVER_ADDR + LOGOUT)
+                .post(formBody)
+                .addHeader("cookie", session)
+                .build();
+
+        try(Response response = httpsUtils.getInstance().newCall(request).execute()) {
+            Looper.prepare();
+            String content = response.body().string();
+            JSONObject jsonObject = JSONObject.parseObject(content);
+            if (jsonObject.getInteger("accepted") == 1) {
+                noteList = new ArrayList<>();
+                hasInit = false;
+                session = null;
+                userId = -1;
+                httpsUtils = null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void setId(int id) {
@@ -247,9 +269,6 @@ public class UserManager {
         return null;
     }
 
-    public static void saveNote() {
-        // TODO: 将 Note 存在服务器中
-    }
 
     public static byte[] downloadFile(String url){
         Request request = new Request.Builder()

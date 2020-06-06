@@ -362,8 +362,18 @@ public class UserHomeActivity extends AppCompatActivity {
 
     public void onLogoutItemClicked(View v) {
         // TODO: logout
-        UserManager.logout();
-        finish();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                UserManager.logout();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        UserHomeActivity.this.finish();
+                    }
+                });
+            }
+        }).start();
     }
 
     @Override
