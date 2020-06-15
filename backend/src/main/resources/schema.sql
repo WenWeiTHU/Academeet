@@ -2,10 +2,10 @@ CREATE DATABASE IF NOT EXISTS Test;
 SET time_zone='+8:00';  -- 不生效
 SET global time_zone='+8:00';
 
- drop table if exists paper;
+-- drop table if exists paper;
 -- drop table if exists user_conference;
- drop table if exists user_session;
- drop table if exists session;
+-- drop table if exists user_session;
+-- drop table if exists session;
 -- drop table if exists message;
 -- drop table if exists chatroom;
 -- drop table if exists note;
@@ -17,6 +17,16 @@ CREATE TABLE IF NOT EXISTS chatroom(
     participant_num int,
     record_num int
 ) default charset=utf8;
+
+CREATE TABLE IF NOT EXISTS comment(
+    comment_id int primary key auto_increment,
+    content text,
+    post_time datetime,
+    user_id int,
+    session_id int,
+    foreign key(user_id) references user(user_id) on delete cascade on update cascade,
+    foreign key(session_id) references session(session_id) on delete cascade on update cascade,
+)
 
 CREATE TABLE IF NOT EXISTS user(
     user_id int primary key auto_increment,
