@@ -25,8 +25,8 @@ CREATE TABLE IF NOT EXISTS comment(
     user_id int,
     session_id int,
     foreign key(user_id) references user(user_id) on delete cascade on update cascade,
-    foreign key(session_id) references session(session_id) on delete cascade on update cascade,
-)
+    foreign key(session_id) references session(session_id) on delete cascade on update cascade
+)default charset=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS user(
     user_id int primary key auto_increment,
