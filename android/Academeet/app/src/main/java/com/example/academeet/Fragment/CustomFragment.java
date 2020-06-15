@@ -48,11 +48,17 @@ public class CustomFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        calendarManager = new CalendarManager(this.getActivity(), "Academeet Calendar Exporter");
-        initConference(this.type);
+        if(type.equals("Favors")){
+            calendarManager = new CalendarManager(this.getActivity(), "Academeet Favors");
+        } else if(type.equals("Reminds")) {
+            calendarManager = new CalendarManager(this.getActivity(), "Academeet Reminder");
+            calendarManager.setAlarm(true);
+        }
+
+        initConference();
     }
 
-    private void initConference(String type) {
+    private void initConference() {
         Runnable query = new Runnable() {
             @Override
             public void run() {
@@ -124,7 +130,7 @@ public class CustomFragment extends Fragment {
 
     }
 
-    public void exportCalendar(String type) {
+    public void exportCalendar() {
         Calendar calendar = Calendar.getInstance();
         ArrayList<CalendarEvent> eventList = new ArrayList<>();
         for(int i = 0; i < conferenceList.size(); i++){
@@ -133,7 +139,7 @@ public class CustomFragment extends Fragment {
 
             CalendarEvent event = new CalendarEvent();
             event.setSummary(conference.getName());
-            event.setContent(type);
+            event.setContent("Conferences");
             event.setLoc(conference.getPlace());
             Date conferenceDate = new Date(new Long(conference.detailedDate));
             calendar.setTime(conferenceDate);
@@ -141,7 +147,7 @@ public class CustomFragment extends Fragment {
             event.setDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK)-1);
             event.setWeekList(weekList);
             event.setStartTime("9:00");
-            event.setEndTime("12:00");
+            event.setEndTime("21:00");
             eventList.add(event);
         }
         calendar.setTime(new Date());
@@ -159,6 +165,25 @@ public class CustomFragment extends Fragment {
             @Override
             public void onSuccess() {
                 Toast.makeText(getActivity(), "Export to calendar successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void deleteCalendar() {
+        calendarManager.deleteCalendarEvent(new CalendarManager.OnExportProgressListener() {
+            @Override
+            public void onProgress(int total, int now) {
+                Toast.makeText(getActivity(), "Delete exported conferences successfully", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(String msg) {
+                Toast.makeText(getActivity(), "Failed to delete exported conferences", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess() {
+                Toast.makeText(getActivity(), "Delete exported conferences successfully", Toast.LENGTH_SHORT).show();
             }
         });
     }

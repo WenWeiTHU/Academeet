@@ -1,5 +1,6 @@
 package com.example.academeet.Activity;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -8,15 +9,23 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +57,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -82,12 +92,17 @@ public class UserHomeActivity extends AppCompatActivity {
     private static String[] PERMISSIONS_STORAGE = {
             "android.permission.WRITE_EXTERNAL_STORAGE" };
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
+    HomePagerAdapter pagerAdapter;
+    private boolean mIsExit;
 
     ArrayList<String> titles = new ArrayList<>();
     String username;
     String signature;
     String phone;
     String avatar;
+    int day;
+    int month;
+    int year;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +125,10 @@ public class UserHomeActivity extends AppCompatActivity {
             UserManager.httpsUtils = new HTTPSUtils(this);
         }
         ButterKnife.bind(this);
+        Calendar cldr = Calendar.getInstance();
+        day = cldr.get(Calendar.DAY_OF_MONTH);
+        month = cldr.get(Calendar.MONTH);
+        year = cldr.get(Calendar.YEAR);
         initFrame();
         initMainContent();
 
@@ -225,13 +244,39 @@ public class UserHomeActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if(mIsExit){
+                Intent home = new Intent(Intent.ACTION_MAIN);
+                home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                home.addCategory(Intent.CATEGORY_HOME);
+                startActivity(home);
+            } else {
+                Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+                mIsExit = true;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mIsExit = false;
+                    }
+                }, 2000);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
     void initMainContent() {
         // 初始化主体部分
         Date curDate = new Date();
         long currTime = curDate.getTime();
+        System.out.println(currTime);
         long startTime = currTime - 3 * 86400000;
         SimpleDateFormat formatterWeek = new SimpleDateFormat("EEEE");
         SimpleDateFormat formatterDay =  new SimpleDateFormat("yyyy-MM-dd");
+        titles.clear();
+        fragmentList.clear();
         for (int i=0; i < 7; ++i) {
             Date date = new Date(startTime);
             titles.add(formatterWeek.format(date).substring(0, 3));
@@ -239,12 +284,29 @@ public class UserHomeActivity extends AppCompatActivity {
             startTime += 86400000;
         }
 
-        HomePagerAdapter pagerAdapter = new HomePagerAdapter(getSupportFragmentManager(),
+        pagerAdapter = new HomePagerAdapter(getSupportFragmentManager(),
                 fragmentList, titles);
         mHomeViewerPager.setAdapter(pagerAdapter);
         mHomeTabLayout.setupWithViewPager(mHomeViewerPager);
         mHomeViewerPager.setCurrentItem(3);
+    }
 
+    void updateMainContent(Date curDate) {
+        long currTime = curDate.getTime();
+        long startTime = currTime - 3 * 86400000;
+        SimpleDateFormat formatterWeek = new SimpleDateFormat("EEEE");
+        SimpleDateFormat formatterDay =  new SimpleDateFormat("yyyy-MM-dd");
+        titles.clear();
+        fragmentList.clear();
+        for (int i=0; i < 7; ++i) {
+            Date date = new Date(startTime);
+            titles.add(formatterWeek.format(date).substring(0, 3));
+            fragmentList.add(new ConferenceListFragment(formatterDay.format(date), 0));
+            startTime += 86400000;
+        }
+
+        pagerAdapter.notifyDataSetChanged();
+        mHomeViewerPager.setCurrentItem(3);
     }
 
     public void initUserInfo() {
@@ -302,7 +364,55 @@ public class UserHomeActivity extends AppCompatActivity {
 
     public void onLogoutItemClicked(View v) {
         // TODO: logout
-        Toast.makeText(UserHomeActivity.this, "Clicked logout", Toast.LENGTH_SHORT);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(UserManager.logout()){
+                    SharedPreferences.Editor userEditor = PreferenceManager.getDefaultSharedPreferences(UserHomeActivity.this).edit();
+                    userEditor.putBoolean("remember_me", false);
+                    userEditor.commit();
+                    Toast.makeText(UserHomeActivity.this, "Logout successfully", Toast.LENGTH_SHORT);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            UserHomeActivity.this.finish();
+                        }
+                    });
+                } else {
+                    Toast.makeText(UserHomeActivity.this, "Fail to logout", Toast.LENGTH_SHORT);
+                }
+            }
+        }).start();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_user_home, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_change_date){
+
+            // date picker dialog
+            DatePickerDialog picker = new DatePickerDialog(UserHomeActivity.this,
+                    new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            updateMainContent(calendar.getTime());
+                            Toast.makeText(UserHomeActivity.this, "Change date successfully", Toast.LENGTH_SHORT).show();
+                            UserHomeActivity.this.year = year;
+                            UserHomeActivity.this.month = monthOfYear;
+                            UserHomeActivity.this.day = dayOfMonth;
+                        }
+                    }, year, month, day);
+            picker.show();
+        }
+        return true;
     }
 
 }
