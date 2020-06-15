@@ -7,9 +7,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -54,10 +57,15 @@ public class MainActivity extends AppCompatActivity {
     private final String USER_PASSWORD_INFO_KEY = "USER_PASSWORD";
     private final String USER_PHONE_INFO_KEY = "USER_PHONE";
     private final String USER_CAPCHA_INFO_KEY = "USER_CAPCHA";
+    private SharedPreferences userPreference;
+    SharedPreferences.Editor userEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userPreference = PreferenceManager.getDefaultSharedPreferences(this);
+        userEditor = userPreference.edit();
+        readUser();
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         currentFragment = new LoginFragment();
@@ -74,6 +82,24 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    public void readUser(){
+        String username = userPreference.getString("username", "");
+        String password = userPreference.getString("password", "");
+        user.setUsername(username);
+        user.setPassword(password);
+        if(userPreference.getBoolean("remember_me", false)){
+            login(username, password);
+        }
+    }
+
+    public void storeUser(){
+        CheckBox ck = ((CheckBox)((LoginFragment)currentFragment).getLoginView(R.id.login_remember_me));
+        userEditor.putString("username", user.getUsername());
+        userEditor.putString("password", user.getPassword());
+        userEditor.putBoolean("remember_me", ck.isChecked());
+        userEditor.commit();
+    }
+
     public void startLogin(View v) {
         // 登录
         // TODO: 向服务器发送登录信息
@@ -81,6 +107,10 @@ public class MainActivity extends AppCompatActivity {
                 .getText().toString();
         String password = ((EditText)((LoginFragment)currentFragment).getLoginView(R.id.login_password))
                 .getText().toString();
+        login(username, password);
+    }
+
+    public void login(String username, String password){
         user.setUsername(username);
         user.setPassword(password);
 
@@ -93,6 +123,9 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         switch (resultCode) {
                             case SUCCESS_CODE: {
+                                storeUser();
+                                Toast.makeText(MainActivity.this, getResources().getString(R.string.login_welcome)+", "+username,
+                                        Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(MainActivity.this, UserHomeActivity.class);
                                 startActivity(intent);
                                 break;

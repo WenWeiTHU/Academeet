@@ -161,7 +161,5 @@ public class UserNotePreviewActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        // 退出前将笔记保存在服务器上
-        UserManager.saveNote();
     }
 }

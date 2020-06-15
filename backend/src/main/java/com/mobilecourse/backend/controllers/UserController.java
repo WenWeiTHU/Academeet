@@ -174,11 +174,11 @@ public class UserController extends CommonController {
         sendFile(response, path);
     }
 
-    @RequestMapping(value = "/api/user/logout", method = {RequestMethod.GET})
+    @RequestMapping(value = "/api/user/logout")
     public String userLogout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session == null) {
-            return "{ \"accepted\": 0 }";
+            return "{ \"accepted\": 1 }";
         }
         session.invalidate();
         return "{ \"accepted\": 1 }";

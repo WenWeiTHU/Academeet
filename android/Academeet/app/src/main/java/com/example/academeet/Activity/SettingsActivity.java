@@ -50,6 +50,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private String name;
     private String phone;
     private String signature;
+    private final int AVATAR_CODE = 0;
+    private final int CROP_CODE = 1;
+    private final int USERNAME_CODE = 2;
+    private final int SIGNATURE_CODE = 3;
+    private final int PHONE_CODE = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,28 +93,28 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             case R.id.change_avatar_menu:
                 intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
-                startActivityForResult(intent, 0);
+                startActivityForResult(intent, AVATAR_CODE);
                 break;
             case R.id.change_username_menu:
                 intent = new Intent(this, ChangeInfoActivity.class);
                 bundle.putString("name", "Username");
                 bundle.putString("content", name);
                 intent.putExtras(bundle);
-                startActivityForResult(intent, 2);
+                startActivityForResult(intent, USERNAME_CODE);
                 break;
             case R.id.change_signature_menu:
                 intent = new Intent(this, ChangeInfoActivity.class);
                 bundle.putString("name", "Signature");
                 bundle.putString("content", signature);
                 intent.putExtras(bundle);
-                startActivityForResult(intent, 3);
+                startActivityForResult(intent, SIGNATURE_CODE);
                 break;
             case R.id.change_phone_menu:
                 intent = new Intent(this, ChangeInfoActivity.class);
                 bundle.putString("name", "Phone");
                 bundle.putString("content", phone);
                 intent.putExtras(bundle);
-                startActivityForResult(intent, 4);
+                startActivityForResult(intent, PHONE_CODE);
                 break;
         }
     }
@@ -117,56 +122,54 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 0){
-            if(data != null) {
-                Intent intent = new Intent("com.android.camera.action.CROP");
-                intent.setDataAndType(data.getData(), "image/*");
-                // 设置裁剪
-                intent.putExtra("crop", "true");
-                // aspectX aspectY 是宽高的比例
-                intent.putExtra("aspectX", 1);
-                intent.putExtra("aspectY", 1);
-                // outputX outputY 是裁剪图片宽高
-                intent.putExtra("outputX", 150);
-                intent.putExtra("outputY", 150);
-                intent.putExtra("return-data", true);
-                startActivityForResult(intent, 1);
-            }
-        } else if(requestCode == 1) {
-            if(data != null) {
-                try {
-                    Bundle extra = data.getExtras();
-                    int permission = ActivityCompat.checkSelfPermission(this,
-                            "android.permission.WRITE_EXTERNAL_STORAGE");
-                    System.out.println(permission);
-                    if (permission != PackageManager.PERMISSION_GRANTED) {
-                        // 没有写的权限，去申请写的权限，会弹出对话框
-                        ActivityCompat.requestPermissions(this, new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"},1);
-                    }
-
-                    Bitmap photo = extra.getParcelable("data");
-                    System.out.println(photo);
-                    String imagePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-                    String fileName = UUID.randomUUID().toString();
-                    System.out.println(imagePath);
-                    File file = new File(imagePath + "/" + fileName + ".jpg");
-                    FileOutputStream out = new FileOutputStream(file);
-                    photo.compress(Bitmap.CompressFormat.JPEG, 100, out);
-                    out.flush();
-                    out.close();
-                    // System.out.println(file);
-                    uploadPicture(file);
-                    Toast.makeText(SettingsActivity.this, "Update avatar successfully", Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    Toast.makeText(SettingsActivity.this, "Something wrong", Toast.LENGTH_SHORT).show();
-                    System.out.println(e);
+        if(data == null)
+            return;
+        if(requestCode == AVATAR_CODE){
+            Intent intent = new Intent("com.android.camera.action.CROP");
+            intent.setDataAndType(data.getData(), "image/*");
+            // 设置裁剪
+            intent.putExtra("crop", "true");
+            // aspectX aspectY 是宽高的比例
+            intent.putExtra("aspectX", 1);
+            intent.putExtra("aspectY", 1);
+            // outputX outputY 是裁剪图片宽高
+            intent.putExtra("outputX", 150);
+            intent.putExtra("outputY", 150);
+            intent.putExtra("return-data", true);
+            startActivityForResult(intent, CROP_CODE);
+        } else if(requestCode == CROP_CODE) {
+            try {
+                Bundle extra = data.getExtras();
+                int permission = ActivityCompat.checkSelfPermission(this,
+                        "android.permission.WRITE_EXTERNAL_STORAGE");
+                System.out.println(permission);
+                if (permission != PackageManager.PERMISSION_GRANTED) {
+                    // 没有写的权限，去申请写的权限，会弹出对话框
+                    ActivityCompat.requestPermissions(this, new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"},1);
                 }
+
+                Bitmap photo = extra.getParcelable("data");
+                System.out.println(photo);
+                String imagePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+                String fileName = UUID.randomUUID().toString();
+                System.out.println(imagePath);
+                File file = new File(imagePath + "/" + fileName + ".jpg");
+                FileOutputStream out = new FileOutputStream(file);
+                photo.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                out.flush();
+                out.close();
+                // System.out.println(file);
+                uploadPicture(file);
+                Toast.makeText(SettingsActivity.this, "Update avatar successfully", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(SettingsActivity.this, "Something wrong", Toast.LENGTH_SHORT).show();
+                System.out.println(e);
             }
-        } else if(requestCode == 2) {
+        } else if(requestCode == USERNAME_CODE) {
             nameComp.setContent(data.getStringExtra("content"));
-        } else if(requestCode == 3) {
+        } else if(requestCode == SIGNATURE_CODE) {
             signatureComp.setContent(data.getStringExtra("content"));
-        } else if(requestCode == 4) {
+        } else if(requestCode == PHONE_CODE) {
             phoneComp.setContent(data.getStringExtra("content"));
         }
     }
