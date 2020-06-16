@@ -271,7 +271,7 @@ public class UserHomeActivity extends AppCompatActivity {
         // 初始化主体部分
         Date curDate = new Date();
         long currTime = curDate.getTime();
-        System.out.println(currTime);
+        //System.out.println(currTime);
         long startTime = currTime - 3 * 86400000;
         SimpleDateFormat formatterWeek = new SimpleDateFormat("EEEE");
         SimpleDateFormat formatterDay =  new SimpleDateFormat("yyyy-MM-dd");
@@ -313,7 +313,6 @@ public class UserHomeActivity extends AppCompatActivity {
         Runnable query = new Runnable() {
             @Override
             public void run() {
-
                 JSONObject jsonObject = UserManager.queryUserInfo();
                 System.out.println(jsonObject);
                 runOnUiThread(new Runnable() {
@@ -326,6 +325,7 @@ public class UserHomeActivity extends AppCompatActivity {
                         }
                         try{
                             username = jsonObject.getString("username");
+                            UserManager.setUsername(username);
                             phone = jsonObject.getString("phone");
                             avatar = jsonObject.getString("avatar");
                             signature = jsonObject.getString("signature");
@@ -404,6 +404,7 @@ public class UserHomeActivity extends AppCompatActivity {
                             Calendar calendar = Calendar.getInstance();
                             calendar.set(year, monthOfYear, dayOfMonth);
                             updateMainContent(calendar.getTime());
+//                            Thread.currentThread().sleep(500);
                             Toast.makeText(UserHomeActivity.this, "Change date successfully", Toast.LENGTH_SHORT).show();
                             UserHomeActivity.this.year = year;
                             UserHomeActivity.this.month = monthOfYear;

@@ -47,7 +47,6 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
             conferenceName = (TextView)view.findViewById(R.id.conference_name_text_view);
             conferenceTime = (TextView)view.findViewById(R.id.conference_time_text_view);
             conferenceHost = (TextView)view.findViewById(R.id.conference_host_text_view);
-//            conferenceTag = (TagView) view.findViewById(R.id.conference_tag);
             conferenceFavor = (ImageButton)view.findViewById(R.id.conference_fav_button);
             conferenceRemind = (ImageButton)view.findViewById(R.id.conference_remind_button);
             conferenceDislike = (ImageButton)view.findViewById(R.id.conference_dislike_button);
@@ -115,7 +114,7 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
                 } else{
                     jsonObject = ConfManager.userMenu(conference.getId(), "Favors", "1");
                 }
-                System.out.println(jsonObject);
+                //System.out.println(jsonObject);
             }
         };
         Runnable queryReminds = new Runnable() {
@@ -127,7 +126,7 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
                 } else{
                     jsonObject = ConfManager.userMenu(conference.getId(), "Reminds", "1");
                 }
-                System.out.println(jsonObject);
+                //System.out.println(jsonObject);
             }
         };
         Runnable queryDislikes = new Runnable() {
@@ -139,7 +138,7 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
                 } else{
                     jsonObject = ConfManager.userMenu(conference.getId(), "Dislikes", "1");
                 }
-                System.out.println(jsonObject);
+                //System.out.println(jsonObject);
             }
         };
 
