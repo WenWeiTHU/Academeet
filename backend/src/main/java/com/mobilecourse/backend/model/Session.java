@@ -13,7 +13,7 @@ public class Session {
     Timestamp start_time;
     Timestamp end_time;
     String reporters;   // actually List<String>
-		String tag;
+    String tag;
     int rating;
     int type;
     int visible;
