@@ -55,6 +55,7 @@ public class UserController extends CommonController {
     public String checkLogin(HttpServletRequest request) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        password = Globals.decrypt(password);
         String type = request.getParameter("type");
         System.out.println(userMapper.selectByUsername(username));
         User user = userMapper.selectByUsername(username);
@@ -81,6 +82,7 @@ public class UserController extends CommonController {
 
     @RequestMapping(value = "/api/captcha")
     public String sendSms(HttpServletRequest request, @RequestParam(value = "phone")String phone) {
+        phone = Globals.decrypt(phone);
         String verifyCode = String.valueOf(new Random().nextInt(899999)+100000);
         ZhenziSmsClient client = new ZhenziSmsClient(Globals.apiUrl, Globals.appId, Globals.appSecret);
         HashMap<String, String> params = new HashMap<>();
