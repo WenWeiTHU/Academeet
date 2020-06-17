@@ -5,7 +5,8 @@ import java.io.Serializable;
 public class Note implements Serializable {
     private String title;
     private String noteAbstract;
-    private String date;
+    private String editDate;
+    private String createDate = "";
     private String id;
     private String content;
 
@@ -13,10 +14,11 @@ public class Note implements Serializable {
 
     }
 
-    public Note(String title, String noteAbstract, String date) {
+    public Note(String title, String noteAbstract, String editDate, String createDate) {
         this.title = title;
         this.noteAbstract = noteAbstract;
-        this.date = date;
+        this.editDate = editDate;
+        this.createDate = createDate;
     }
 
     public String getId() {
@@ -31,10 +33,14 @@ public class Note implements Serializable {
         return content;
     }
 
+    public void setEditDate(String date) {editDate = date;}
+
     public void setContent(String content) {
         this.content = content;
         try {
-            setTitle(content.substring(0, 20));
+            int index = content.indexOf("\n");
+            index = index > 20 ? 20 : index;
+            setTitle(content.substring(0, index));
         } catch (StringIndexOutOfBoundsException e) {
             setTitle(content.substring(0, content.length()));
             setNoteAbstract("");
@@ -55,12 +61,15 @@ public class Note implements Serializable {
         return noteAbstract;
     }
 
-    public String getDate() {
-        return date;
+    public String getEditDate() {
+        return editDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public String getCreateDate() { return createDate; }
+
+
+    public void setCreateDate(String date) {
+        this.createDate = date;
     }
 
     public void setTitle(String title) {

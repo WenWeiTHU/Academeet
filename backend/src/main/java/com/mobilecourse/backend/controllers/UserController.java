@@ -52,10 +52,11 @@ public class UserController extends CommonController {
     }
 
     @RequestMapping(value = "/api/login", method = { RequestMethod.POST }, produces = "application/json;charset=UTF-8")
-    public String checkLogin(HttpServletRequest request) {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String type = request.getParameter("type");
+    public String checkLogin(@RequestParam(value = "username")String username,
+                             @RequestParam(value = "password")String password,
+                             @RequestParam(value = "type")String type,
+														 HttpServletRequest request) {
+        password = Globals.decrypt(password);
         System.out.println(userMapper.selectByUsername(username));
         User user = userMapper.selectByUsername(username);
         JSONObject msg = new JSONObject();
@@ -81,6 +82,7 @@ public class UserController extends CommonController {
 
     @RequestMapping(value = "/api/captcha")
     public String sendSms(HttpServletRequest request, @RequestParam(value = "phone")String phone) {
+        phone = Globals.decrypt(phone);
         String verifyCode = String.valueOf(new Random().nextInt(899999)+100000);
         ZhenziSmsClient client = new ZhenziSmsClient(Globals.apiUrl, Globals.appId, Globals.appSecret);
         HashMap<String, String> params = new HashMap<>();
@@ -113,6 +115,7 @@ public class UserController extends CommonController {
         // TODO: 检验验证码的正确性
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+				password = Globals.decrypt(password);
         String phone = request.getParameter("phone");
         String captcha = request.getParameter("captcha");
         int type = Integer.parseInt(request.getParameter("type"));

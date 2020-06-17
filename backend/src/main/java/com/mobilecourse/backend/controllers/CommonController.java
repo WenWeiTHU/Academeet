@@ -1,6 +1,8 @@
 package com.mobilecourse.backend.controllers;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.mobilecourse.backend.model.Conference;
 import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +29,15 @@ public class CommonController {
         return wrapperMsg.toJSONString();
     }
 
+    public <T> void AttrToJSONArray(T obj, JSONArray arr, String[] attrs) throws Exception {
+        JSONObject jsoninfo = new JSONObject();
+        for (String attr : attrs) {
+            String getAttr = "get" + Character.toUpperCase(attr.charAt(0)) + attr.substring(1);
+            jsoninfo.put(attr, Conference.class.getMethod(getAttr).invoke(obj));
+        }
+        arr.add(jsoninfo);
+    }
+
     public int getUserId(HttpSession s) {
         JSONObject user;
         int userid = -1;
@@ -35,7 +46,15 @@ public class CommonController {
         return userid;
     }
 
-    public void sendFile(HttpServletResponse response, String path) throws IOException {
+    public String getUsername(HttpSession s) {
+        JSONObject user;
+        String username = "";
+        if ((user = (JSONObject) s.getAttribute("user")) != null)
+            username = user.getString("username");
+        return username;
+    }
+    
+		public void sendFile(HttpServletResponse response, String path) throws IOException {
         try {
 //            String staticpath = ResourceUtils.CLASSPATH_URL_PREFIX;
             String staticpath = System.getProperty("user.dir") + "/src/main/resources";

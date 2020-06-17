@@ -24,8 +24,9 @@ public class CommentController extends CommonController {
                        @RequestParam(value = "content")String content,
                        HttpSession s) {
         int userid = getUserId(s);
+				String username = getUsername(s);
         if (userid == -1) return LOGIN_MSG;
-        Comment comment = new Comment(userid, session_id, content);
+        Comment comment = new Comment(userid, username, session_id, content);
         int res = commentMapper.writeComment(comment);
         if (res == 0) return wrapperMsg(0, "insert failed.");
         else return wrapperMsg(1, "success");

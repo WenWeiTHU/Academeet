@@ -15,7 +15,12 @@
 
     <select id="selectByKeywords" resultType="com.mobilecourse.backend.model.Conference">
         SELECT * FROM conference
-        WHERE match(name, organization, introduction) AGAINST (#{keywords}) AND visible=1
+        WHERE match(name, organization, introduction) AGAINST (#{keywords}) AND visible=1 LIMIT ${limit} OFFSET ${offset}
+    </select>
+
+    <select id="selectTotalNum" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM conference
+        WHERE match(name, organization, introduction) AGAINST (#{keywords}) AND visible=1 
     </select>
 
     <select id="selectById" resultType="com.mobilecourse.backend.model.Conference">

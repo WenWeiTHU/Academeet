@@ -2,6 +2,7 @@ package com.example.academeet.Object;
 
 import android.os.Looper;
 import com.example.academeet.Utils.ConfManager;
+import com.example.academeet.Utils.EncryptUtil;
 import com.example.academeet.Utils.HTTPSUtils;
 import com.example.academeet.Utils.UserManager;
 import org.json.JSONException;
@@ -133,10 +134,12 @@ public class User{
         if (userType == "Admin") {
             userCode = 1;
         }
+        String encryptPassword = EncryptUtil.encrypt(password);
+        String encryptPhone = EncryptUtil.encrypt(phone);
         FormBody formBody = new FormBody.Builder()
                 .add("username", username)
-                .add("password", password)
-                .add("phone", phone)
+                .add("password", encryptPassword)
+                .add("phone", encryptPhone)
                 .add("type", String.valueOf(userCode))
                 .add("captcha", capcha)
                 .build();
@@ -162,9 +165,11 @@ public class User{
         if (userType == "Admin") {
             userCode = 1;
         }
+        String encryptPassword = EncryptUtil.encrypt(password);
+//        String encryptPassword = password;
         FormBody formBody = new FormBody.Builder()
                 .add("username", username)
-                .add("password", password)
+                .add("password", encryptPassword)
                 .add("type", String.valueOf(userCode))
                 .build();
         Request request = new Request.Builder()
