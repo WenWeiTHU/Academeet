@@ -16,7 +16,19 @@ CREATE TABLE IF NOT EXISTS chatroom(
     chatroom_id int primary key auto_increment,
     participant_num int,
     record_num int
-) default charset=utf8;
+) default charset=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS comment(
+    comment_id int primary key auto_increment,
+    content text,
+    post_time datetime,
+    user_id int,
+		username varchar(20),
+    session_id int,
+    foreign key(user_id) references user(user_id) on delete cascade on update cascade,
+    foreign key(session_id) references session(session_id) on delete cascade on update cascade,
+		foreign key(username) references user(username) on delete set null on update cascade
+)default charset=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS user(
     user_id int primary key auto_increment,
@@ -26,7 +38,7 @@ CREATE TABLE IF NOT EXISTS user(
 	phone char(11),
 	signature varchar(200),
 	avatar varchar(100)
-) default charset=utf8;
+) default charset=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS conference(
     conference_id int primary key auto_increment,
@@ -43,7 +55,7 @@ CREATE TABLE IF NOT EXISTS conference(
     establisher_id int,
     foreign key(establisher_id) references user(user_id) on delete cascade on update cascade,
     fulltext(name, organization, introduction) with parser ngram
-) default charset=utf8mb4;
+) default charset=utf8;
 
 CREATE TABLE IF NOT EXISTS message(
     message_id int primary key auto_increment,
@@ -53,7 +65,7 @@ CREATE TABLE IF NOT EXISTS message(
     username varchar(128),
     foreign key(chatroom_id) references chatroom(chatroom_id) on delete cascade on update cascade,
     foreign key(username) references user(username) on delete cascade on update cascade
-) default charset=utf8;
+) default charset=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS note(
     note_id int primary key auto_increment,
@@ -62,7 +74,7 @@ CREATE TABLE IF NOT EXISTS note(
     create_time datetime,
     update_time datetime,
     user_id int
-) default charset=utf8mb4;
+) default charset=utf8;
 
 CREATE TABLE IF NOT EXISTS session(
     session_id int primary key auto_increment,

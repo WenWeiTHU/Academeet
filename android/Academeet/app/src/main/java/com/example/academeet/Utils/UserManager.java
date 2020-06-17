@@ -25,6 +25,7 @@ public class UserManager {
     private static boolean hasInit = false;
     public static HTTPSUtils httpsUtils;
     private static int userId;
+    private static String username;
     public static String session;
 
     private static final String SERVER_ADDR = "https://49.232.141.126:8080/api/";
@@ -40,15 +41,54 @@ public class UserManager {
     private static final String USER_INFO = "user/info";
     private static final String USER_AVATAR = "user/avatar";
     private static final String LOGOUT = "user/logout";
+    private static final String POST_COMMENT_URL = "user/post";
 
+    public static int getUserId() {
+        return userId;
+    }
+
+    public static void setUserId(int userId) {
+        UserManager.userId = userId;
+    }
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public static void setUsername(String username) {
+        UserManager.username = username;
+    }
 
     public static ArrayList<Note> getNotes() {
         return noteList;
     }
 
-    public static void logout() {
+    public static JSONObject postComment(String sessId, String content){
+        FormBody formBody = new FormBody.Builder()
+                .add("id", String.valueOf(userId))
+                .add("session_id", sessId)
+                .add("content", content)
+                .build();
+        Request request = new Request.Builder()
+                .url(SERVER_ADDR + POST_COMMENT_URL)
+                .post(formBody)
+                .addHeader("cookie", session)
+                .build();
+        try{
+            Response response = httpsUtils.getInstance().newCall(request).execute();
+            Looper.prepare();
+            String body = response.body().string();
+            // System.out.println("content"+content);
+            JSONObject jsonObject = JSONObject.parseObject(body);
+            return jsonObject;
+        } catch(IOException | JSONException e) {
+            return null;
+        }
+    }
+
+    public static boolean logout() {
         if (httpsUtils == null) {
-            return;
+            return true;
         }
         FormBody formBody = new FormBody.Builder()
                 .add("id", String.valueOf(userId))
@@ -69,9 +109,13 @@ public class UserManager {
                 session = null;
                 userId = -1;
                 httpsUtils = null;
+                return true;
+            } else {
+                return false;
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -271,7 +315,6 @@ public class UserManager {
         return null;
     }
 
-
     public static byte[] downloadFile(String url){
         Request request = new Request.Builder()
                 .url(url)
@@ -315,6 +358,23 @@ public class UserManager {
                 .url(SERVER_ADDR + USER_AVATAR)
                 .post(formBody)
                 .addHeader("cookie", session)
+                .build();
+        try{
+            Response response = httpsUtils.getInstance().newCall(request).execute();
+            Looper.prepare();
+            return response.body().bytes();
+        } catch(IOException | JSONException e) {
+            return null;
+        }
+    }
+
+    public static byte[] queryUserAvatarByID(String userId){
+        FormBody formBody = new FormBody.Builder()
+                .add("id", userId)
+                .build();
+        Request request = new Request.Builder()
+                .url(SERVER_ADDR + USER_AVATAR)
+                .post(formBody)
                 .build();
         try{
             Response response = httpsUtils.getInstance().newCall(request).execute();

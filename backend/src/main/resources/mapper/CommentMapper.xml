@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 指定了mapper对应的dao -->
+<mapper namespace="com.mobilecourse.backend.dao.CommentDao">
+
+    <select id="readCommentBySession" resultType="com.mobilecourse.backend.model.Comment">
+        SELECT * FROM comment WHERE session_id=${session_id} ORDER BY post_time ASC;
+    </select>
+
+    <insert id="writeComment" keyProperty="comment_id" useGeneratedKeys="true" parameterType="com.mobilecourse.backend.model.Comment">
+        INSERT INTO comment (content, post_time, session_id, user_id, username)
+        VALUES (#{content}, #{post_time}, ${session_id}, ${user_id}, #{username});
+    </insert>
+
+</mapper>

@@ -22,7 +22,7 @@
             android:layout_height="80dp"
             app:civ_border_color="@color/white"
             app:civ_border_width="2dp"
-            android:src="@mipmap/usr_header" />
+            android:src="@drawable/ic_error_img" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -12,12 +12,14 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -269,7 +271,7 @@ public class UserHomeActivity extends AppCompatActivity {
         // 初始化主体部分
         Date curDate = new Date();
         long currTime = curDate.getTime();
-        System.out.println(currTime);
+        //System.out.println(currTime);
         long startTime = currTime - 3 * 86400000;
         SimpleDateFormat formatterWeek = new SimpleDateFormat("EEEE");
         SimpleDateFormat formatterDay =  new SimpleDateFormat("yyyy-MM-dd");
@@ -311,7 +313,6 @@ public class UserHomeActivity extends AppCompatActivity {
         Runnable query = new Runnable() {
             @Override
             public void run() {
-
                 JSONObject jsonObject = UserManager.queryUserInfo();
                 System.out.println(jsonObject);
                 runOnUiThread(new Runnable() {
@@ -324,6 +325,7 @@ public class UserHomeActivity extends AppCompatActivity {
                         }
                         try{
                             username = jsonObject.getString("username");
+                            UserManager.setUsername(username);
                             phone = jsonObject.getString("phone");
                             avatar = jsonObject.getString("avatar");
                             signature = jsonObject.getString("signature");
@@ -365,13 +367,20 @@ public class UserHomeActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                UserManager.logout();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        UserHomeActivity.this.finish();
-                    }
-                });
+                if(UserManager.logout()){
+                    SharedPreferences.Editor userEditor = PreferenceManager.getDefaultSharedPreferences(UserHomeActivity.this).edit();
+                    userEditor.putBoolean("remember_me", false);
+                    userEditor.commit();
+                    Toast.makeText(UserHomeActivity.this, "Logout successfully", Toast.LENGTH_SHORT);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            UserHomeActivity.this.finish();
+                        }
+                    });
+                } else {
+                    Toast.makeText(UserHomeActivity.this, "Fail to logout", Toast.LENGTH_SHORT);
+                }
             }
         }).start();
     }
@@ -395,6 +404,7 @@ public class UserHomeActivity extends AppCompatActivity {
                             Calendar calendar = Calendar.getInstance();
                             calendar.set(year, monthOfYear, dayOfMonth);
                             updateMainContent(calendar.getTime());
+//                            Thread.currentThread().sleep(500);
                             Toast.makeText(UserHomeActivity.this, "Change date successfully", Toast.LENGTH_SHORT).show();
                             UserHomeActivity.this.year = year;
                             UserHomeActivity.this.month = monthOfYear;

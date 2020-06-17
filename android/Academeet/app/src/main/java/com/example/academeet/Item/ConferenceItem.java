@@ -11,20 +11,9 @@ public class ConferenceItem implements Serializable {
     private String introduction;
     private String date;
     private String place;
-//    private String startTime;
-//    private String endTime;
     private String id;
     private String chairs;
     public String detailedDate;
-//    private String tag;
-
-//    public String getTag() {
-//        return tag;
-//    }
-//
-//    public void setTag(String tag) {
-//        this.tag = tag;
-//    }
 
     public String getName() {
         return name;
@@ -66,22 +55,6 @@ public class ConferenceItem implements Serializable {
         this.place = place;
     }
 
-//    public String getStartTime() {
-//        return startTime;
-//    }
-//
-//    public void setStartTime(String startTime) {
-//        this.startTime = startTime;
-//    }
-//
-//    public String getEndTime() {
-//        return endTime;
-//    }
-//
-//    public void setEndTime(String endTime) {
-//        this.endTime = endTime;
-//    }
-
     public String getId() {
         return id;
     }
@@ -106,14 +79,10 @@ public class ConferenceItem implements Serializable {
         setName(name);
         setPlace(place);
         detailedDate = date;
-        System.out.println("Detailed"+detailedDate);
+        // System.out.println("Detailed"+detailedDate);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd");
-        SimpleDateFormat simpleTimeFormat = new SimpleDateFormat("HH:mm");
         setDate(simpleDateFormat.format(new Date(new Long(date))));
-//        setStartTime(simpleTimeFormat.format(new Date(new Long(startTime))));
-//        setEndTime(simpleTimeFormat.format(new Date(new Long(endTime))));
         setChairs(chairs);
-//        setTag(tag);
         setId(id);
     }
 }

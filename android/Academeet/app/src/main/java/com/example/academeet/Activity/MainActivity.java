@@ -22,6 +22,7 @@ import com.example.academeet.Fragment.*;
 import com.example.academeet.Utils.HTTPSUtils;
 import com.example.academeet.Utils.ScreenInfoUtils;
 import com.example.academeet.Object.User;
+import com.example.academeet.Utils.UserManager;
 import com.paul.eventreminder.CalendarManager;
 import com.paul.eventreminder.model.CalendarEvent;
 
@@ -83,9 +84,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void readUser(){
+        String username = userPreference.getString("username", "");
+        String password = userPreference.getString("password", "");
+        user.setUsername(username);
+        user.setPassword(password);
         if(userPreference.getBoolean("remember_me", false)){
-            String username = userPreference.getString("username", "");
-            String password = userPreference.getString("password", "");
             login(username, password);
         }
     }
@@ -122,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                         switch (resultCode) {
                             case SUCCESS_CODE: {
                                 storeUser();
-                                Toast.makeText(MainActivity.this, getResources().getString(R.string.login_welcome)+", "+username,
+                                Toast.makeText(MainActivity.this, getResources().getString(R.string.login_welcome) + username,
                                         Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(MainActivity.this, UserHomeActivity.class);
                                 startActivity(intent);

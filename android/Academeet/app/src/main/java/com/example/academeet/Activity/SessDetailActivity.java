@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.academeet.Adapter.ConfDetailAdapter;
 import com.example.academeet.Adapter.SessDetailAdapter;
+import com.example.academeet.Fragment.CommentListFragment;
 import com.example.academeet.Fragment.PaperListFragment;
 import com.example.academeet.Fragment.SessDetailFragment;
 import com.example.academeet.Item.ConferenceItem;
@@ -96,12 +97,15 @@ public class SessDetailActivity extends AppCompatActivity {
         // Create an instance of the tab layout from the view.
         TabLayout tabLayout = findViewById(R.id.sess_detail_tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Details"));
+        tabLayout.addTab(tabLayout.newTab().setText("Comments"));
         tabLayout.addTab(tabLayout.newTab().setText("Papers"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         SessDetailFragment sessDetailFragment = new SessDetailFragment(session);
         fragmentList.add(sessDetailFragment);
+        fragmentList.add(new CommentListFragment(session.getId()));
         fragmentList.add(new PaperListFragment(session.getId()));
+
 
         final ViewPager viewPager = findViewById(R.id.sess_detail_view_pager);
         final SessDetailAdapter adapter = new SessDetailAdapter(getSupportFragmentManager(), fragmentList);
