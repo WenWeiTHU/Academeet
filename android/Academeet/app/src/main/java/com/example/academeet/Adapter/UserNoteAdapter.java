@@ -76,7 +76,7 @@ public class UserNoteAdapter extends RecyclerView.Adapter<UserNoteAdapter.ViewHo
         holder.itemView.setTag(R.id.posKey, position);
         holder.titleTextView.setText(note.getTitle());
         holder.abstractTextView.setText(note.getNoteAbstract());
-        holder.dateTextView.setText(note.getDate());
+        holder.dateTextView.setText(note.getEditDate());
     }
 
     public interface OnRecyclerViewItemClickListener {

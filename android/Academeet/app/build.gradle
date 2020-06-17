@@ -56,4 +56,8 @@ dependencies {
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'org.conscrypt:conscrypt-android:2.4.0'
+    implementation  'com.scwang.smart:refresh-layout-kernel:2.0.1'
+    implementation  'com.scwang.smart:refresh-header-radar:2.0.1'
+    implementation  'com.scwang.smart:refresh-footer-ball:2.0.1'
+    implementation files('src\\lib\\BASE64.jar')
 }
