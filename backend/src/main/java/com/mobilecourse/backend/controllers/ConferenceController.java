@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,54 +22,55 @@ public class ConferenceController extends CommonController {
 
     @Autowired
     private ConferenceDao conferenceMapper;
+    public static final int SEARCHPART = 10;        // 查询的时候一页显示十个。
 
-    @RequestMapping(value = "/api/conference/{type}")
-    public String getConferenceInfos(@PathVariable(value = "type") String type,
-                                     HttpServletRequest request) {
-        String param;
-        if (type.equals("search")) param = request.getParameter("keyword");
-        else param = request.getParameter(type);
-        if (param == null) return "{ \"accepted\": 0, \"msg\": \"param not found.\" }";
-        int index;
-        switch (type) {
-            case "day":
-                index = 0;
-                break;
-            case "tags":
-                index = 1;
-                break;
-            case "search":
-                index = 2;
-                break;
-            default:
-                index = -1;
-        }
-        if (index == -1) return "{ \"accepted\": 0, \"msg\": \"getConferenceInfos meet unknown query\" }";
-        String[] methods = { "selectByDate", "selectByTags", "selectByKeywords" };
+    @RequestMapping(value = "/api/conference/day")
+    public String getConferenceByDay(@RequestParam(value = "day")String day) {
+        List<Conference> conferences = conferenceMapper.selectByDate(day);
+        JSONObject resp = conferenceToJSON(conferences);
+        String err = resp.getString("error");
+        if (err != null) return wrapperMsg(0, err);
+        return resp.toJSONString();
+    }
+
+    @RequestMapping(value = "/api/conference/tags")
+    public String getConferenceByTags(@RequestParam(value = "tags") String tags) {
+        List<Conference> conferences = conferenceMapper.selectByTags(tags);
+        JSONObject resp = conferenceToJSON(conferences);
+        String err = resp.getString("error");
+        if (err != null) return wrapperMsg(0, err);
+        return resp.toJSONString();
+    }
+
+    @RequestMapping(value = "/api/conference/search")
+    public String getConferenceBySearch(@RequestParam(value = "keyword") String keyword,
+                                        @RequestParam(value = "count") int count) {
+        int conference_num = conferenceMapper.selectTotalNum();
+        int offset = SEARCHPART * count;
+        if (offset >= conference_num) return wrapperMsg(0, "count number overflow.");
+        List<Conference> conferences = conferenceMapper.selectByKeywords(keyword, SEARCHPART, offset);
+        JSONObject resp = conferenceToJSON(conferences);
+        String err = resp.getString("error");
+        if (err != null) return wrapperMsg(0, err);
+        resp.put("conference_num", conference_num);
+        return resp.toJSONString();
+    }
+
+    private JSONObject conferenceToJSON(List<Conference> conferences) {
+        JSONObject resp = new JSONObject();
         String[] attrs = { "conference_id", "name", "date", "chairs", "place", "visible" };
-        try {
-            List<Conference> infos = (List<Conference>) conferenceMapper.getClass()
-                    .getMethod(methods[index], String.class).invoke(conferenceMapper, param);
-						System.out.println(param);
-            JSONArray allinfos = new JSONArray();
-            for (Conference info: infos) {
-                JSONObject jsoninfo = new JSONObject();
-                for (String attr: attrs) {
-                    String getAttr = "get" + Character.toUpperCase(attr.charAt(0)) + attr.substring(1);
-                    jsoninfo.put(attr, Conference.class.getMethod(getAttr).invoke(info));
-                }
-                allinfos.add(jsoninfo);
+        JSONArray arr = new JSONArray();
+        for (Conference conference : conferences) {
+            try {
+                AttrToJSONArray(conference, arr, attrs);
+            } catch (Exception e) {
+                resp.put("error", e.getMessage() + e.getMessage());
+                return resp;
             }
-
-            JSONObject resp = new JSONObject();
-            resp.put("conferences", allinfos);
-            resp.put("conference_num", infos.size());
-						System.out.println(resp.toJSONString());
-            return resp.toJSONString();
-        } catch (Exception e) {
-						e.printStackTrace();
-            return "{ \"accepted\": 0, \"msg\": \"" + e.getMessage() + "\" }";
         }
+        resp.put("conferences", arr);
+        resp.put("conference_num", conferences.size());
+        return resp;
     }
 
     @RequestMapping(value = "/api/user/establishing/conference")

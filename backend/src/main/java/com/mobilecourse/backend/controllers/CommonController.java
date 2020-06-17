@@ -1,6 +1,8 @@
 package com.mobilecourse.backend.controllers;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.mobilecourse.backend.model.Conference;
 import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +27,15 @@ public class CommonController {
         wrapperMsg.put("accepted", accepted);
         wrapperMsg.put("msg", msg);
         return wrapperMsg.toJSONString();
+    }
+
+    public <T> void AttrToJSONArray(T obj, JSONArray arr, String[] attrs) throws Exception {
+        JSONObject jsoninfo = new JSONObject();
+        for (String attr : attrs) {
+            String getAttr = "get" + Character.toUpperCase(attr.charAt(0)) + attr.substring(1);
+            jsoninfo.put(attr, Conference.class.getMethod(getAttr).invoke(obj));
+        }
+        arr.add(jsoninfo);
     }
 
     public int getUserId(HttpSession s) {
