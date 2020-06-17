@@ -35,7 +35,15 @@ public class CommonController {
         return userid;
     }
 
-    public void sendFile(HttpServletResponse response, String path) throws IOException {
+    public String getUsername(HttpSession s) {
+        JSONObject user;
+        String username = "";
+        if ((user = (JSONObject) s.getAttribute("user")) != null)
+            username = user.getString("username");
+        return username;
+    }
+    
+		public void sendFile(HttpServletResponse response, String path) throws IOException {
         try {
 //            String staticpath = ResourceUtils.CLASSPATH_URL_PREFIX;
             String staticpath = System.getProperty("user.dir") + "/src/main/resources";

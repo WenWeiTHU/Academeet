@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.ArrayList;
+import java.sql.Timestamp;
 
 @RestController
 @EnableAutoConfiguration
@@ -81,7 +82,8 @@ public class RecordController extends CommonController {
                              HttpSession s) {
         int userid = getUserId(s);
         if (userid == -1) return LOGIN_MSG;
-        int rlt = recordMapper.updateNoteById(note_id, userid, title, text);
+				Timestamp curtime = new Timestamp(System.currentTimeMillis());
+        int rlt = recordMapper.updateNoteById(note_id, userid, title, text, curtime);
         if (rlt == 0) return wrapperMsg(0, "you are not owner.");
         return ACCEPT_MSG;
     }

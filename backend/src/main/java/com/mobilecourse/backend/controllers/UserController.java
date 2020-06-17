@@ -115,6 +115,7 @@ public class UserController extends CommonController {
         // TODO: 检验验证码的正确性
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+				password = Globals.decrypt(password);
         String phone = request.getParameter("phone");
         String captcha = request.getParameter("captcha");
         int type = Integer.parseInt(request.getParameter("type"));

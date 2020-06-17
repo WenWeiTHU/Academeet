@@ -8,26 +8,25 @@ public class Comment {
     Timestamp post_time;
     int session_id;
     int user_id;
+		String username;
 
     public Comment() { }
 
-    public Comment(int userid, int sessionid, String content) {
+    public Comment(int userid, String username, int sessionid, String content) {
         this.user_id = userid;
+				this.username = username;
         this.session_id = sessionid;
         this.content = content;
         this.post_time = new Timestamp(System.currentTimeMillis());
     }
 
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "comment_id=" + comment_id +
-                ", content='" + content + '\'' +
-                ", post_time=" + post_time +
-                ", session_id=" + session_id +
-                ", user_id=" + user_id +
-                '}';
-    }
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
 
     public int getComment_id() {
         return comment_id;

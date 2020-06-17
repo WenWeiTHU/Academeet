@@ -25,7 +25,7 @@
     </insert>
 
     <update id="updateNoteById">
-        UPDATE note SET title=#{title}, text=#{text} WHERE note_id=${note_id} AND user_id=${user_id}
+        UPDATE note SET title=#{title}, text=#{text}, update_time=${update_time} WHERE note_id=${note_id} AND user_id=${user_id}
     </update>
 
     <delete id="deleteNoteById">
