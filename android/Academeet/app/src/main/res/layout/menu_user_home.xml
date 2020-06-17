@@ -98,11 +98,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/user_home_menu_item_reminder"
+            android:id="@+id/home_menu_item_search"
             android:gravity="left"
             android:orientation="horizontal"
             android:padding="10dp"
-            android:onClick="onSettingsItemClicked"
+            android:onClick="onNoteItemClicked"
             android:layout_gravity="center"
             >
             <ImageView
@@ -110,18 +110,18 @@
                 android:layout_height="20dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
-                android:src="@drawable/ic_settings"
+                android:src="@drawable/ic_search"
                 android:gravity="bottom" />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:gravity="bottom"
-                android:text="Settings"
+                android:text="Search"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:background="@color/home_menu_item_background"
                 android:textSize="20dp"
-                android:onClick="onSettingsItemClicked"/>
+                android:onClick="onSearchItemClicked"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -151,6 +151,35 @@
                 android:textSize="20dp"
                 android:onClick="onNoteItemClicked"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/user_home_menu_item_reminder"
+            android:gravity="left"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:onClick="onSettingsItemClicked"
+            android:layout_gravity="center"
+            >
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:src="@drawable/ic_settings"
+                android:gravity="bottom" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:gravity="bottom"
+                android:text="Settings"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:background="@color/home_menu_item_background"
+                android:textSize="20dp"
+                android:onClick="onSettingsItemClicked"/>
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

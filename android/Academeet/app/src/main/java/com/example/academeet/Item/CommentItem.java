@@ -37,7 +37,6 @@ public class CommentItem {
         this.postTime = postTime;
     }
 
-
     public void setUsername(String username) {
         this.username = username;
     }

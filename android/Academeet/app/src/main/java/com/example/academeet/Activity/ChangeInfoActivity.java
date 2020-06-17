@@ -24,6 +24,7 @@ public class ChangeInfoActivity extends AppCompatActivity implements View.OnClic
 
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
