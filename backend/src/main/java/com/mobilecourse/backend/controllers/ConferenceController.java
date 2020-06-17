@@ -45,7 +45,7 @@ public class ConferenceController extends CommonController {
     @RequestMapping(value = "/api/conference/search")
     public String getConferenceBySearch(@RequestParam(value = "keyword") String keyword,
                                         @RequestParam(value = "count") int count) {
-        int conference_num = conferenceMapper.selectTotalNum();
+        int conference_num = conferenceMapper.selectTotalNum(keyword);
         int offset = SEARCHPART * count;
         if (offset >= conference_num) return wrapperMsg(0, "count number overflow.");
         List<Conference> conferences = conferenceMapper.selectByKeywords(keyword, SEARCHPART, offset);

@@ -11,7 +11,7 @@ public interface ConferenceDao {
     List<Conference> selectByDate(String date);
     List<Conference> selectByTags(String tags);
     List<Conference> selectByKeywords(String keywords, int limit, int offset);
-    int selectTotalNum();
+    int selectTotalNum(String keywords);
     Conference selectById(int conference_id, int user_id);
     List<Conference> selectEstablishedConferences(int user_id);
     Session selectSessionById(int session_id, int user_id);
