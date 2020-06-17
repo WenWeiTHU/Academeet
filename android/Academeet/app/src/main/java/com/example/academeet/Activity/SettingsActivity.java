@@ -199,6 +199,4 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         };
         new Thread(upload).start();
     }
-
-
 }

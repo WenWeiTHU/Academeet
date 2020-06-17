@@ -93,7 +93,6 @@ public class SessDetailActivity extends AppCompatActivity {
             }
         };
 
-
         // Create an instance of the tab layout from the view.
         TabLayout tabLayout = findViewById(R.id.sess_detail_tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Details"));
