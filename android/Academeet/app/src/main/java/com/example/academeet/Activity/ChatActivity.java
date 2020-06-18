@@ -41,13 +41,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private AWebSocketClient client;
     private AWebSocketClientService.AWebSocketClientBinder binder;
     private AWebSocketClientService aWebSClientService;
-
     private MessageReceiver messageReceiver;
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            Log.e("MainActivity", "服务与活动成功绑定");
+            Log.i("MainActivity", getResources().getString(R.string.bind_successful));
             binder = (AWebSocketClientService.AWebSocketClientBinder) iBinder;
             aWebSClientService = binder.getService();
             client = aWebSClientService.client;
@@ -55,10 +54,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
-            Log.e("MainActivity", "服务与活动成功断开");
+            Log.i("MainActivity", getResources().getString(R.string.disconnect_successful));
         }
     };
 
+    /**
+     * @describe: On websocket message received
+     */
     private class MessageReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -79,27 +81,17 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.show_chatting_toolbar);
-        toolbar.setTitle("Chatting Room");
+        toolbar.setTitle(getResources().getString(R.string.chatroom_title));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         toolbar.setNavigationOnClickListener((view) -> {finish();});
 
-        //启动服务w
-        startJWebSClientService();
-        //绑定服务
-        bindService();
-        //注册广播
-        doRegisterReceiver();
-//        //检测通知是否开启
-//        checkNotification(mContext);
+        startJWebSClientService();   // initialize service
+        bindService();               // bind service
+        doRegisterReceiver();        // register websocket message receiver
         ButterKnife.bind(this);
         btn_send.setOnClickListener(this);
-    }
-
-    private void bindService() {
-        Intent bindIntent = new Intent(ChatActivity.this, AWebSocketClientService.class);
-        bindService(bindIntent, serviceConnection, BIND_AUTO_CREATE);
     }
 
     private void startJWebSClientService() {
@@ -107,26 +99,43 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         startService(intent);
     }
 
+    private void bindService() {
+        Intent bindIntent = new Intent(ChatActivity.this, AWebSocketClientService.class);
+        bindService(bindIntent, serviceConnection, BIND_AUTO_CREATE);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(messageReceiver);
+        unbindService(serviceConnection);
+    }
+
     private void doRegisterReceiver() {
         messageReceiver = new MessageReceiver();
-        IntentFilter filter = new IntentFilter("com.xch.servicecallback.content");
+        IntentFilter filter = new IntentFilter("com.example.academeet.servicecallback");
         registerReceiver(messageReceiver, filter);
     }
 
+    /**
+     * @describe: Send button click listener
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_send:
                 String content = et_content.getText().toString();
                 if (content.length() <= 0) {
-                    Toast.makeText(ChatActivity.this, "message should not be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChatActivity.this,
+                            getResources().getString(R.string.message_empty), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                  if (client != null && client.isOpen()) {
                     aWebSClientService.sendMsg(content);
 
-                    //暂时将发送的消息加入消息列表，实际以发送成功为准（也就是服务器返回你发的消息时）
                     Message message=new Message();
                     message.setContent(content);
                     message.setIsMeSend(1);
@@ -136,7 +145,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     initChatMsgListView();
                     et_content.setText("");
                 } else {
-                    Toast.makeText(ChatActivity.this, "websocket has disconnected, please wait or restart app", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChatActivity.this,
+                            getResources().getString(R.string.websocket_disconnect), Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
@@ -144,6 +154,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * @describe: Show message
+     */
     private void initChatMsgListView(){
         MessageAdapter messageAdapter = new MessageAdapter(ChatActivity.this, chatMessageList);
         listView.setAdapter(messageAdapter);

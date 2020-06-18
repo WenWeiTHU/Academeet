@@ -12,19 +12,14 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import com.example.academeet.Activity.UserHomeActivity;
 import com.example.academeet.Adapter.CommentListAdapter;
-import com.example.academeet.Adapter.SessionListAdapter;
 import com.example.academeet.Item.CommentItem;
-import com.example.academeet.Item.SessionItem;
-import com.example.academeet.Object.User;
 import com.example.academeet.R;
 import com.example.academeet.Utils.HTTPSUtils;
 import com.example.academeet.Utils.UserManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -186,7 +181,3 @@ public class CommentListFragment extends Fragment {
         }
     }
 }
-
-
-
-

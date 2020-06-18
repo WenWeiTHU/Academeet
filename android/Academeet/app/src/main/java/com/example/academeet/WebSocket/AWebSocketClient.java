@@ -15,21 +15,21 @@ public class AWebSocketClient extends WebSocketClient {
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
-        Log.e("AWebSocketClient", "onOpen()");
+        Log.i("AWebSocketClient", "onOpen()");
     }
 
     @Override
     public void onMessage(String message) {
-        Log.e("AWebSocketClient", "onMessage()");
+        Log.i("AWebSocketClient", "onMessage()");
     }
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-        Log.e("AWebSocketClient", "onClose()");
+        Log.i("AWebSocketClient", "onClose()");
     }
 
     @Override
     public void onError(Exception ex) {
-        Log.e("AWebSocketClient", "onError()");
+        Log.i("AWebSocketClient", "onError()");
     }
 }

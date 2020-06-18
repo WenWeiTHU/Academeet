@@ -1,12 +1,10 @@
 package com.example.academeet.components;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -46,7 +44,6 @@ public class MenuComponent extends RelativeLayout {
     private void init(Context context, AttributeSet attrs) {
         mView = LayoutInflater.from(context).inflate(R.layout.component_menu,this,true);
         ButterKnife.bind(mView);
-//        @SuppressLint({"Recycle", "CustomViewStyleable"})
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.submenu);
         sub_menu_text.setText(a.getString(R.styleable.submenu_text));
         sub_content_text.setText(a.getString(R.styleable.submenu_text_content));
