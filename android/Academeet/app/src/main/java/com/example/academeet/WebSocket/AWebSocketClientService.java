@@ -1,10 +1,8 @@
 package com.example.academeet.WebSocket;
 
-import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
-import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
@@ -70,10 +68,10 @@ public class AWebSocketClientService extends Service {
         client = new AWebSocketClient(uri) {
             @Override
             public void onMessage(String message) {
-                Log.e("AWebSocketClientService", "收到的消息：" + message);
+                Log.i("AWebSocketClientService", "Receive message: " + message);
 
                 Intent intent = new Intent();
-                intent.setAction("com.xch.servicecallback.content");
+                intent.setAction("com.example.academeet.servicecallback");
                 intent.putExtra("message", message);
                 sendBroadcast(intent);
 
@@ -83,7 +81,7 @@ public class AWebSocketClientService extends Service {
             @Override
             public void onOpen(ServerHandshake handshakedata) {
                 super.onOpen(handshakedata);
-                Log.e("AWebSocketClientService", "websocket连接成功");
+                Log.i("AWebSocketClientService", "Connect to websocket successfully");
             }
         };
         connect();
@@ -94,7 +92,6 @@ public class AWebSocketClientService extends Service {
             @Override
             public void run() {
                 try {
-                    //connectBlocking多出一个等待操作，会先连接再发送，否则未连接发送会报错
                     client.connectBlocking();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -106,7 +103,7 @@ public class AWebSocketClientService extends Service {
 
     public void sendMsg(String msg) {
         if (null != client) {
-            Log.e("AWebSocketClientService", "发送的消息：" + msg);
+            Log.i("AWebSocketClientService", "Send message: " + msg);
             client.send(msg);
         }
     }
@@ -123,19 +120,20 @@ public class AWebSocketClientService extends Service {
         }
     }
 
-    // heart beat detection
+    /**
+     * @describe: Check websocket heartbeat
+     */
     private static final long HEART_BEAT_RATE = 10 * 1000;//每隔10秒进行一次对长连接的心跳检测
     private Handler mHandler = new Handler();
     private Runnable heartBeatRunnable = new Runnable() {
         @Override
         public void run() {
-            Log.e("JWebSocketClientService", "心跳包检测websocket连接状态");
+            Log.i("JWebSocketClientService", "check websocket heartbeat");
             if (client != null) {
                 if (client.isClosed()) {
                     reconnectWs();
                 }
             } else {
-                //如果client已为空，重新初始化连接
                 client = null;
                 initSocketClient();
             }
@@ -144,13 +142,16 @@ public class AWebSocketClientService extends Service {
         }
     };
 
+    /**
+     * @describe: Reconnect websocket
+     */
     private void reconnectWs() {
         mHandler.removeCallbacks(heartBeatRunnable);
         new Thread() {
             @Override
             public void run() {
                 try {
-                    Log.e("JWebSocketClientService", "开启重连");
+                    Log.i("JWebSocketClientService", "starting reconnect");
                     client.reconnectBlocking();
                 } catch (InterruptedException e) {
                     e.printStackTrace();

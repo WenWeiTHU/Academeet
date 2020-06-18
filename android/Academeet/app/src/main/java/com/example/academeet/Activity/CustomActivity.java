@@ -24,14 +24,16 @@ public class CustomActivity extends AppCompatActivity {
     ViewPager mCustomViewerPager;
     @BindView(R.id.custom_tab_layout)
     TabLayout mCustomTabLayout;
-//    @BindView(R.id.calendar_fab)
-//    FloatingActionButton fab;
     CustomFragment favorsFragment;
     CustomFragment remindsFragment;
 
+    /**
+     * @describe: Inflate the menu; this adds items to the action bar if it is present.
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_custom, menu);
         return true;
     }

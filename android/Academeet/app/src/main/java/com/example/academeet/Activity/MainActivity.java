@@ -22,15 +22,8 @@ import com.example.academeet.Fragment.*;
 import com.example.academeet.Utils.HTTPSUtils;
 import com.example.academeet.Utils.ScreenInfoUtils;
 import com.example.academeet.Object.User;
-import com.example.academeet.Utils.UserManager;
-import com.paul.eventreminder.CalendarManager;
-import com.paul.eventreminder.model.CalendarEvent;
-
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,11 +46,6 @@ public class MainActivity extends AppCompatActivity {
     private final String LOGIN_FRAGMENT_KEY = "LOGIN_FRAGMENT";
     private final String REGISTER_PAGE_1_FRAGMENT_KEY = "REGISTER_PAGE_1_FRAGMENT";
     private final String REGISTER_PAGE_2_FRAGMENT_KEY = "REGISTER_PAGE_2_FRAGMENT";
-    private final String USER_TYPE_INFO_KEY = "USER_TYPE";
-    private final String USER_NAME_INFO_KEY = "USER_NAME";
-    private final String USER_PASSWORD_INFO_KEY = "USER_PASSWORD";
-    private final String USER_PHONE_INFO_KEY = "USER_PHONE";
-    private final String USER_CAPCHA_INFO_KEY = "USER_CAPCHA";
     private SharedPreferences userPreference;
     SharedPreferences.Editor userEditor;
 
@@ -125,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                         switch (resultCode) {
                             case SUCCESS_CODE: {
                                 storeUser();
-                                Toast.makeText(MainActivity.this, getResources().getString(R.string.login_welcome) + username,
+                                Toast.makeText(MainActivity.this, getResources().getString(R.string.login_welcome) + ' ' +username,
                                         Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(MainActivity.this, UserHomeActivity.class);
                                 startActivity(intent);
