@@ -19,6 +19,10 @@
         SELECT * FROM message WHERE chatroom_id=${chatroom_id}
     </select>
 
+    <select id="selectUsernum" resultType="java.lang.Integer">
+        SELECT participant_num FROM chatroom WHERE chatroom_id=${chatroom_id}
+    </select>
+
 
     <insert id="insertNote" keyProperty="note_id" useGeneratedKeys="true" parameterType="com.mobilecourse.backend.model.Note">
         INSERT INTO note (user_id, title, text, create_time, update_time) values (${user_id}, #{title}, #{text}, #{create_time}, #{create_time})

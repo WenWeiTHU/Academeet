@@ -2,6 +2,7 @@ package com.mobilecourse.backend;
 
 import com.alibaba.fastjson.JSONObject;
 import com.mobilecourse.backend.dao.RecordDao;
+import com.mobilecourse.backend.model.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,8 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Set;
@@ -26,8 +29,7 @@ public class WebSocketServer {
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
 
-    @Autowired
-    private RecordDao recordMapper;
+    private RecordDao recordMapper = SpringUtil.getBean(RecordDao.class);
 
     //用于标识客户端的sid
     // 用于记录当前的房间号
@@ -43,30 +45,33 @@ public class WebSocketServer {
         Globals.websocketTables.get(roomid).add(session);
         try {
             System.out.println("Connect to websocket room "+roomid);
-            sendMessage("成功连接websocket-"+roomid+"号房间");
+            JSONObject obj = new JSONObject();
+            obj.put("user_id", -1);
+            obj.put("user_name", "server");
+            obj.put("send_time", new Timestamp(System.currentTimeMillis()).toString());
+            obj.put("content", "Join conference chatting room successfully, current users: "
+                    + recordMapper.selectUsernum(roomid));
+            sendMessage(obj.toJSONString());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // recordMapper.updateChatroom("participant_num", 1);
+         recordMapper.updateChatroom("participant_num", 1);
     }
 
     // 在关闭连接时移除对应连接
     @OnClose
     public void onClose() {
         Globals.websocketTables.get(roomid).remove(this.session);
-        // recordMapper.updateChatroom("participant_num", -1);
+         recordMapper.updateChatroom("participant_num", -1);
     }
 
     // 收到消息时候的处理
     @OnMessage
     public void onMessage(String message, Session session) {
         JSONObject obj = JSONObject.parseObject(message);
-        int userid = obj.getIntValue("user_id");
-        String username = obj.getString("user_name");
-        String send_time = obj.getString("send_time");
-        String content = obj.getString("content");
-        // recordMapper.insertMessage(roomid, username, send_time, content);
-        // recordMapper.updateChatroom("record_num", 1);
+        Message msg = new Message(obj, this.roomid);
+        recordMapper.insertMessage(msg);
+        recordMapper.updateChatroom("record_num", 1);
         broadcast(message, this.roomid);
     }
 
