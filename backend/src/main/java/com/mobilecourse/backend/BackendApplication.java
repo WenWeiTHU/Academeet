@@ -25,7 +25,7 @@ public class BackendApplication extends SpringBootServletInitializer {
 
     private Connector createStandardConnector() {
         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
-        connector.setPort(8080);
+        connector.setPort(8443);
         return connector;
     }
 
