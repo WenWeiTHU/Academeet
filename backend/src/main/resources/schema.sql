@@ -15,7 +15,9 @@ SET global time_zone='+8:00';
 CREATE TABLE IF NOT EXISTS chatroom(
     chatroom_id int primary key auto_increment,
     participant_num int,
-    record_num int
+    record_num int,
+		conference_id int,
+    foreign key(conference_id) references conference(conference_id) on delete cascade on update cascade
 ) default charset=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS comment(
