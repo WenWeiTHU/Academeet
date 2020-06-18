@@ -362,6 +362,11 @@ public class UserHomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onSearchItemClicked(View v) {
+        Intent intent = new Intent(UserHomeActivity.this, SearchActivity.class);
+        startActivity(intent);
+    }
+
     public void onLogoutItemClicked(View v) {
         // TODO: logout
         new Thread(new Runnable() {
