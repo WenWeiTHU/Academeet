@@ -5,6 +5,11 @@ public class Chatroom {
     int participant_num;
     int record_num;
 
+    public Chatroom() {
+        participant_num = 0;
+        record_num = 0;
+    }
+
     public int getChatroom_id() {
         return chatroom_id;
     }

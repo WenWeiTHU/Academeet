@@ -200,7 +200,7 @@ public class UserManager {
         FormBody formBody = new FormBody.Builder()
                 .add("title", note.getTitle())
                 .add("text", note.getContent())
-                .add("create_time", note.getDate()+":00")
+                .add("create_time", note.getCreateDate() +":00")
                 .build();
         Request request = new Request.Builder()
                 .url(SERVER_ADDR + NEW_NOTE)
@@ -301,8 +301,10 @@ public class UserManager {
                 Note note = new Note();
                 note.setContent((String)s.get("text"));
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                Date date = new Date((long)s.get("create_time"));
-                note.setDate(simpleDateFormat.format(date));
+                Date createDate = new Date((long)s.get("create_time"));
+                note.setCreateDate(simpleDateFormat.format(createDate));
+                Date editDate = new Date((long)s.get("update_time"));
+                note.setEditDate(simpleDateFormat.format(editDate));
                 note.setId(String.valueOf(s.get("note_id")));
                 notes.add(note);
             }

@@ -76,7 +76,10 @@ public class EditNoteActivity extends AppCompatActivity {
 
     public void finishNoteEdit(View v) {
         note.setContent(content.getText().toString());
-        note.setDate(getCurrentTimeString());
+        note.setEditDate(getCurrentTimeString());
+        if (note.getCreateDate().equals("")) {
+            note.setCreateDate(getCurrentTimeString());
+        }
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putSerializable("Note", note);

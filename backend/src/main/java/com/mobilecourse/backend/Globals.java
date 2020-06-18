@@ -11,10 +11,14 @@ import javax.annotation.Resource;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import javax.websocket.Session;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 @Component
 public class Globals {
@@ -29,6 +33,7 @@ public class Globals {
     public static final String apiUrl = "https://sms_developer.zhenzikj.com";
     public static final boolean USERINIT = true;
     private static final String encryptkey = "cc839cf9feba4ed7ba68064177a0b505";
+    public static Map<Integer, Set<Session>> websocketTables = new HashMap<>();
 
     private static void getKeyIV(String encryptkey, byte[] key, byte[] iv) {
         Base64.Decoder decoder = Base64.getDecoder();

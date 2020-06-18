@@ -1,6 +1,8 @@
 package com.example.academeet.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.academeet.Adapter.ConfDetailAdapter;
 import com.example.academeet.Fragment.ConfDetailFragment;
@@ -29,17 +31,15 @@ public class ConfDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        // TODO: Chatting room
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Context context = view.getContext();
-//                Intent intent = new Intent(context, SearchActivity.class);
-//
-//
-//                context.startActivity(intent);
-//            }
-//        });
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext();
+                Intent intent = new Intent(context, ChatActivity.class);
+
+                context.startActivity(intent);
+            }
+        });
 
         // Create an instance of the tab layout from the view.
         TabLayout tabLayout = findViewById(R.id.conf_detail_tab_layout);

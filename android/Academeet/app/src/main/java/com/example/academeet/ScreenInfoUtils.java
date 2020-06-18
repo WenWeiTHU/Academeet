@@ -11,16 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-/**
- * ================================================
- * 项    目：AndroidSidebar
- * 作    者：zj
- * 版    本：1.0
- * 创建日期：2019/5/09
- * 描    述：屏幕工具
- * 修订历史：
- * ================================================
- */
+
 public class ScreenInfoUtils {
     /**
      * 通过设置全屏，设置状态栏透明

@@ -32,6 +32,8 @@ public class ShowNoteActivity extends AppCompatActivity {
     TextView showNoteEditTime;
     @BindView(R.id.show_note_word_count)
     TextView showNoteWordCount;
+    @BindView(R.id.show_note_create_time)
+    TextView showNoteCreateTime;
     String wordSizePrefs;
     private AlarmManager alarmManager;
     private PendingIntent pi;
@@ -59,9 +61,10 @@ public class ShowNoteActivity extends AppCompatActivity {
         // 初始化note数据
         String content = note.getContent();
         showNoteTextView.setText(content);
-        showNoteEditTime.setText(note.getDate());
+        showNoteEditTime.setText("Last Edit Time: " + note.getEditDate());
         showNoteWordCount.setText("Words: " +
                 String.valueOf(content.trim().length()));
+        showNoteCreateTime.setText("Create Time: " + note.getCreateDate());
     }
 
     private void initData() {
@@ -90,6 +93,8 @@ public class ShowNoteActivity extends AppCompatActivity {
             Bundle bundle = data.getBundleExtra("data");
             note = (Note)bundle.getSerializable("Note");
             showNoteTextView.setText(note.getContent());
+            showNoteWordCount.setText(String.valueOf(note.getContent().length()));
+            showNoteEditTime.setText("Last Edit Time: " + note.getEditDate());
             new Thread(new Runnable() {
                 @Override
                 public void run() {

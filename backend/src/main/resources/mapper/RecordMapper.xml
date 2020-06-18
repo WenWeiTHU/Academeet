@@ -24,6 +24,15 @@
         INSERT INTO note (user_id, title, text, create_time, update_time) values (${user_id}, #{title}, #{text}, #{create_time}, #{create_time})
     </insert>
 
+    <insert id="insertMessage" keyProperty="message_id" useGeneratedKeys="true" parameterType="com.mobilecourse.backend.model.Message">
+        INSERT INTO message (chatroom_id, username, time, details) values (${chatroom_id}, #{username}, #{time}, #{details})
+    </insert>
+
+
+    <update id="updateChatroom">
+        UPDATE chatroom SET ${column} = ${column} + ${adding}
+    </update>
+
     <update id="updateNoteById">
         UPDATE note SET title=#{title}, text=#{text}, update_time=now() WHERE note_id=${note_id} AND user_id=${user_id}
     </update>

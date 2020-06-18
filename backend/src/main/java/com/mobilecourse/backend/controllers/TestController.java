@@ -103,16 +103,16 @@ public class TestController extends CommonController {
     }
 
     // WebSocket群发消息
-    @RequestMapping("/sendSocketMsg/{msg}")
-    public String sendSocketMsg(@PathVariable String msg) {
-        try {
-            Hashtable<String, WebSocketServer> webSockets = WebSocketServer.getWebSocketTable();
-            for (WebSocketServer socketServer : webSockets.values()) {
-                socketServer.sendMessage(msg);
-            }
-            return wrapperMsg(200, "sucess");
-        } catch (Exception e) {
-            return wrapperMsg(500, e.toString());
-        }
-    }
+//    @RequestMapping("/sendSocketMsg/{msg}")
+//    public String sendSocketMsg(@PathVariable String msg) {
+//        try {
+//            Hashtable<String, WebSocketServer> webSockets = WebSocketServer.getWebSocketTable();
+//            for (WebSocketServer socketServer : webSockets.values()) {
+//                socketServer.sendMessage(msg);
+//            }
+//            return wrapperMsg(200, "sucess");
+//        } catch (Exception e) {
+//            return wrapperMsg(500, e.toString());
+//        }
+//    }
 }
