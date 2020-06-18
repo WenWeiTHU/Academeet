@@ -1,5 +1,6 @@
 package com.mobilecourse.backend.dao;
 
+import com.mobilecourse.backend.model.Chatroom;
 import com.mobilecourse.backend.model.Conference;
 import com.mobilecourse.backend.model.Paper;
 import com.mobilecourse.backend.model.Session;
@@ -21,6 +22,7 @@ public interface ConferenceDao {
 
     int insertConference(Conference conference);
     int insertUserConference(int id, int conference_id, String uctype);
+    int insertChatroom(Chatroom chatroom);
     int insertSession(Session session);
     int insertPaper(Paper paper);
 

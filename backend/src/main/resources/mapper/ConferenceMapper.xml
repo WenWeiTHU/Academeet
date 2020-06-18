@@ -74,6 +74,10 @@
         (user_id, conference_id, uctype) = (#{id}, #{conference_id}, #{uctype}))
     </insert>
 
+    <insert id="insertChatroom" parameterType="com.mobilecourse.backend.model.Chatroom">
+        INSERT INTO chatroom VALUES (${chatroom_id}, ${participant_num}, ${record_num})
+    </insert>
+
     <insert id="insertSession" keyProperty="session_id" useGeneratedKeys="true" parameterType="com.mobilecourse.backend.model.Session">
         INSERT INTO session (topic, description, start_time, end_time, reporters, rating, conference_id, visible, conference_visible)
         VALUES (#{topic}, #{description}, #{start_time}, #{end_time}, #{reporters}, ${rating}, ${conference_id}, ${visible}, ${conference_visible})
