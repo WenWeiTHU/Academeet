@@ -34,14 +34,14 @@ public class ConferenceController extends CommonController {
         return resp.toJSONString();
     }
 
-    @RequestMapping(value = "/api/conference/tags")
-    public String getConferenceByTags(@RequestParam(value = "tags") String tags) {
-        List<Conference> conferences = conferenceMapper.selectByTags(tags);
-        JSONObject resp = conferenceToJSON(conferences);
-        String err = resp.getString("error");
-        if (err != null) return wrapperMsg(0, err);
-        return resp.toJSONString();
-    }
+    // @RequestMapping(value = "/api/conference/tags")
+    // public String getConferenceByTags(@RequestParam(value = "tags") String tags) {
+    //     List<Conference> conferences = conferenceMapper.selectByTags(tags);
+    //     JSONObject resp = conferenceToJSON(conferences);
+    //     String err = resp.getString("error");
+    //     if (err != null) return wrapperMsg(0, err);
+    //     return resp.toJSONString();
+    // }
 
 
     @RequestMapping(value = "/api/conference/search")

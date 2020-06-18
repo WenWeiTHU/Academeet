@@ -3,6 +3,7 @@ package com.mobilecourse.backend;
 import com.alibaba.fastjson.JSONObject;
 import com.mobilecourse.backend.dao.RecordDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -15,6 +16,7 @@ import java.util.Set;
 
 @ServerEndpoint("/websocket/{roomid}")
 @Component
+@EnableAutoConfiguration
 public class WebSocketServer {
 
 //    public static Hashtable<String, WebSocketServer> getWebSocketTable() {
@@ -25,7 +27,7 @@ public class WebSocketServer {
     private Session session;
 
     @Autowired
-    RecordDao recordMapper;
+    private RecordDao recordMapper;
 
     //用于标识客户端的sid
     // 用于记录当前的房间号
@@ -40,19 +42,19 @@ public class WebSocketServer {
             Globals.websocketTables.put(roomid, new HashSet<>());
         Globals.websocketTables.get(roomid).add(session);
         try {
-            System.out.println("成功连接websocket-"+roomid+"号房间");
+            System.out.println("Connect to websocket room "+roomid);
             sendMessage("成功连接websocket-"+roomid+"号房间");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        recordMapper.updateChatroom("participant_num", 1);
+        // recordMapper.updateChatroom("participant_num", 1);
     }
 
     // 在关闭连接时移除对应连接
     @OnClose
     public void onClose() {
         Globals.websocketTables.get(roomid).remove(this.session);
-        recordMapper.updateChatroom("participant_num", -1);
+        // recordMapper.updateChatroom("participant_num", -1);
     }
 
     // 收到消息时候的处理
@@ -63,8 +65,8 @@ public class WebSocketServer {
         String username = obj.getString("user_name");
         String send_time = obj.getString("send_time");
         String content = obj.getString("content");
-        recordMapper.insertMessage(roomid, username, send_time, content);
-        recordMapper.updateChatroom("record_num", 1);
+        // recordMapper.insertMessage(roomid, username, send_time, content);
+        // recordMapper.updateChatroom("record_num", 1);
         broadcast(message, this.roomid);
     }
 

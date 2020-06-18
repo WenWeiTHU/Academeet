@@ -6,6 +6,7 @@ target/
 
 ### STATIC ###
 src/main/resources/static/
+console.log
 
 ### STS ###
 .apt_generated
