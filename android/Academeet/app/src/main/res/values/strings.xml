@@ -6,7 +6,6 @@
     <string name="login_type_admin">Admin</string>
     <string name="login_button">Go</string>
     <string name="register_button">Register</string>
-
     <string name="getting_capcha_too_busily_hint">Capcha has been sent to you, please try again in %s seconds</string>
     <string name="register_password_not_equals_confirm_password">Password entered twice are inconsistent</string>
     <string name="register_username_is_empty">Username cannot be empty</string>
@@ -36,25 +35,26 @@
         "seams, divides space, and indicates moving parts.\n\n
     </string>
     <string name="action_settings">Settings</string>
-    <string name="login_welcome">Welcome!</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="login_welcome">Welcome! </string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_sess_detail">SessDetailActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="login_with_error_password">Wrong username or password</string>
     <string name="login_user_not_exist">User not exists</string>
     <string name="wrong_status">Something is wrong...</string>
     <string name="title_activity_custom">CustomActivity</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
-
     <string name="settings_title">Modify</string>
     <string name="execute_change">OK</string>
+    <string name="backend_wrong">Backend wrong</string>
+    <string name="something_wrong">Something wrong</string>
+    <string name="message_empty">Message should not be empty</string>
+    <string name="chatroom_title">Chatting Room</string>
+    <string name="update_password_ok">Update password successfully</string>
+    <string name="update_avatar_ok">Update avatar successfully</string>
+    <string name="update_password_fail">Fail to update password</string>
+    <string name="password_wrong">Old password is wrong</string>
+    <string name="change_date_ok">Change date successfully</string>
+    <string name="press_again_exit">Press back again to exit</string>
+    <string name="websocket_disconnect">Websocket has disconnected, please wait or restart app</string>
+    <string name="bind_successful">Bind activity and service successfully</string>
+    <string name="disconnect_successful">Disconnect activity and service successfully</string>
 </resources>

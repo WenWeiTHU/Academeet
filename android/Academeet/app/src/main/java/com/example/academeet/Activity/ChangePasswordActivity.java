@@ -46,7 +46,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
             return;
         }
 
-        System.out.println(oldPasswd+" "+ newPasswd);
+//        System.out.println(oldPasswd+" "+ newPasswd);
         Runnable update = new Runnable() {
             @Override
             public void run() {
@@ -56,21 +56,21 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
                     @Override
                     public void run() {
                         if (jsonObject == null) {
-                            Toast toast = Toast.makeText(ChangePasswordActivity.this, "Backend wrong", Toast.LENGTH_SHORT);
+                            Toast toast = Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.backend_wrong), Toast.LENGTH_SHORT);
                             toast.show();
                             return;
                         }
                         try {
                             String accepted = jsonObject.getString("accepted");
                             if(accepted.equals("1")){
-                                Toast.makeText(ChangePasswordActivity.this, "Update password successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.update_password_ok), Toast.LENGTH_SHORT).show();
                             } else if (accepted.equals("-1")){
-                                Toast.makeText(ChangePasswordActivity.this, "Old password is wrong", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ChangePasswordActivity.this,  getResources().getString(R.string.password_wrong), Toast.LENGTH_SHORT).show();
                             } else{
-                                Toast.makeText(ChangePasswordActivity.this, "Fail to update password", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.update_password_fail), Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
-                            Toast toast = Toast.makeText(ChangePasswordActivity.this, "Something wrong", Toast.LENGTH_SHORT);
+                            Toast toast = Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT);
                             toast.show();
                         }
                     }
@@ -82,8 +82,13 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
     }
 
     /**
+<<<<<<< HEAD
      * @describe: 响应用户点击按钮事件，如果是提交键则修改密码，否则返回上一级菜单
      * @param v 被点击的按钮
+=======
+     * @describe: On OK button click listener
+     * @param v
+>>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     @Override
     public void onClick(View v) {

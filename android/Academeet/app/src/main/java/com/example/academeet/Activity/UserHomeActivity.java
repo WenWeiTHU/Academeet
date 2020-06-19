@@ -1,14 +1,11 @@
 package com.example.academeet.Activity;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +17,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,7 +32,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import com.alibaba.fastjson.JSONObject;
 import com.example.academeet.Adapter.HomePagerAdapter;
 import com.example.academeet.Fragment.ConferenceListFragment;
-import com.example.academeet.Object.User;
 import com.example.academeet.R;
 import com.example.academeet.Utils.ConfManager;
 import com.example.academeet.Utils.HTTPSUtils;
@@ -44,23 +39,11 @@ import com.example.academeet.Utils.ScreenInfoUtils;
 import com.example.academeet.Utils.UserManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
-
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -87,10 +70,8 @@ public class UserHomeActivity extends AppCompatActivity {
     TextView signatureText;
     @BindView(R.id.home_menu_avatar)
     CircleImageView avatarView;
-    private final String SERVER_ADDR = "https://49.232.141.126:8080";
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            "android.permission.WRITE_EXTERNAL_STORAGE" };
+    private static String[] PERMISSIONS_STORAGE = { "android.permission.WRITE_EXTERNAL_STORAGE" };
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
     HomePagerAdapter pagerAdapter;
     private boolean mIsExit;
@@ -135,11 +116,14 @@ public class UserHomeActivity extends AppCompatActivity {
         year = cldr.get(Calendar.YEAR);
         initFrame();
         initMainContent();
-
     }
 
     /**
+<<<<<<< HEAD
      * @describe: 复原时，重新初始化用户的信息
+=======
+     * @describe: Update user info when return back to user home fragment
+>>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     @Override
     protected void onResume() {
@@ -148,7 +132,11 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
+<<<<<<< HEAD
      * @describe: 检测是否有读写存储的权限，如果没有则请求权限
+=======
+     * @decribe: Check if has storage Permissions
+>>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     public void verifyStoragePermissions() {
         try {
@@ -165,7 +153,11 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
+<<<<<<< HEAD
      * @describe: 向服务器请求用户的头像并展示
+=======
+     * @describe: query user avatar and show in ImageView
+>>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     public void initAvatar() {
         Runnable query = new Runnable() {
@@ -177,7 +169,8 @@ public class UserHomeActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if(Picture == null){
-                            Toast toast = Toast.makeText(UserHomeActivity.this, "Backend wrong", Toast.LENGTH_SHORT);
+                            Toast toast = Toast.makeText(UserHomeActivity.this,
+                                    getResources().getString(R.string.backend_wrong), Toast.LENGTH_SHORT);
                             toast.show();
                             return;
                         }
@@ -185,7 +178,8 @@ public class UserHomeActivity extends AppCompatActivity {
                             Bitmap bitmap = BitmapFactory.decodeByteArray(Picture, 0, Picture.length);
                             avatarView.setImageBitmap(bitmap);
                         } catch (Exception e) {
-                            Toast toast = Toast.makeText(UserHomeActivity.this, "Something wrong", Toast.LENGTH_SHORT);
+                            Toast toast = Toast.makeText(UserHomeActivity.this,
+                                    getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT);
                             toast.show();
                         }
                     }
@@ -199,11 +193,9 @@ public class UserHomeActivity extends AppCompatActivity {
      * @describe: 初始化侧边栏菜单框架
      */
     void initFrame() {
-        // 初始化页面的框架
         // 隐藏顶层栏
         int statusBarHeight = ScreenInfoUtils.getStatusBarHeight(this);
         ScreenInfoUtils.fullScreen(this);
-
 
         // 初始化状态栏高度
         LinearLayout.LayoutParams params =
@@ -220,7 +212,6 @@ public class UserHomeActivity extends AppCompatActivity {
         toggle.syncState();
 
         //蒙层颜色
-        // drawerLayout.setScrimColor(Color.TRANSPARENT);
         drawerLayout.setBackgroundColor(Color.RED);
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
@@ -229,20 +220,6 @@ public class UserHomeActivity extends AppCompatActivity {
 
             @Override
             public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-                // 滑动的过程中执行 slideOffset：从0到1
-                //主页内容
-                // View content = drawerLayout.getChildAt(0);
-                //侧边栏
-                // View menu = drawerView;
-                //
-//                float scale = 1 - slideOffset;//1~0
-//                float leftScale = (float) (1 - 0.3 * scale);
-//                float rightScale = (float) (0.7f + 0.3 * scale);//0.7~1
-//                menu.setScaleY(leftScale);//1~0.7
-
-                // content.setScaleY(rightScale);
-                // content.setTranslationX(menu.getMeasuredWidth() * slideOffset);//0~width
-                // Log.d(TAG, "slideOffset=" + slideOffset + ",leftScale=" + leftScale + ",rightScale=" + rightScale);
             }
 
             @Override
@@ -270,7 +247,8 @@ public class UserHomeActivity extends AppCompatActivity {
                 home.addCategory(Intent.CATEGORY_HOME);
                 startActivity(home);
             } else {
-                Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,
+                        getResources().getString(R.string.press_again_exit), Toast.LENGTH_SHORT).show();
                 mIsExit = true;
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -285,10 +263,13 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
+<<<<<<< HEAD
      * @describe: 初始化主体部分的数据和界面
+=======
+     * @decribe: initialize main conferences list in current day
+>>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     void initMainContent() {
-        // 初始化主体部分
         Date curDate = new Date();
         long currTime = curDate.getTime();
         //System.out.println(currTime);
@@ -312,8 +293,12 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
+<<<<<<< HEAD
      * @describe: 更新主体部分的内容
      * @param curDate 需要更新的日期
+=======
+     * @decribe: initialize main conferences list in a specific day
+>>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     void updateMainContent(Date curDate) {
         long currTime = curDate.getTime();
@@ -334,7 +319,11 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
+<<<<<<< HEAD
      * @describe: 向服务器请求用户的个人信息
+=======
+     * @describe: query user info
+>>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     public void initUserInfo() {
         Runnable query = new Runnable() {
@@ -371,8 +360,12 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
+<<<<<<< HEAD
      * @describe: 响应用户点击事件，开启一个 Custom活动
      * @param v 被点击的按钮
+=======
+     * @describe: Callback of custom button and etc.
+>>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     public void onCustomItemClicked(View v) {
         Intent intent = new Intent(UserHomeActivity.this, CustomActivity.class);
@@ -405,8 +398,16 @@ public class UserHomeActivity extends AppCompatActivity {
      * @describe: 响应用户点击登出按钮，返回到登录界面
      * @param v 被点击的按钮
      */
+    public void onSearchItemClicked(View v) {
+        Intent intent = new Intent(UserHomeActivity.this, SearchActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * @describe: 执行登出动作
+     * @param v 被点击的按钮
+     */
     public void onLogoutItemClicked(View v) {
-        // TODO: logout
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -435,7 +436,6 @@ public class UserHomeActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_user_home, menu);
         return true;
     }
@@ -457,8 +457,8 @@ public class UserHomeActivity extends AppCompatActivity {
                             Calendar calendar = Calendar.getInstance();
                             calendar.set(year, monthOfYear, dayOfMonth);
                             updateMainContent(calendar.getTime());
-//                            Thread.currentThread().sleep(500);
-                            Toast.makeText(UserHomeActivity.this, "Change date successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UserHomeActivity.this, getResources().getString(R.string.change_date_ok),
+                                    Toast.LENGTH_SHORT).show();
                             UserHomeActivity.this.year = year;
                             UserHomeActivity.this.month = monthOfYear;
                             UserHomeActivity.this.day = dayOfMonth;

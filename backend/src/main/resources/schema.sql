@@ -5,30 +5,13 @@ SET global time_zone='+8:00';
 -- drop table if exists paper;
 -- drop table if exists user_conference;
 -- drop table if exists user_session;
+-- drop table if exists comment;
 -- drop table if exists session;
--- drop table if exists message;
+drop table if exists message;
 -- drop table if exists chatroom;
 -- drop table if exists note;
 -- drop table if exists user;
 -- drop table if exists conference;
-
-CREATE TABLE IF NOT EXISTS chatroom(
-    chatroom_id int primary key auto_increment,
-    participant_num int,
-    record_num int
-) default charset=utf8mb4;
-
-CREATE TABLE IF NOT EXISTS comment(
-    comment_id int primary key auto_increment,
-    content text,
-    post_time datetime,
-    user_id int,
-		username varchar(20),
-    session_id int,
-    foreign key(user_id) references user(user_id) on delete cascade on update cascade,
-    foreign key(session_id) references session(session_id) on delete cascade on update cascade,
-		foreign key(username) references user(username) on delete set null on update cascade
-)default charset=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS user(
     user_id int primary key auto_increment,
@@ -47,14 +30,17 @@ CREATE TABLE IF NOT EXISTS conference(
     introduction TEXT,
     date date,
     chairs varchar(128),
-    place varchar(128),
-    start_time datetime,
-    end_time datetime,
-    tags varchar(128),
     visible int,
     establisher_id int,
     foreign key(establisher_id) references user(user_id) on delete cascade on update cascade,
     fulltext(name, organization, introduction) with parser ngram
+) default charset=utf8;
+
+CREATE TABLE IF NOT EXISTS chatroom(
+    chatroom_id int primary key,
+    participant_num int,
+    record_num int,
+    foreign key(chatroom_id) references conference(conference_id) on delete cascade on update cascade
 ) default charset=utf8;
 
 CREATE TABLE IF NOT EXISTS message(
@@ -89,6 +75,7 @@ CREATE TABLE IF NOT EXISTS session(
     conference_visible int,
     conference_id int,
     establisher_id int,
+		tag varchar(10), 
     foreign key(conference_id) references conference(conference_id) on delete cascade on update cascade,
     foreign key(establisher_id) references user(user_id) on delete cascade on update cascade
 ) default charset=utf8;
@@ -125,3 +112,16 @@ CREATE TABLE IF NOT EXISTS user_session(
     foreign key(session_id) references session(session_id) on delete cascade on update cascade,
     primary key(user_id, session_id)
 ) default charset=utf8;
+
+CREATE TABLE IF NOT EXISTS comment(
+    comment_id int primary key auto_increment,
+    content text,
+    post_time datetime,
+    user_id int,
+		username varchar(20),
+    session_id int,
+    foreign key(user_id) references user(user_id) on delete cascade on update cascade,
+    foreign key(session_id) references session(session_id) on delete cascade on update cascade,
+		foreign key(username) references user(username) on delete set null on update cascade
+)default charset=utf8mb4;
+

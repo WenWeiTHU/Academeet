@@ -6,36 +6,21 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.FormBody;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.FileUtils;
-import android.os.Looper;
 import android.view.View;
 import android.widget.Toast;
-
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import com.example.academeet.Item.ConferenceItem;
 import com.example.academeet.R;
-import com.example.academeet.Utils.HTTPSUtils;
 import com.example.academeet.Utils.UserManager;
 import com.example.academeet.components.MenuComponent;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.UUID;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -85,8 +70,13 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     /**
+<<<<<<< HEAD
      * @describe: 响应点击事件，展开对应的菜单
      * @param v 被点击的菜单项
+=======
+     * @describe: Click listeners of change user info buttons
+     * @param v
+>>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     @Override
     public void onClick(View v) {
@@ -128,10 +118,17 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     /**
+<<<<<<< HEAD
      * @describe: 处理上一层活动结束的结果
      * @param requestCode 请求码
      * @param resultCode 响应码
      * @param data 响应数据
+=======
+     * @describe: Callback of selected avatar
+     * @param requestCode
+     * @param resultCode
+     * @param data
+>>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -143,10 +140,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             intent.setDataAndType(data.getData(), "image/*");
             // 设置裁剪
             intent.putExtra("crop", "true");
-            // aspectX aspectY 是宽高的比例
+            // aspectX aspectY 宽高的比例
             intent.putExtra("aspectX", 1);
             intent.putExtra("aspectY", 1);
-            // outputX outputY 是裁剪图片宽高
+            // outputX outputY 裁剪图片宽高
             intent.putExtra("outputX", 150);
             intent.putExtra("outputY", 150);
             intent.putExtra("return-data", true);
@@ -174,9 +171,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 out.close();
                 // System.out.println(file);
                 uploadPicture(file);
-                Toast.makeText(SettingsActivity.this, "Update avatar successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SettingsActivity.this, getResources().getString(R.string.update_avatar_ok), Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
-                Toast.makeText(SettingsActivity.this, "Something wrong", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SettingsActivity.this, getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
                 System.out.println(e);
             }
         } else if(requestCode == USERNAME_CODE) {
@@ -189,8 +186,13 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     /**
+<<<<<<< HEAD
      * @describe: 上传用户的头像
      * @param file 用户头像对应的文件
+=======
+     * @describe: Update picture as a file
+     * @param file
+>>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     private void uploadPicture(File file) {
         Runnable upload = new Runnable() {
@@ -201,14 +203,14 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void run() {
                         if(jsonObject == null){
-                            Toast toast = Toast.makeText(SettingsActivity.this, "Backend wrong", Toast.LENGTH_SHORT);
+                            Toast toast = Toast.makeText(SettingsActivity.this, getResources().getString(R.string.backend_wrong), Toast.LENGTH_SHORT);
                             toast.show();
                             return;
                         }
                         try{
                             System.out.println(jsonObject);
                         } catch (Exception e){
-                            Toast toast = Toast.makeText(SettingsActivity.this, "Something wrong", Toast.LENGTH_SHORT);
+                            Toast toast = Toast.makeText(SettingsActivity.this, getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT);
                             toast.show();
                         }
                     }
@@ -217,6 +219,4 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         };
         new Thread(upload).start();
     }
-
-
 }

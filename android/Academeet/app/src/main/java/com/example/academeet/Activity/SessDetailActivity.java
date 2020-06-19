@@ -1,31 +1,23 @@
 package com.example.academeet.Activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.example.academeet.Adapter.ConfDetailAdapter;
 import com.example.academeet.Adapter.SessDetailAdapter;
 import com.example.academeet.Fragment.CommentListFragment;
 import com.example.academeet.Fragment.PaperListFragment;
 import com.example.academeet.Fragment.SessDetailFragment;
-import com.example.academeet.Item.ConferenceItem;
 import com.example.academeet.Item.SessionItem;
 import com.example.academeet.Utils.ConfManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.academeet.R;
@@ -52,7 +44,6 @@ public class SessDetailActivity extends AppCompatActivity {
         toolbar.setTitle(session.getName());
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-
 
         Runnable queryLikes = new Runnable() {
             @Override
@@ -97,7 +88,6 @@ public class SessDetailActivity extends AppCompatActivity {
             }
         };
 
-
         // Create an instance of the tab layout from the view.
         TabLayout tabLayout = findViewById(R.id.sess_detail_tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Details"));
@@ -128,6 +118,7 @@ public class SessDetailActivity extends AppCompatActivity {
                     public void onTabReselected(TabLayout.Tab tab) {}
                 }
         );
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -3,6 +3,7 @@ package com.mobilecourse.backend.controllers;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mobilecourse.backend.dao.ConferenceDao;
+import com.mobilecourse.backend.model.Chatroom;
 import com.mobilecourse.backend.model.Conference;
 import com.mobilecourse.backend.model.Paper;
 import com.mobilecourse.backend.model.Session;
@@ -33,21 +34,22 @@ public class ConferenceController extends CommonController {
         return resp.toJSONString();
     }
 
-    @RequestMapping(value = "/api/conference/tags")
-    public String getConferenceByTags(@RequestParam(value = "tags") String tags) {
-        List<Conference> conferences = conferenceMapper.selectByTags(tags);
-        JSONObject resp = conferenceToJSON(conferences);
-        String err = resp.getString("error");
-        if (err != null) return wrapperMsg(0, err);
-        return resp.toJSONString();
-    }
+    // @RequestMapping(value = "/api/conference/tags")
+    // public String getConferenceByTags(@RequestParam(value = "tags") String tags) {
+    //     List<Conference> conferences = conferenceMapper.selectByTags(tags);
+    //     JSONObject resp = conferenceToJSON(conferences);
+    //     String err = resp.getString("error");
+    //     if (err != null) return wrapperMsg(0, err);
+    //     return resp.toJSONString();
+    // }
+
 
     @RequestMapping(value = "/api/conference/search")
     public String getConferenceBySearch(@RequestParam(value = "keyword") String keyword,
                                         @RequestParam(value = "count") int count) {
         int conference_num = conferenceMapper.selectTotalNum(keyword);
         int offset = SEARCHPART * count;
-        if (offset >= conference_num) return wrapperMsg(0, "count number overflow.");
+        // if (offset >= conference_num) return wrapperMsg(0, "count number overflow.");
         List<Conference> conferences = conferenceMapper.selectByKeywords(keyword, SEARCHPART, offset);
         JSONObject resp = conferenceToJSON(conferences);
         String err = resp.getString("error");
@@ -83,16 +85,20 @@ public class ConferenceController extends CommonController {
         int usertype = user.getIntValue("type");
         int userid = user.getIntValue("id");
         if (usertype == 0) {
-            return "{ \"accepted\": 0, \"msg\": \"not administrator.\" }";
+            return wrapperMsg(0, "not administrator.");
         }
         Conference conference = new Conference(sconference);
         if (type == 0) conference.setVisible(0);
         else conference.setVisible(1);
         int rlt1 = conferenceMapper.insertConference(conference);
+        Chatroom chatroom = new Chatroom();
+        chatroom.setChatroom_id(conference.getConference_id());
         int rlt2 = conferenceMapper.insertUserConference(userid, conference.getConference_id(), "establishes");
+        int rlt3 = conferenceMapper.insertChatroom(chatroom);
         if (rlt1 == 0) return "{ \"accepted\": 0, \"msg\": \"insert conference failed\" }";
         if (rlt2 == 0) return "{ \"accepted\": 0, \"msg\": \"insert user_conference failed," +
                 " conference_id is " + conference.getConference_id() + "\" }";
+        if (rlt3 == 0) return wrapperMsg(0, "insert chatroom failed");
         return "{ \"accepted\": 1 }";
     }
 

@@ -12,6 +12,7 @@
         <activity android:name=".Activity.ChangePasswordActivity" />
         <activity android:name=".Activity.ChangeInfoActivity" />
         <activity android:name=".Activity.SettingsActivity" />
+        <activity android:name=".Activity.ChatActivity" />
         <activity
             android:name=".Activity.CustomActivity"
             android:label="@string/title_activity_custom"
@@ -39,7 +40,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <service
+            android:name=".WebSocket.AWebSocketClientService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />

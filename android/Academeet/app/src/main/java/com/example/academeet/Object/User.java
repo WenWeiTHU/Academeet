@@ -222,6 +222,7 @@ public class User{
             String content = response.body().string();
             JSONTokener jsonParser = new JSONTokener(content);
             JSONObject jsonObject = (JSONObject)jsonParser.nextValue();
+            System.out.println(jsonObject);
             int resultCode = jsonObject.getInt("code");
             if (resultCode != 200) {
                 return resultCode;

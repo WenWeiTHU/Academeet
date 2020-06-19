@@ -82,8 +82,7 @@ public class RecordController extends CommonController {
                              HttpSession s) {
         int userid = getUserId(s);
         if (userid == -1) return LOGIN_MSG;
-				Timestamp curtime = new Timestamp(System.currentTimeMillis());
-        int rlt = recordMapper.updateNoteById(note_id, userid, title, text, curtime);
+        int rlt = recordMapper.updateNoteById(note_id, userid, title, text);
         if (rlt == 0) return wrapperMsg(0, "you are not owner.");
         return ACCEPT_MSG;
     }

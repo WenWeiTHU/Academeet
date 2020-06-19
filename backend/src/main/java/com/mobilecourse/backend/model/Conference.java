@@ -15,7 +15,6 @@ public class Conference {
     Timestamp date;
     String chairs;          // in fact it is List<String>, but we can transfer it when used.
     String place;
-    String tags;          // use CsvWriter to write List to String. this.chairs = Arrays.asList(schairs.split(","));
     int visible;    // 0表示只有自己可见（未发布），1表示所有人可见（暂定）
     int establisher_id;
 
@@ -29,6 +28,8 @@ public class Conference {
         this.date = Timestamp.valueOf(jsonObject.getString("start_time"));
         this.place = jsonObject.getString("place");
         this.chairs = jsonObject.getString("chairs");
+				this.visible = jsonObject.getIntValue("visible");
+				// if (this.visible == null) this.visible = 1;
     }
 
     public int getConference_id() {
@@ -112,7 +113,6 @@ public class Conference {
                 ", date=" + date +
                 ", chairs=" + chairs +
                 ", place='" + place + '\'' +
-                ", tags=" + tags +
                 ", visible=" + visible +
                 '}';
     }

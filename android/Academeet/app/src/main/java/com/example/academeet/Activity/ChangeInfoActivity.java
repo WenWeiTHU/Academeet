@@ -1,7 +1,6 @@
 package com.example.academeet.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,8 +19,6 @@ import java.util.regex.Pattern;
 
 public class ChangeInfoActivity extends AppCompatActivity implements View.OnClickListener {
     private String type;
-    private String content;
-
 
     /**
      * @describe: 初始化界面
@@ -43,7 +40,6 @@ public class ChangeInfoActivity extends AppCompatActivity implements View.OnClic
         }
 
         TextView submit = findViewById(R.id.submit);
-//        submit.setOnClickListener(v -> finish());
         submit.setOnClickListener(this);
         ImageButton back = findViewById(R.id.back);
         back.setOnClickListener(this);
@@ -62,7 +58,6 @@ public class ChangeInfoActivity extends AppCompatActivity implements View.OnClic
             Toast.makeText(ChangeInfoActivity.this, R.string.register_username_is_empty, Toast.LENGTH_SHORT).show();
             return;
         }
-        // System.out.println("info: "+info);
         Runnable update = new Runnable() {
             @Override
             public void run() {
@@ -104,7 +99,6 @@ public class ChangeInfoActivity extends AppCompatActivity implements View.OnClic
      * @return 合法返回 true， 否则返回 false
      */
     public boolean isMobile(String phone) {
-        // 判断手机号是否合法
         String regex = "^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\\d{8}$";
         Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(phone);
@@ -112,6 +106,7 @@ public class ChangeInfoActivity extends AppCompatActivity implements View.OnClic
     }
 
     /**
+<<<<<<< HEAD
      * @describe: 当用户点击提交时，提交修改的个人信息，否则返回到上一级菜单
      * @param v 被点击的按钮
      */
