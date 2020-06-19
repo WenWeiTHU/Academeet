@@ -7,7 +7,7 @@ SET global time_zone='+8:00';
 -- drop table if exists user_session;
 -- drop table if exists comment;
 -- drop table if exists session;
--- drop table if exists message;
+drop table if exists message;
 -- drop table if exists chatroom;
 -- drop table if exists note;
 -- drop table if exists user;
@@ -30,10 +30,6 @@ CREATE TABLE IF NOT EXISTS conference(
     introduction TEXT,
     date date,
     chairs varchar(128),
-    place varchar(128),
-    start_time datetime,
-    end_time datetime,
-    tags varchar(128),
     visible int,
     establisher_id int,
     foreign key(establisher_id) references user(user_id) on delete cascade on update cascade,
@@ -79,6 +75,7 @@ CREATE TABLE IF NOT EXISTS session(
     conference_visible int,
     conference_id int,
     establisher_id int,
+		tag varchar(10), 
     foreign key(conference_id) references conference(conference_id) on delete cascade on update cascade,
     foreign key(establisher_id) references user(user_id) on delete cascade on update cascade
 ) default charset=utf8;

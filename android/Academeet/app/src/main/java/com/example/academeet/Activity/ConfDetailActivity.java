@@ -20,6 +20,11 @@ import java.util.List;
 
 public class ConfDetailActivity extends AppCompatActivity {
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
+
+    /**
+     * @describe: 从上一级活动中获取数据，并且初始化页面
+     * @param savedInstanceState 先前保存的数据
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

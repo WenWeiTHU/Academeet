@@ -49,10 +49,18 @@ public class CommentListFragment extends Fragment {
     private final String QUERY_COMMENT_URL = "/api/session/comments";
     String sessionId;
 
+    /**
+     * @describe: 初始化CommentListFragment
+     * @param id Session 的 id
+     */
     public CommentListFragment(String id){
         this.sessionId = id;
     }
 
+    /**
+     * @describe: 初始化数据
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +68,13 @@ public class CommentListFragment extends Fragment {
     }
 
 
-
+    /**
+     * @describe: 初始化界面
+     * @param inflater Layout解析器
+     * @param container Fragment容器
+     * @param savedInstanceState 之前保存的实例
+     * @return 创建好的 Fragment
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -85,6 +99,10 @@ public class CommentListFragment extends Fragment {
         return v;
     }
 
+    /**
+     * @describe: 向服务器发送评论
+     * @param content 评论的内容
+     */
     private void comment(String content) {
         Runnable query = new Runnable() {
             @Override
@@ -123,6 +141,9 @@ public class CommentListFragment extends Fragment {
         new Thread(query).start();
     }
 
+    /**
+     * @describe: 向服务器查询该Session的所有评论
+     */
     private void initComment() {
         Runnable query = new Runnable() {
             @Override
@@ -162,6 +183,10 @@ public class CommentListFragment extends Fragment {
         new Thread(query).start();
     }
 
+    /**
+     * @describe: 根据 Session Id来查询一个 Session的评论
+     * @return 服务器返回的 Json数据
+     */
     private JSONObject queryCommentBySessId(){
         HTTPSUtils httpsUtils = new HTTPSUtils(this.getActivity());
         FormBody formBody = new FormBody.Builder()

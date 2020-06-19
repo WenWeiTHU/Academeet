@@ -15,6 +15,9 @@ import com.example.academeet.R;
 import com.example.academeet.Utils.UserManager;
 import java.util.List;
 
+/**
+ *
+ */
 public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.PaperViewHolder> {
 
     private List<CommentItem> mCommentList;
@@ -25,6 +28,10 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         TextView content;
         CircleImageView avatarView;
 
+        /**
+         * @describe: 生成ViewHolder，绑定其与 View的关系
+         * @param view 需要绑定的 View
+         */
         public PaperViewHolder(View view) {
             super(view);
             username = (TextView)view.findViewById(R.id.comment_name);
@@ -34,11 +41,21 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         }
     }
 
+    /**
+     * @describe: 生成一个 CommentListAdapter
+     * @param commentItemList CommentItem 的列表
+     */
     public CommentListAdapter(List<CommentItem> commentItemList) {
         mCommentList = commentItemList;
     }
 
 
+    /**
+     * @describe: 生成一个 ViewHolder，并将其与对应的View进行绑定
+     * @param parent View所在的组
+     * @param viewType View的类型
+     * @return 对应的ViewHolder
+     */
     @NonNull
     @Override
     public PaperViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -48,6 +65,11 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         return holder;
     }
 
+    /**
+     * @describe: 绑定ViewHolder和Item的属性
+     * @param holder 需要绑定的 ViewHolder
+     * @param position 需要绑定的 Item 的位置
+     */
     @Override
     public void onBindViewHolder(@NonNull PaperViewHolder holder, int position) {
         CommentItem comment = mCommentList.get(position);
@@ -76,6 +98,10 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
     }
 
 
+    /**
+     * @describe: 获取Comment List的大小
+     * @return Comment List的大小
+     */
     @Override
     public int getItemCount() {
         return mCommentList.size();

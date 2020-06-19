@@ -14,8 +14,9 @@ public interface RecordDao {
     Message selectMessageById(int message_id);
 
     int insertNote(Note note);
-    int insertMessage(int chatroom_id, String username, String time, String details);
+    int insertMessage(Message msg);
     int updateChatroom(String column, int adding);
-    int updateNoteById(int note_id, int user_id, String title, String text, Timestamp update_time);
+    int selectUsernum(int chatroom_id);
+    int updateNoteById(int note_id, int user_id, String title, String text);
     int deleteNoteById(int note_id, int user_id);
 }

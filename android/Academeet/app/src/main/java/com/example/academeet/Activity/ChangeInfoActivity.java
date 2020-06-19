@@ -20,6 +20,10 @@ import java.util.regex.Pattern;
 public class ChangeInfoActivity extends AppCompatActivity implements View.OnClickListener {
     private String type;
 
+    /**
+     * @describe: 初始化界面
+     * @param savedInstanceState 先前保存的数据
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +54,7 @@ public class ChangeInfoActivity extends AppCompatActivity implements View.OnClic
     }
 
     /**
-     * @describe: On Return button click listener
+     * @describe: 向服务器发送用户修改的个人信息，并且返回到上一级的菜单中
      */
     public void returnMenu() {
         String info = ((EditText) findViewById(R.id.new_info)).getText().toString();
@@ -98,9 +102,9 @@ public class ChangeInfoActivity extends AppCompatActivity implements View.OnClic
     }
 
     /**
-     * @describe: Check valid phone number
-     * @param phone
-     * @return
+     * @describe: 判断一个字符串是否是合法的手机号
+     * @param phone 需要判断的字符串
+     * @return 合法返回 true， 否则返回 false
      */
     public boolean isMobile(String phone) {
         String regex = "^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\\d{8}$";
@@ -110,8 +114,9 @@ public class ChangeInfoActivity extends AppCompatActivity implements View.OnClic
     }
 
     /**
-     * @describe: On OK button click listener
-     * @param v
+<<<<<<< HEAD
+     * @describe: 当用户点击提交时，提交修改的个人信息，否则返回到上一级菜单
+     * @param v 被点击的按钮
      */
     @Override
     public void onClick(View v) {

@@ -87,6 +87,10 @@ public class UserHomeActivity extends AppCompatActivity {
     int month;
     int year;
 
+    /**
+     * @describe: 初始化界面
+     * @param savedInstanceState 先前保存的实例
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,7 +121,11 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
+<<<<<<< HEAD
+     * @describe: 复原时，重新初始化用户的信息
+=======
      * @describe: Update user info when return back to user home fragment
+>>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     @Override
     protected void onResume() {
@@ -126,7 +134,11 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
+<<<<<<< HEAD
+     * @describe: 检测是否有读写存储的权限，如果没有则请求权限
+=======
      * @decribe: Check if has storage Permissions
+>>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     public void verifyStoragePermissions() {
         try {
@@ -143,7 +155,11 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
+<<<<<<< HEAD
+     * @describe: 向服务器请求用户的头像并展示
+=======
      * @describe: query user avatar and show in ImageView
+>>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     public void initAvatar() {
         Runnable query = new Runnable() {
@@ -175,13 +191,8 @@ public class UserHomeActivity extends AppCompatActivity {
         new Thread(query).start();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
     /**
-     * @descibe: initialize side bar fragment
+     * @describe: 初始化侧边栏菜单框架
      */
     void initFrame() {
         // 隐藏顶层栏
@@ -223,6 +234,12 @@ public class UserHomeActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * @describe: 处理用户按下回退键事件
+     * @param keyCode 按键码
+     * @param event 按键事件
+     * @return 事件是否处理
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -248,7 +265,11 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
+<<<<<<< HEAD
+     * @describe: 初始化主体部分的数据和界面
+=======
      * @decribe: initialize main conferences list in current day
+>>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     void initMainContent() {
         Date curDate = new Date();
@@ -274,7 +295,12 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
+<<<<<<< HEAD
+     * @describe: 更新主体部分的内容
+     * @param curDate 需要更新的日期
+=======
      * @decribe: initialize main conferences list in a specific day
+>>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     void updateMainContent(Date curDate) {
         long currTime = curDate.getTime();
@@ -296,7 +322,11 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
+<<<<<<< HEAD
+     * @describe: 向服务器请求用户的个人信息
+=======
      * @describe: query user info
+>>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     public void initUserInfo() {
         Runnable query = new Runnable() {
@@ -333,13 +363,22 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
+<<<<<<< HEAD
+     * @describe: 响应用户点击事件，开启一个 Custom活动
+     * @param v 被点击的按钮
+=======
      * @describe: Callback of custom button and etc.
+>>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     public void onCustomItemClicked(View v) {
         Intent intent = new Intent(UserHomeActivity.this, CustomActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * @describe: 响应用户点击设事件，开启设置活动
+     * @param v 被点击的按钮
+     */
     public void onSettingsItemClicked(View v) {
         Intent intent = new Intent(UserHomeActivity.this, SettingsActivity.class);
         intent.putExtra("username", username);
@@ -349,16 +388,28 @@ public class UserHomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * @describe: 响应用户点击笔记按钮，开启笔记活动
+     * @param v 被点击的按钮
+     */
     public void onNoteItemClicked(View v) {
         Intent intent = new Intent(UserHomeActivity.this, UserNotePreviewActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * @describe: 响应用户点击登出按钮，返回到登录界面
+     * @param v 被点击的按钮
+     */
     public void onSearchItemClicked(View v) {
         Intent intent = new Intent(UserHomeActivity.this, SearchActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * @describe: 执行登出动作
+     * @param v 被点击的按钮
+     */
     public void onLogoutItemClicked(View v) {
         new Thread(new Runnable() {
             @Override
@@ -382,9 +433,9 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
-     * @describe: Inflate the menu; this adds items to the action bar if it is present
-     * @param menu
-     * @return
+     * @describe: 当用户点击右上角菜单时的动作
+     * @param menu 右上角菜单
+     * @return 是否响应
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -392,6 +443,11 @@ public class UserHomeActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * @describe: 响应用户在右上菜单选择时的动作
+     * @param item 用户点击的选项
+     * @return 是否处理事件
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.action_change_date){

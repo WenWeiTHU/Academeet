@@ -1,5 +1,7 @@
 package com.mobilecourse.backend.model;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.sql.Timestamp;
 
 public class Message {
@@ -8,6 +10,15 @@ public class Message {
     Timestamp time;      // int32
     String username;
     int chatroom_id;
+
+    public Message() { }
+
+    public Message(JSONObject obj, int chatroom_id) {
+        this.username = obj.getString("user_name");
+        this.time = new Timestamp(obj.getLongValue("send_time"));
+        this.details = obj.getString("content");
+        this.chatroom_id = chatroom_id;
+    }
 
     public int getMessage_id() {
         return message_id;

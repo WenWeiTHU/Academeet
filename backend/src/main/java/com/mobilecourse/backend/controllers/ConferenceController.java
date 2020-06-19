@@ -34,14 +34,14 @@ public class ConferenceController extends CommonController {
         return resp.toJSONString();
     }
 
-    @RequestMapping(value = "/api/conference/tags")
-    public String getConferenceByTags(@RequestParam(value = "tags") String tags) {
-        List<Conference> conferences = conferenceMapper.selectByTags(tags);
-        JSONObject resp = conferenceToJSON(conferences);
-        String err = resp.getString("error");
-        if (err != null) return wrapperMsg(0, err);
-        return resp.toJSONString();
-    }
+    // @RequestMapping(value = "/api/conference/tags")
+    // public String getConferenceByTags(@RequestParam(value = "tags") String tags) {
+    //     List<Conference> conferences = conferenceMapper.selectByTags(tags);
+    //     JSONObject resp = conferenceToJSON(conferences);
+    //     String err = resp.getString("error");
+    //     if (err != null) return wrapperMsg(0, err);
+    //     return resp.toJSONString();
+    // }
 
 
     @RequestMapping(value = "/api/conference/search")
@@ -49,7 +49,7 @@ public class ConferenceController extends CommonController {
                                         @RequestParam(value = "count") int count) {
         int conference_num = conferenceMapper.selectTotalNum(keyword);
         int offset = SEARCHPART * count;
-        if (offset >= conference_num) return wrapperMsg(0, "count number overflow.");
+        // if (offset >= conference_num) return wrapperMsg(0, "count number overflow.");
         List<Conference> conferences = conferenceMapper.selectByKeywords(keyword, SEARCHPART, offset);
         JSONObject resp = conferenceToJSON(conferences);
         String err = resp.getString("error");

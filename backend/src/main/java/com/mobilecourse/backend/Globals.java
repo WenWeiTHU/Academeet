@@ -33,7 +33,7 @@ public class Globals {
     public static final String apiUrl = "https://sms_developer.zhenzikj.com";
     public static final boolean USERINIT = true;
     private static final String encryptkey = "cc839cf9feba4ed7ba68064177a0b505";
-    public static Map<Integer, Set<Session>> websocketTables = new HashMap<>();
+    public static Map<Integer, Map<Integer, Session>> websocketTables = new HashMap<>();
 
     private static void getKeyIV(String encryptkey, byte[] key, byte[] iv) {
         Base64.Decoder decoder = Base64.getDecoder();

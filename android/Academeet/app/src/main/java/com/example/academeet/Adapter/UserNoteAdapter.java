@@ -13,6 +13,7 @@ import com.example.academeet.Utils.UserManager;
 
 import java.util.List;
 
+
 public class UserNoteAdapter extends RecyclerView.Adapter<UserNoteAdapter.ViewHolder> {
 
     private List<Note> mNoteList;
@@ -23,6 +24,11 @@ public class UserNoteAdapter extends RecyclerView.Adapter<UserNoteAdapter.ViewHo
         TextView titleTextView;
         TextView abstractTextView;
         TextView dateTextView;
+
+        /**
+         * @describe: 创建 ViewHolder实例，并将其与 View 的组件绑定
+         * @param view 每个 Item 的 View 实例
+         */
         public ViewHolder(View view) {
             super(view);
             noteView = view;
@@ -32,10 +38,20 @@ public class UserNoteAdapter extends RecyclerView.Adapter<UserNoteAdapter.ViewHo
         }
     }
 
+    /**
+     * @describe: 初始化 Adapter
+     * @param noteList 笔记列表
+     */
     public UserNoteAdapter(List<Note> noteList) {
         mNoteList = noteList;
     }
 
+    /**
+     * @describe: 设置短按和长按等的响应事件
+     * @param parent 父母组群
+     * @param viewType View 的类型
+     * @return 返回一个创建好的 ViewHolder
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -69,6 +85,11 @@ public class UserNoteAdapter extends RecyclerView.Adapter<UserNoteAdapter.ViewHo
         return holder;
     }
 
+    /**
+     * @describe: 绑定 ViewHolder 和 View，并且设置相关的属性
+     * @param holder 将要绑定的 ViewHolder
+     * @param position View 在列表中的位置
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Note note = mNoteList.get(position);
@@ -84,19 +105,27 @@ public class UserNoteAdapter extends RecyclerView.Adapter<UserNoteAdapter.ViewHo
         void onItemLongClick(View view, Note note);
     }
 
+    /**
+     * @describe: 设置子项被点击时的响应事件
+     * @param listener 点击监听器
+     */
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
         onRecyclerViewItemClickListener = listener;
     }
 
+    /**
+     * @describe: 获取列表中的子项数目
+     * @return 子项数目
+     */
     @Override
     public int getItemCount() {
         return mNoteList.size();
     }
 
-    public void addNote(Note note) {
-        mNoteList.add(note);
-    }
 
+    /**
+     * @describe: 刷新 Note列表和界面
+     */
     public void refreshAdapter() {
         mNoteList = UserManager.getNotes();
         notifyDataSetChanged();

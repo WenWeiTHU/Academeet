@@ -27,6 +27,10 @@ public class EditNoteActivity extends AppCompatActivity {
     @BindView(R.id.toolbar_edit_note)
     Toolbar toolbar;
 
+    /**
+     * @describe: 初始化界面
+     * @param savedInstanceState 之前保留的实例
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +40,9 @@ public class EditNoteActivity extends AppCompatActivity {
         initFrame();
     }
 
+    /**
+     * @describe: 从上一层传递的 Intent 中读取 Note 中的内容
+     */
     private void initData() {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("data");
@@ -49,6 +56,9 @@ public class EditNoteActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * @describe: 初始化框架
+     */
     private void initFrame() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -56,6 +66,10 @@ public class EditNoteActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener((view)->{finish();});
     }
 
+    /**
+     * @describe: 获取字符串格式的当前时间
+     * @return 字符串格式的时间，如 2020-05-03 22:05
+     */
     private String getCurrentTimeString() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(calendar.YEAR);
@@ -74,6 +88,10 @@ public class EditNoteActivity extends AppCompatActivity {
         return timeString;
     }
 
+    /**
+     * @describe: 用户完成编辑，将 Note 的结果返回给上一层的活动
+     * @param v 被点击的 button
+     */
     public void finishNoteEdit(View v) {
         note.setContent(content.getText().toString());
         note.setEditDate(getCurrentTimeString());
