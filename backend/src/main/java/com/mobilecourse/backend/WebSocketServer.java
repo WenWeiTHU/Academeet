@@ -12,12 +12,9 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Set;
+import java.util.*;
 
-@ServerEndpoint("/websocket/{roomid}")
+@ServerEndpoint("/websocket/{roomid}/{userid}")
 @Component
 @EnableAutoConfiguration
 public class WebSocketServer {
@@ -28,21 +25,34 @@ public class WebSocketServer {
 
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
-
-    private RecordDao recordMapper = SpringUtil.getBean(RecordDao.class);
-
+    private static RecordDao recordMapper = SpringUtil.getBean(RecordDao.class);
     //用于标识客户端的sid
     // 用于记录当前的房间号
     private int roomid;
+    private int userid;
+
+    public Session getSession() {
+        return session;
+    }
 
     //推荐在连接的时候进行检查，防止有人冒名连接
     @OnOpen
-    public void onOpen(Session session, @PathParam("roomid")int roomid) {
+    public void onOpen(Session session, @PathParam("roomid")int roomid,
+                       @PathParam("userid")int userid) {
         this.session = session;
         this.roomid = roomid;
+        this.userid = userid;
         if (!Globals.websocketTables.containsKey(roomid))
-            Globals.websocketTables.put(roomid, new HashSet<>());
-        Globals.websocketTables.get(roomid).add(session);
+            Globals.websocketTables.put(roomid, new HashMap<>());
+        if (Globals.websocketTables.get(roomid).containsKey(this.userid)) {
+            try {
+                this.session.close();
+                return;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        Globals.websocketTables.get(roomid).put(this.userid, this.session);
         try {
             System.out.println("Connect to websocket room "+roomid);
             JSONObject obj = new JSONObject();
@@ -56,14 +66,14 @@ public class WebSocketServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-         recordMapper.updateChatroom("participant_num", 1);
+        recordMapper.updateChatroom("participant_num", 1);
     }
 
     // 在关闭连接时移除对应连接
     @OnClose
     public void onClose() {
-        Globals.websocketTables.get(roomid).remove(this.session);
-         recordMapper.updateChatroom("participant_num", -1);
+        Globals.websocketTables.get(roomid).remove(this.userid);
+        recordMapper.updateChatroom("participant_num", -1);
     }
 
     // 收到消息时候的处理
@@ -77,8 +87,8 @@ public class WebSocketServer {
     }
 
     public static void broadcast(String msg, int roomid) {
-        Set<Session> sessions = Globals.websocketTables.get(roomid);
-        for (Session s : sessions) {
+        Map<Integer, Session> sockets = Globals.websocketTables.get(roomid);
+        for (Session s : sockets.values()) {
             try {
                 s.getBasicRemote().sendText(msg);
             } catch (IOException e) {
@@ -90,7 +100,7 @@ public class WebSocketServer {
     @OnError
     public void onError(Session session, Throwable error) {
         error.printStackTrace();
-        Globals.websocketTables.get(roomid).remove(this.session);
+        Globals.websocketTables.get(roomid).remove(this.userid);
     }
 
     public void sendMessage(String message) throws IOException {
