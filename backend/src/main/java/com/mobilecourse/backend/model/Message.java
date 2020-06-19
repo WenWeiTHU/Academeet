@@ -15,7 +15,7 @@ public class Message {
 
     public Message(JSONObject obj, int chatroom_id) {
         this.username = obj.getString("user_name");
-        this.time = Timestamp.valueOf(obj.getString("send_time"));
+        this.time = new Timestamp(obj.getLongValue("send_time"));
         this.details = obj.getString("content");
         this.chatroom_id = chatroom_id;
     }

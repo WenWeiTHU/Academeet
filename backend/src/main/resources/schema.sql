@@ -7,7 +7,7 @@ SET global time_zone='+8:00';
 -- drop table if exists user_session;
 -- drop table if exists comment;
 -- drop table if exists session;
--- drop table if exists message;
+drop table if exists message;
 -- drop table if exists chatroom;
 -- drop table if exists note;
 -- drop table if exists user;

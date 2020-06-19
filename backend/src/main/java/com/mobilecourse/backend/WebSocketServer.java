@@ -46,11 +46,12 @@ public class WebSocketServer {
         try {
             System.out.println("Connect to websocket room "+roomid);
             JSONObject obj = new JSONObject();
+						int curusernum = recordMapper.selectUsernum(roomid) + 1;
             obj.put("user_id", -1);
             obj.put("user_name", "server");
-            obj.put("send_time", new Timestamp(System.currentTimeMillis()).toString());
+            obj.put("send_time", new Timestamp(System.currentTimeMillis()).getTime());
             obj.put("content", "Join conference chatting room successfully, current users: "
-                    + recordMapper.selectUsernum(roomid));
+                    + curusernum);
             sendMessage(obj.toJSONString());
         } catch (IOException e) {
             e.printStackTrace();
