@@ -21,7 +21,6 @@ import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.Response;
 
-
 public class ConfDetailFragment extends Fragment {
     private ConferenceItem conference;
     private final String SERVER_ADDR = "https://49.232.141.126:8080";
@@ -29,8 +28,6 @@ public class ConfDetailFragment extends Fragment {
 
     @BindView(R.id.conference_detail_date)
     TextView conferenceDate;
-//    @BindView(R.id.conference_detail_time)
-//    TextView conferenceTime;
     @BindView(R.id.conference_detail_place)
     TextView conferencePlace;
     @BindView(R.id.conference_detail_chairs)
@@ -83,7 +80,6 @@ public class ConfDetailFragment extends Fragment {
 
     private JSONObject queryConfById(){
         HTTPSUtils httpsUtils = new HTTPSUtils(this.getActivity());
-        // System.out.println(conference.getId());
         if(conference.getId() == null){
             return null;
         }
@@ -111,7 +107,6 @@ public class ConfDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.content_conf_detail, container, false);
         ButterKnife.bind(this, view);
         conferenceDate.setText(conference.getDate());
-//        conferenceTime.setText(conference.getStartTime()+"-"+conference.getEndTime());
         conferencePlace.setText(conference.getPlace());
         conferenceChairs.setText(conference.getChairs());
 

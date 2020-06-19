@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import com.example.academeet.Item.ConferenceItem;
 import com.example.academeet.Item.SessionItem;
 import com.example.academeet.R;
 import com.example.academeet.Utils.HTTPSUtils;
@@ -53,6 +52,9 @@ public class SessDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         initSessionDetail();
     }
+
+
+
 
     public void initSessionDetail(){
         Runnable query = new Runnable() {
@@ -113,8 +115,10 @@ public class SessDetailFragment extends Fragment {
         int likes = Integer.valueOf(sessionLikes.getText().toString());
         if(!liked){
             sessionLikes.setText(String.valueOf(likes+1));
+            session.setRating(String.valueOf(likes+1));
         } else {
             sessionLikes.setText(String.valueOf(likes-1));
+            session.setRating(String.valueOf(likes-1));
         }
     }
 
@@ -128,6 +132,13 @@ public class SessDetailFragment extends Fragment {
         sessionReporters.setText(session.getReporters());
         sessionLikes.setText(session.getRating());
 
+        try{
+            sessionLikes.setText(session.getRating());
+            sessionDescription.setText(session.getDescription());
+            sessionConference.setText(session.getConferenceName());
+        } catch (Exception e) {
+
+        }
         return view;
     }
 }

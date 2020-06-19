@@ -1,24 +1,16 @@
 package com.example.academeet.Utils;
 
-import android.os.Environment;
+
 import android.os.Looper;
 
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 
-
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import okhttp3.FormBody;
-
 import okhttp3.Request;
 import okhttp3.Response;
-import okio.BufferedSink;
-import okio.Okio;
-import okio.Sink;
 
 public class ConfManager {
     // 全局化管理用户会议的类
@@ -104,7 +96,7 @@ public class ConfManager {
             JSONObject jsonObject = JSONObject.parseObject(content);
             return jsonObject;
         } catch(IOException | JSONException e) {
-            System.out.println(e);
+            // System.out.println(e);
             return null;
         }
     }

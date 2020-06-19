@@ -5,7 +5,14 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.alibaba.fastjson.JSONObject;
+import com.example.academeet.Object.Message;
+import com.example.academeet.Object.User;
+import com.example.academeet.Utils.UserManager;
 
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -13,6 +20,7 @@ import java.net.URI;
 
 public class AWebSocketClientService extends Service {
     public AWebSocketClient client;
+    private String conferenceID;
     private AWebSocketClientBinder mBinder = new AWebSocketClientBinder();
 
     public class AWebSocketClientBinder extends Binder {
@@ -39,11 +47,13 @@ public class AWebSocketClientService extends Service {
 
     public AWebSocketClientService() {
     }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //初始化websocket
+        conferenceID = intent.getStringExtra("conferenceID");
         initSocketClient();
-        mHandler.postDelayed(heartBeatRunnable, HEART_BEAT_RATE);//开启心跳检测
+        // mHandler.postDelayed(heartBeatRunnable, HEART_BEAT_RATE);//开启心跳检测
 
 //        //设置service为前台服务，提高优先级
 //        if (Build.VERSION.SDK_INT < 18) {
@@ -64,15 +74,19 @@ public class AWebSocketClientService extends Service {
     }
 
     private void initSocketClient() {
-        URI uri = URI.create("ws://echo.websocket.org");
+        URI uri = URI.create("ws://49.232.141.126:8443/websocket/"+conferenceID+"/"+UserManager.getUserId());
+        System.out.println("ws://49.232.141.126:8443/websocket/"+conferenceID+"/"+UserManager.getUserId());
         client = new AWebSocketClient(uri) {
             @Override
             public void onMessage(String message) {
                 Log.i("AWebSocketClientService", "Receive message: " + message);
-
+                JSONObject jsonObject = JSONObject.parseObject(message);
                 Intent intent = new Intent();
                 intent.setAction("com.example.academeet.servicecallback");
-                intent.putExtra("message", message);
+                intent.putExtra("send_time", jsonObject.getString("send_time"));
+                intent.putExtra("username", jsonObject.getString("username"));
+                intent.putExtra("user_id", jsonObject.getString("user_id"));
+                intent.putExtra("content", jsonObject.getString("content"));
                 sendBroadcast(intent);
 
                 // checkLockAndShowNotification(message);
@@ -82,6 +96,13 @@ public class AWebSocketClientService extends Service {
             public void onOpen(ServerHandshake handshakedata) {
                 super.onOpen(handshakedata);
                 Log.i("AWebSocketClientService", "Connect to websocket successfully");
+                Handler handler=new Handler(Looper.getMainLooper());
+                handler.post(new Runnable(){
+                    public void run(){
+                        Toast.makeText(getApplicationContext() ,
+                                "Connect to websocket successfully",Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         };
         connect();
@@ -101,10 +122,15 @@ public class AWebSocketClientService extends Service {
 
     }
 
-    public void sendMsg(String msg) {
+    public void sendMsg(Message msg) {
         if (null != client) {
-            Log.i("AWebSocketClientService", "Send message: " + msg);
-            client.send(msg);
+            Log.i("AWebSocketClientService", "Send message: " + msg.toString());
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("content", msg.getContent());
+            jsonObject.put("send_time", msg.getTime());
+            jsonObject.put("username", UserManager.getUsername());
+            jsonObject.put("user_id", UserManager.getUserId());
+            client.send(jsonObject.toJSONString());
         }
     }
 
@@ -128,12 +154,22 @@ public class AWebSocketClientService extends Service {
     private Runnable heartBeatRunnable = new Runnable() {
         @Override
         public void run() {
-            Log.i("JWebSocketClientService", "check websocket heartbeat");
+            Log.i("JWebSocketClientService", "Check websocket heartbeat");
             if (client != null) {
+                // System.out.println("not null");
                 if (client.isClosed()) {
+                    // System.out.println("close");
+                    Handler handler=new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable(){
+                        public void run(){
+                            Toast.makeText(getApplicationContext() ,
+                                    "Websocket has closed, start reconnecting",Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     reconnectWs();
                 }
             } else {
+                // System.out.println("null");
                 client = null;
                 initSocketClient();
             }

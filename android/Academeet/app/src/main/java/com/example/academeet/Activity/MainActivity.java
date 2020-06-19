@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             }
                             case User.ERROR_CODE: {
-                                Toast.makeText(MainActivity.this, getResources().getString(R.string.wrong_status),
+                                Toast.makeText(MainActivity.this, getResources().getString(R.string.backend_wrong),
                                         Toast.LENGTH_SHORT).show();
                                 break;
                             }

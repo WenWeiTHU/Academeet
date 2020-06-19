@@ -21,7 +21,6 @@ import com.example.academeet.R;
 import com.paul.eventreminder.CalendarManager;
 import com.paul.eventreminder.model.CalendarEvent;
 
-import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -79,14 +78,10 @@ public class CustomFragment extends Fragment {
                             JSONArray conferences = jsonObject.getJSONArray("conferences");
                             for(int i = 0; i < num; i++){
                                 JSONObject conference = conferences.getJSONObject(i);
-                                // System.out.println(conference);
                                 String name = conference.getString("name");
                                 String place = conference.getString("place");
                                 String date = conference.getString("date");
-//                                String startTime = conference.getString("start_time");
-//                                String endTime = conference.getString("end_time");
                                 String id = conference.getString("conference_id");
-//                                String tag = conference.getString("tags");
                                 JSONArray chairs = JSONArray.parseArray(conference.getString("chairs"));
                                 String chairsStr = "";
                                 for(int j = 0; j < chairs.size(); j++){

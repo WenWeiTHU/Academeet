@@ -69,7 +69,6 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
         holder.sessionName.setText(session.getName());
         holder.sessionTag.setText(session.getTag());
 
-        // holder.sessionTag.setclo
 
         holder.sessionTime.setText(session.getStartTime() + "-"+session.getEndTime()+" | "+session.getTopic());
         holder.sessionReporter.setText(session.getReporters());
@@ -90,7 +89,7 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
             public void run() {
                 JSONObject jsonObject;
                 jsonObject = ConfManager.userMenu(session.getId(), "Likes", "1");
-                System.out.println(jsonObject);
+                // System.out.println(jsonObject);
             }
         };
 

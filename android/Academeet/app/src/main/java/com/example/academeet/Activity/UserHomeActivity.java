@@ -32,6 +32,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import com.alibaba.fastjson.JSONObject;
 import com.example.academeet.Adapter.HomePagerAdapter;
 import com.example.academeet.Fragment.ConferenceListFragment;
+import com.example.academeet.Object.User;
 import com.example.academeet.R;
 import com.example.academeet.Utils.ConfManager;
 import com.example.academeet.Utils.HTTPSUtils;
@@ -44,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -147,7 +149,7 @@ public class UserHomeActivity extends AppCompatActivity {
         Runnable query = new Runnable() {
             @Override
             public void run() {
-                byte[] Picture = UserManager.queryUserAvatar();
+                byte[] Picture = UserManager.queryUserAvatarByID(UserManager.getUserId());
                 //通过ImageView,设置图片
                 runOnUiThread(new Runnable() {
                     @Override
@@ -251,7 +253,7 @@ public class UserHomeActivity extends AppCompatActivity {
     void initMainContent() {
         Date curDate = new Date();
         long currTime = curDate.getTime();
-        //System.out.println(currTime);
+        // System.out.println(currTime);
         long startTime = currTime - 3 * 86400000;
         SimpleDateFormat formatterWeek = new SimpleDateFormat("EEEE");
         SimpleDateFormat formatterDay =  new SimpleDateFormat("yyyy-MM-dd");
@@ -277,10 +279,11 @@ public class UserHomeActivity extends AppCompatActivity {
     void updateMainContent(Date curDate) {
         long currTime = curDate.getTime();
         long startTime = currTime - 3 * 86400000;
-        SimpleDateFormat formatterWeek = new SimpleDateFormat("EEEE");
+        SimpleDateFormat formatterWeek = new SimpleDateFormat("EEE", Locale.ENGLISH);
         SimpleDateFormat formatterDay =  new SimpleDateFormat("yyyy-MM-dd");
         titles.clear();
         fragmentList.clear();
+
         for (int i=0; i < 7; ++i) {
             Date date = new Date(startTime);
             titles.add(formatterWeek.format(date).substring(0, 3));
@@ -300,7 +303,7 @@ public class UserHomeActivity extends AppCompatActivity {
             @Override
             public void run() {
                 JSONObject jsonObject = UserManager.queryUserInfo();
-                System.out.println(jsonObject);
+                // System.out.println(jsonObject);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

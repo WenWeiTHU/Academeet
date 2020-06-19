@@ -36,7 +36,9 @@ public class ConfDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, ChatActivity.class);
-
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("conference", conference);
+                intent.putExtras(bundle);
                 context.startActivity(intent);
             }
         });

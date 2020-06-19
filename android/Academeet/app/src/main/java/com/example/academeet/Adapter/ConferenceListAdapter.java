@@ -92,7 +92,7 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
         holder.conferenceTime.setText(
                 conference.getDate()+" | "+conference.getPlace());
         holder.conferenceHost.setText(conference.getChairs());
-//        holder.conferenceTag.setText(conference.getTag());
+
         holder.conferenceName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,7 +114,7 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
                 } else{
                     jsonObject = ConfManager.userMenu(conference.getId(), "Favors", "1");
                 }
-                //System.out.println(jsonObject);
+                // System.out.println(jsonObject);
             }
         };
         Runnable queryReminds = new Runnable() {
@@ -126,7 +126,7 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
                 } else{
                     jsonObject = ConfManager.userMenu(conference.getId(), "Reminds", "1");
                 }
-                //System.out.println(jsonObject);
+                // System.out.println(jsonObject);
             }
         };
         Runnable queryDislikes = new Runnable() {
@@ -138,7 +138,7 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
                 } else{
                     jsonObject = ConfManager.userMenu(conference.getId(), "Dislikes", "1");
                 }
-                //System.out.println(jsonObject);
+                // System.out.println(jsonObject);
             }
         };
 
@@ -167,7 +167,6 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
                     holder.adapter.notifyItemRemoved(pos);
                 } else{
                     Toast.makeText(view.getContext(), "Add to remind", Toast.LENGTH_SHORT).show();
-
                 }
             }
         });

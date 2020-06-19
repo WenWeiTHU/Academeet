@@ -9,11 +9,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import java.io.IOException;
-import java.io.Serializable;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.Request;
 
@@ -194,7 +191,7 @@ public class User{
             UserManager.session = session;
             ConfManager.session = session;
             id = jsonObject.getInt("id");
-            UserManager.setId(id);
+            UserManager.setUserId(id);
             ConfManager.setId(id);
 
             return resultCode;

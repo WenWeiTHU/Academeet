@@ -34,15 +34,6 @@
             android:visibility="gone"/>
 
         <TextView
-            android:id="@+id/tv_isRead"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="7dp"
-            android:text=""
-            android:textSize="12sp"/>
-
-        <TextView
             android:id="@+id/tv_content"
             style="@style/jmui_msg_text_style"
             android:layout_width="wrap_content"

@@ -11,9 +11,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.example.academeet.Adapter.PaperListAdapter;
-import com.example.academeet.Adapter.SessionListAdapter;
 import com.example.academeet.Item.PaperItem;
-import com.example.academeet.Item.SessionItem;
 import com.example.academeet.R;
 import com.example.academeet.Utils.HTTPSUtils;
 
@@ -106,7 +104,7 @@ public class PaperListFragment extends Fragment {
                                 paperListAdapter.notifyItemInserted(size);
                             }
                         } catch (Exception e){
-                            System.out.println(e);
+                            // System.out.println(e);
                             Toast toast = Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT);
                             toast.show();
                         }

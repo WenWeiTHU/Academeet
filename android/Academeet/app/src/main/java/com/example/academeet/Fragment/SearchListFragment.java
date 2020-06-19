@@ -22,10 +22,8 @@ import com.example.academeet.Adapter.ConferenceListAdapter;
 import com.example.academeet.Item.ConferenceItem;
 import com.example.academeet.R;
 import com.example.academeet.Utils.HTTPSUtils;
-import com.scwang.smart.refresh.footer.BallPulseFooter;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,16 +60,7 @@ public class SearchListFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(layoutManager.VERTICAL);
         mSearchListView.setLayoutManager(layoutManager);
-
-        // refreshLayout.setRefreshFooter(new BallPulseFooter(getActivity()));
-//        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-//            @Override
-//            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-//                refreshLayout.finishRefresh(true);
-//            }
-//        });
         refreshLayout.setEnableRefresh(false);
-
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
@@ -87,8 +76,6 @@ public class SearchListFragment extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                // System.out.println(keyword);
-                                // System.out.println(jsonObject);
                                 if(jsonObject == null){
                                     Toast toast = Toast.makeText(getContext(), "Backend wrong", Toast.LENGTH_SHORT);
                                     toast.show();
@@ -103,10 +90,7 @@ public class SearchListFragment extends Fragment {
                                         String name = conference.getString("name");
                                         String place = conference.getString("place");
                                         String date = conference.getString("date");
-//                                String startTime = conference.getString("start_time");
-//                                String endTime = conference.getString("end_time");
                                         String id = conference.getString("conference_id");
-//                                String tag = conference.getString("tags");
                                         JSONArray chairs = JSONArray.parseArray(conference.getString("chairs"));
                                         String chairsStr = "";
                                         for(int j = 0; j < chairs.size(); j++) {
@@ -149,9 +133,6 @@ public class SearchListFragment extends Fragment {
             public void run() {
                 JSONObject jsonObject = queryConfByKeyword(keyword);
                 getActivity().runOnUiThread(() -> {
-                    // System.out.println(keyword);
-                    // System.out.println(jsonObject);
-                    Log.d("TTTEST", "RUN ON UI THREAD");
                     if(jsonObject == null){
                         Toast toast = Toast.makeText(getContext(), "Backend wrong", Toast.LENGTH_SHORT);
                         toast.show();
@@ -173,10 +154,7 @@ public class SearchListFragment extends Fragment {
                             String name = conference.getString("name");
                             String place = conference.getString("place");
                             String date = conference.getString("date");
-//                                String startTime = conference.getString("start_time");
-//                                String endTime = conference.getString("end_time");
                             String id = conference.getString("conference_id");
-//                                String tag = conference.getString("tags");
                             JSONArray chairs = JSONArray.parseArray(conference.getString("chairs"));
                             String chairsStr = "";
                             for(int j = 0; j < chairs.size(); j++) {

@@ -64,7 +64,7 @@ public class ConferenceListFragment extends Fragment {
         }
         getDisliked();
         initConference();
-        System.out.println(conferenceList);
+        // System.out.println(conferenceList);
     }
 
     @Override
@@ -116,7 +116,7 @@ public class ConferenceListFragment extends Fragment {
             @Override
             public void run() {
                 JSONObject jsonObject = queryConfByDay();
-                System.out.println(jsonObject);
+                // System.out.println(jsonObject);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

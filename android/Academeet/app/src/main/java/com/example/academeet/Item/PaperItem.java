@@ -1,7 +1,5 @@
 package com.example.academeet.Item;
 
-import java.util.Date;
-
 public class PaperItem {
     private String title;
     private String abstracts;

@@ -24,7 +24,6 @@
             android:paddingBottom="5dp"
             android:paddingTop="5dp">
 
-
             <EditText
                 android:id="@+id/et_content"
                 android:layout_width="match_parent"

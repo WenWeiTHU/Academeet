@@ -1,16 +1,20 @@
 package com.example.academeet.Adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import com.example.academeet.Object.Message;
 import com.example.academeet.R;
+import com.example.academeet.Utils.UserManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,23 +64,21 @@ public class MessageAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         Message mChatMessage = mChatMessageList.get(i);
         String content = mChatMessage.getContent();
+
         String time = formatTime(mChatMessage.getTime());
         int isMeSend = mChatMessage.getIsMeSend();
-        int isRead = mChatMessage.getIsRead();////是否已读（0未读 1已读）
         final ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
             if (isMeSend == 0) {//对方发送
                 view = inflater.inflate(R.layout.item_receive_text, viewGroup, false);
-                holder.tv_content = view.findViewById(R.id.tv_content);
-                holder.tv_sendtime = view.findViewById(R.id.tv_sendtime);
-                holder.tv_display_name = view.findViewById(R.id.tv_display_name);
             } else {
                 view = inflater.inflate(R.layout.item_send_text, viewGroup, false);
-                holder.tv_content = view.findViewById(R.id.tv_content);
-                holder.tv_sendtime = view.findViewById(R.id.tv_sendtime);
-                holder.tv_isRead = view.findViewById(R.id.tv_isRead);
             }
+            holder.tv_content = view.findViewById(R.id.tv_content);
+            holder.tv_sendtime = view.findViewById(R.id.tv_sendtime);
+            holder.tv_display_name = view.findViewById(R.id.tv_display_name);
+            holder.avatarView = view.findViewById(R.id.jmui_avatar_iv);
 
             view.setTag(holder);
         } else {
@@ -89,27 +91,42 @@ public class MessageAdapter extends BaseAdapter {
         holder.tv_content.setText(content);
 
 
-        //如果是自己发送才显示未读已读
-        if (isMeSend == 1) {
-            if (isRead == 0) {
-                holder.tv_isRead.setText("Have read");
-                holder.tv_isRead.setTextColor(Color.CYAN);
-            } else if (isRead == 1) {
-                holder.tv_isRead.setText("Unread");
-                holder.tv_isRead.setTextColor(Color.GRAY);
+        //如果是对方发送
+        if (isMeSend == 0) {
+            if(mChatMessage.getUserID().equals("-1")){
+                holder.tv_display_name.setText("Server");
+                return view;
             } else {
-                holder.tv_isRead.setText("");
+                holder.tv_display_name.setText(mChatMessage.getUsername());
             }
-        }else{
-            holder.tv_display_name.setVisibility(View.VISIBLE);
-            holder.tv_display_name.setText("服务器");
         }
+
+        Runnable getAvatar = new Runnable() {
+            @Override
+            public void run() {
+
+                byte[] Picture = UserManager.queryUserAvatarByID(mChatMessage.getUserID());
+                try{
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(Picture, 0, Picture.length);
+                    holder.avatarView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            holder.avatarView.setImageBitmap(bitmap);
+                        }
+                    });
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+        };
+        new Thread(getAvatar).start();
 
         return view;
     }
 
     class ViewHolder {
-        private TextView tv_content, tv_sendtime, tv_display_name, tv_isRead;
+        private TextView tv_content, tv_sendtime, tv_display_name;
+        private ImageView avatarView;
     }
 
     private String formatTime(String timeMillis) {

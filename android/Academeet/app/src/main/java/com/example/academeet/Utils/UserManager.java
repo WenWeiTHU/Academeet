@@ -1,6 +1,5 @@
 package com.example.academeet.Utils;
 
-import android.os.Environment;
 import android.os.Looper;
 import com.alibaba.fastjson.*;
 import com.example.academeet.Object.Note;
@@ -20,7 +19,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class UserManager {
-    // 全局化管理 Note 的类
+    // 全局化管理User的类
     private static ArrayList<Note> noteList = new ArrayList<>();
     private static boolean hasInit = false;
     public static HTTPSUtils httpsUtils;
@@ -42,9 +41,10 @@ public class UserManager {
     private static final String USER_AVATAR = "user/avatar";
     private static final String LOGOUT = "user/logout";
     private static final String POST_COMMENT_URL = "user/post";
+    private static final String QUERY_MESSAGE_URL = "conference/history";
 
-    public static int getUserId() {
-        return userId;
+    public static String getUserId() {
+        return String.valueOf(userId);
     }
 
     public static void setUserId(int userId) {
@@ -320,7 +320,7 @@ public class UserManager {
                 .url(url)
                 .build();
         try{
-            System.out.println(url);
+            // System.out.println(url);
             Response response = httpsUtils.getInstance().newCall(request).execute();
             Looper.prepare();
             return response.body().bytes();
@@ -350,24 +350,6 @@ public class UserManager {
         }
     }
 
-    public static byte[] queryUserAvatar(){
-        FormBody formBody = new FormBody.Builder()
-                .add("id", String.valueOf(userId))
-                .build();
-        Request request = new Request.Builder()
-                .url(SERVER_ADDR + USER_AVATAR)
-                .post(formBody)
-                .addHeader("cookie", session)
-                .build();
-        try{
-            Response response = httpsUtils.getInstance().newCall(request).execute();
-            Looper.prepare();
-            return response.body().bytes();
-        } catch(IOException | JSONException e) {
-            return null;
-        }
-    }
-
     public static byte[] queryUserAvatarByID(String userId){
         FormBody formBody = new FormBody.Builder()
                 .add("id", userId)
@@ -380,6 +362,26 @@ public class UserManager {
             Response response = httpsUtils.getInstance().newCall(request).execute();
             Looper.prepare();
             return response.body().bytes();
+        } catch(IOException | JSONException e) {
+            return null;
+        }
+    }
+
+    public static JSONObject queryMsgByConf(String conference_id){
+        FormBody formBody = new FormBody.Builder()
+                .add("conference_id", conference_id)
+                .build();
+        Request request = new Request.Builder()
+                .url(SERVER_ADDR + QUERY_MESSAGE_URL)
+                .post(formBody)
+                .addHeader("cookie", session)
+                .build();
+        try{
+            Response response = httpsUtils.getInstance().newCall(request).execute();
+            Looper.prepare();
+            String content = response.body().string();
+            JSONObject jsonObject = JSONObject.parseObject(content);
+            return jsonObject;
         } catch(IOException | JSONException e) {
             return null;
         }

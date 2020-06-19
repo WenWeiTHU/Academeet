@@ -82,7 +82,7 @@ public class SessionListFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println(jsonObject);
+                        // System.out.println(jsonObject);
                         if(jsonObject == null){
                             Toast toast = Toast.makeText(getContext(), "Backend wrong", Toast.LENGTH_SHORT);
                             toast.show();

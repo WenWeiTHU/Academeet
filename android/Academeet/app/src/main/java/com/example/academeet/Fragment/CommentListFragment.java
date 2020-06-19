@@ -79,6 +79,7 @@ public class CommentListFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 comment(editComment.getText().toString());
+                editComment.setText("");
             }
         });
         return v;
@@ -101,7 +102,7 @@ public class CommentListFragment extends Fragment {
                         try{
                             if(jsonObject.getString("accepted").equals("1")){
                                 int size = commentItemList.size();
-                                commentItemList.add(new CommentItem(String.valueOf(UserManager.getUserId())
+                                commentItemList.add(new CommentItem(UserManager.getUserId()
                                         , UserManager.getUsername(), content));
                                 commentListAdapter.notifyItemInserted(size);
                                 Toast toast = Toast.makeText(getContext(), "OK", Toast.LENGTH_SHORT);

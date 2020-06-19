@@ -6,19 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.example.academeet.Activity.UserHomeActivity;
 import com.example.academeet.Item.CommentItem;
 import com.example.academeet.R;
-import com.example.academeet.Utils.ConfManager;
 import com.example.academeet.Utils.UserManager;
-
 import java.util.List;
 
 public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.PaperViewHolder> {
@@ -67,10 +61,14 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
                 byte[] Picture = UserManager.queryUserAvatarByID(comment.getUserID());
                 try{
                     Bitmap bitmap = BitmapFactory.decodeByteArray(Picture, 0, Picture.length);
-                    holder.avatarView.setImageBitmap(bitmap);
+                    holder.avatarView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            holder.avatarView.setImageBitmap(bitmap);
+                        }
+                    });
                 } catch (Exception e) {
                     System.out.println(e);
-                    System.out.println("Something wrong");
                 }
             }
         };

@@ -33,6 +33,14 @@ public class ChangeInfoActivity extends AppCompatActivity implements View.OnClic
             type = bundle.getString("name");
             component.updateText("Change "+ type, 0);
             newInfo.setHint(bundle.getString("content"));
+
+            if(type.equals("Phone")){
+                newInfo.setHint("Input a new phone number");
+            } else if(type.equals("Username")) {
+                newInfo.setHint("Input a new username");
+            } else if(type.equals("Signature")){
+                newInfo.setHint("Input a new signature");
+            }
         }
 
         TextView submit = findViewById(R.id.submit);
@@ -58,7 +66,7 @@ public class ChangeInfoActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void run() {
                 JSONObject jsonObject = UserManager.changeInfo(info, type);
-                System.out.println(jsonObject);
+                // System.out.println(jsonObject);
                 runOnUiThread(new Runnable() {
                     @Override
 
