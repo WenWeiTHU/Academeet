@@ -44,6 +44,10 @@ public class ShowNoteActivity extends AppCompatActivity {
     public static final String CONTENT_CHANGED = "CONTENT_CHANGED";
     public static final int SHOW_RESULT = 1001;
 
+    /**
+     * @describe: 初始化界面和数据
+     * @param savedInstanceState 之前保存的实例
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +71,9 @@ public class ShowNoteActivity extends AppCompatActivity {
         showNoteCreateTime.setText("Create Time: " + note.getCreateDate());
     }
 
+    /**
+     * @describe: 初始化数据，从上一个活动中传来的 Intent 中读取信息
+     */
     private void initData() {
         // 从 Intent 中读取数据
         Intent intent = getIntent();
@@ -75,6 +82,10 @@ public class ShowNoteActivity extends AppCompatActivity {
         pos = intent.getIntExtra("pos", -1);
     }
 
+    /**
+     * @describe: 用户点击了编辑笔记按钮，开启一个编辑笔记的事件
+     * @param v
+     */
     public void editNote(View v) {
         // 修改文章内容
         Intent intent = new Intent(this, EditNoteActivity.class);
@@ -85,7 +96,12 @@ public class ShowNoteActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * @describe: 处理上一层活动结束的结果，主要处理编辑笔记活动的结果，刷新笔记显示的内容
+     * @param requestCode 请求码
+     * @param resultCode 响应码
+     * @param data 响应的结果
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -23,6 +23,13 @@ public class LoginFragment extends Fragment {
     @BindView(R.id.register_button)
     FancyButton mRegisterButton;
 
+    /**
+     * @describe: 创建Fragment，初始化界面
+     * @param inflater Layout解析器
+     * @param container View 容器
+     * @param savedInstanceState 之前存在的实例
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -34,6 +41,11 @@ public class LoginFragment extends Fragment {
     }
 
 
+    /**
+     * @describe: 获取Fragment中的控件
+     * @param id 控件的ID
+     * @return 对应的控件或者 null
+     */
     public View getLoginView(int id) {
         return getActivity().findViewById(id);
     }

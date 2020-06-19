@@ -43,26 +43,44 @@ public class UserManager {
     private static final String LOGOUT = "user/logout";
     private static final String POST_COMMENT_URL = "user/post";
 
+    /**
+     * @describe: 获取当前用户的 ID
+     * @return 当前登录的用户的 ID
+     */
     public static int getUserId() {
         return userId;
     }
 
-    public static void setUserId(int userId) {
-        UserManager.userId = userId;
-    }
-
+    /**
+     * @describe: 获取用户的用户名
+     * @return 用户的用户名
+     */
     public static String getUsername() {
         return username;
     }
 
+    /**
+     * @describe: 设置用户的用户名
+     * @param username 用户的用户名
+     */
     public static void setUsername(String username) {
         UserManager.username = username;
     }
 
+    /**
+     * @describe: 返回当前的笔记列表
+     * @return 笔记列表
+     */
     public static ArrayList<Note> getNotes() {
         return noteList;
     }
 
+    /**
+     * @describe: 向服务器发送用户的评价
+     * @param sessId Session 的 Id
+     * @param content 用户评价的内容
+     * @return 服务器返回的 Json 内容
+     */
     public static JSONObject postComment(String sessId, String content){
         FormBody formBody = new FormBody.Builder()
                 .add("id", String.valueOf(userId))
@@ -86,6 +104,10 @@ public class UserManager {
         }
     }
 
+    /**
+     * @describe: 用户登出
+     * @return 登出是否成功
+     */
     public static boolean logout() {
         if (httpsUtils == null) {
             return true;
@@ -119,10 +141,17 @@ public class UserManager {
         }
     }
 
+    /**
+     * @describe: 设置用户的 id
+     * @param id 用户的 id
+     */
     public static void setId(int id) {
         userId = id;
     }
 
+    /**
+     * @describe: 如果尚未向后端请求当前笔记的数据，则向后端请求。
+     */
     public static void initData() {
         // TODO: 向后端请求数据
         if (hasInit)
@@ -131,6 +160,12 @@ public class UserManager {
         noteList = loadNotes();
     }
 
+    /**
+     * @describe: 修改用户信息
+     * @param newInfo 新的信息
+     * @param type 信息的类型
+     * @return 服务器返回的 Json 消息
+     */
     public static JSONObject changeInfo(String newInfo, String type){
         String parameter;
         String url;
@@ -167,6 +202,12 @@ public class UserManager {
         }
     }
 
+    /**
+     * @describe: 用户修改面膜
+     * @param newPasswd 新的密码
+     * @param oldPasswd 原来的密码
+     * @return 服务器返回的 Json 内容
+     */
     public static JSONObject changePasswd(String newPasswd, String oldPasswd){
         FormBody formBody = new FormBody.Builder()
                 .add("old_password", oldPasswd)
@@ -191,6 +232,11 @@ public class UserManager {
         }
     }
 
+    /**
+     * @describe: 用户添加笔记
+     * @param note 新的 Note
+     * @return 发送是否成功
+     */
     public static boolean addNote(Note note) {
         noteList.add(note);
         // TODO： 将新建的note发送到服务器上
@@ -220,6 +266,11 @@ public class UserManager {
         return false;
     }
 
+    /**
+     * @describe: 删除用户的笔记
+     * @param note 将要删除的笔记
+     * @return 是否删除成功
+     */
     public static boolean deleteNote(Note note) {
         // 删除本地的笔记
         noteList.remove(note);
@@ -245,6 +296,12 @@ public class UserManager {
         return false;
     }
 
+    /**
+     * @describe: 将指定位置的 Note 修改为新的 Note
+     * @param note 新的 Note
+     * @param pos 需要修改的位置
+     * @return 修改是否成功
+     */
     public static boolean setNote(Note note, int pos) {
         noteList.set(pos, note);
         // TODO: 将修改后的 note 发送到服务器上
@@ -275,6 +332,10 @@ public class UserManager {
 
     }
 
+    /**
+     * @describe: 向服务器请求用户的 Note 列表
+     * @return Note 列表
+     */
     private static ArrayList<Note> loadNotes() {
         // TODO: 向服务器请求 Note 列表
         if (httpsUtils == null) {
@@ -315,6 +376,11 @@ public class UserManager {
         return null;
     }
 
+    /**
+     * @describe: 从服务器上下载文件
+     * @param url 下载地址
+     * @return 文件的二进制数组
+     */
     public static byte[] downloadFile(String url){
         Request request = new Request.Builder()
                 .url(url)
@@ -329,6 +395,10 @@ public class UserManager {
         }
     }
 
+    /**
+     * @describe: 向服务器查询用户的个人信息
+     * @return 服务器返回的 Json 信息
+     */
     public static JSONObject queryUserInfo(){
         FormBody formBody = new FormBody.Builder()
                 .add("id", String.valueOf(userId))
@@ -350,6 +420,10 @@ public class UserManager {
         }
     }
 
+    /**
+     * @describe: 获取用户的个人头像
+     * @return 用户头像的 byte 数组
+     */
     public static byte[] queryUserAvatar(){
         FormBody formBody = new FormBody.Builder()
                 .add("id", String.valueOf(userId))
@@ -368,6 +442,11 @@ public class UserManager {
         }
     }
 
+    /**
+     * @describe: 根据用户的 Id 来查询用户的头像
+     * @param userId 用户的 Id
+     * @return 头像的 Byte 数组
+     */
     public static byte[] queryUserAvatarByID(String userId){
         FormBody formBody = new FormBody.Builder()
                 .add("id", userId)
@@ -385,6 +464,11 @@ public class UserManager {
         }
     }
 
+    /**
+     * @describe: 上传用户的头像
+     * @param file 用户头像对应的文件
+     * @return 服务器返回的 Json信息
+     */
     public static JSONObject uploadAvatar(File file){
         MediaType mediaType = MediaType.parse("image/jpg");
         RequestBody requestBody = new MultipartBody.Builder()

@@ -37,9 +37,20 @@ public class User{
     private final String LOGIN_URL = "/api/login";
     private String session;
 
+    /**
+     * @describe: 生成一个空白的 User
+     */
     public User() {
     }
 
+    /**
+     * @describe: 生成一个带有指定数据的 User
+     * @param username 用户名
+     * @param password 用户密码
+     * @param confirm_password 用户确认密码
+     * @param phone 用户手机
+     * @param capcha 验证码
+     */
     public User(String username, String password, String confirm_password,
                 String phone, String capcha) {
         this.username = username;
@@ -49,56 +60,74 @@ public class User{
         this.capcha = capcha;
     }
 
+    /**
+     * @describe: 获取用户 ID
+     * @return 用户 ID
+     */
     public int getId() { return id; }
 
+    /**
+     * @describe: 获取用户名
+     * @return 用户名
+     */
     public String getUsername() {
         return username;
     }
 
-    public String getPhone() {
-        return phone;
-    }
 
+    /**
+     * @describe: 获取用户的密码
+     * @return 用户密码
+     */
     public String getPassword() {
         return password;
     }
 
-    public String getConfirm_password() {
-        return confirm_password;
-    }
-
-    public String getCapcha() {
-        return capcha;
-    }
-
-    public String getUserType() {
-        return userType;
-    }
-
+    /**
+     * @describe: 设置用户的验证码
+     * @param capcha 验证码
+     */
     public void setCapcha(String capcha) {
         this.capcha = capcha;
     }
 
-    public void setConfirm_password(String confirm_password) {
-        this.confirm_password = confirm_password;
-    }
-
+    /**
+     * @describe: 设置用户的密码
+     * @param password 用户密码
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * @describe: 设置用户的手机号
+     * @param phone 用户的手机号
+     */
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
+    /**
+     * @describe: 设置用户的用户名
+     * @param username 用户名
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * @describe: 设置用户的类型
+     * @param userType 用户类型
+     */
     public void setUserType(String userType) {
         this.userType = userType;
     }
 
+    /**
+     * @describe: 从服务器获取验证码
+     * @param httpsUtils HTTPS工具
+     * @return 服务器是否接受请求
+     */
     public Boolean getCapchaFromServer(HTTPSUtils httpsUtils) {
         if (phone == null) {
             // 未设置手机号
@@ -129,6 +158,11 @@ public class User{
         return false;
     }
 
+    /**
+     * @describe: 向服务器发送注册请求
+     * @param httpsUtils HTTPS 工具
+     * @return 服务器响应码
+     */
     public int register(HTTPSUtils httpsUtils) {
         int userCode = 0;
         if (userType == "Admin") {
@@ -160,6 +194,11 @@ public class User{
         return ERROR_CODE;
     }
 
+    /**
+     * @describe: 向服务器发送登录请求
+     * @param httpsUtils HTTPS 工具
+     * @return 服务器的响应码
+     */
     public int login(HTTPSUtils httpsUtils) {
         int userCode = 0;
         if (userType == "Admin") {

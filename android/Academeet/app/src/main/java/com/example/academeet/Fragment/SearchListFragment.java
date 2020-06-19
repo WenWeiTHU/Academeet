@@ -53,6 +53,13 @@ public class SearchListFragment extends Fragment {
     private String currentKeyword;
 
 
+    /**
+     * @describe: 初始化界面和首选项
+     * @param inflater Layout解析器
+     * @param container Fragment容器
+     * @param savedInstanceState 先前保存的实例
+     * @return 创建好的 Fragment
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
@@ -139,6 +146,10 @@ public class SearchListFragment extends Fragment {
         return v;
     }
 
+    /**
+     * @describe: 根据关键词查找相关的会议
+     * @param keyword 会议关键词
+     */
     public void searchConference(String keyword) {
         if (!keyword.equals(currentKeyword)) {
             currentCount = 1;
@@ -199,6 +210,11 @@ public class SearchListFragment extends Fragment {
         totalCount += 1;
     }
 
+    /**
+     * @describe: 根据关键词向服务器请求会议列表
+     * @param keyword 关键词
+     * @return 服务器返回的 JSON消息
+     */
     private JSONObject queryConfByKeyword(String keyword){
         HTTPSUtils httpsUtils = new HTTPSUtils(this.getActivity());
         FormBody formBody = new FormBody.Builder()
@@ -220,6 +236,12 @@ public class SearchListFragment extends Fragment {
         }
     }
 
+    /**
+     * @describe: 加载更多会议列表
+     * @param keyword 关键词
+     * @param count 当前加载的段数
+     * @return 服务器返回的 JSON消息
+     */
     private JSONObject loadMore(String keyword, int count) {
         HTTPSUtils httpsUtils = new HTTPSUtils(this.getActivity());
         FormBody formBody = new FormBody.Builder()

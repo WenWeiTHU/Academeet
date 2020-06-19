@@ -38,6 +38,10 @@ public class SessDetailActivity extends AppCompatActivity {
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
     private boolean liked = false;
 
+    /**
+     * @describe: 初始化界面和数据
+     * @param savedInstanceState 之前保存的实例
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

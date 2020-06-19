@@ -37,10 +37,21 @@ public class ConfManager {
     private static final String QUERY_LIKES  = "/api/user/query/rating";
 
 
+    /**
+     * @describe: 设置会议的id
+     * @param id 会议的id
+     */
     public static void setId(int id) {
         userId = id;
     }
 
+    /**
+     * @describe: 根据用户对conference的不同操作向服务器发送信息
+     * @param confId 会议的id
+     * @param action 动作类型
+     * @param type 操作类型
+     * @return
+     */
     public static JSONObject userMenu(String confId, String action, String type) {
         String url;
         String parameter = "conference_id";
@@ -78,6 +89,11 @@ public class ConfManager {
         }
     }
 
+    /**
+     * @describe: 根据动作查询用户的相关信息
+     * @param action 动作类型
+     * @return 服务器返回的 JSON 信息
+     */
     public static JSONObject userQuery(String action) {
         String url;
         if(action.equals("Favors")){
@@ -109,6 +125,11 @@ public class ConfManager {
         }
     }
 
+    /**
+     * @describe: 查询用户对某个 session是否是点了赞
+     * @param sessId session的id
+     * @return 服务器返回的 JSON消息
+     */
     public static JSONObject queryLikes(String sessId){
         FormBody formBody = new FormBody.Builder()
                 .add("session_id", sessId)

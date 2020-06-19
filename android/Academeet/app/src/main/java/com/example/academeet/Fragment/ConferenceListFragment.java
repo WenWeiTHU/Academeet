@@ -41,14 +41,26 @@ public class ConferenceListFragment extends Fragment {
     String date;
     int type;
 
+    /**
+     * @describe: 初始化一个 ConferenceListFragment实例
+     * @param date Conference的日期
+     * @param type Conference的类型
+     */
     public ConferenceListFragment(String date, int type){
         this.date = date;
         this.type = type;
     }
 
+    /**
+     * @describe: 初始化一个空的 ConferenceListFragment实例
+     */
     public ConferenceListFragment(){
     }
 
+    /**
+     * @describe: 初始化数据
+     * @param savedInstanceState 先前保存的实例
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,17 +68,24 @@ public class ConferenceListFragment extends Fragment {
         initConference();
     }
 
-    public void updateDate(String date) {
-        this.date = date;
-        for(int i = 0; i < conferenceList.size(); i++){
-            conferenceList.remove(i);
-            conferenceListAdapter.notifyItemRemoved(i);
-        }
-        getDisliked();
-        initConference();
-        System.out.println(conferenceList);
-    }
+//    public void updateDate(String date) {
+//        this.date = date;
+//        for(int i = 0; i < conferenceList.size(); i++){
+//            conferenceList.remove(i);
+//            conferenceListAdapter.notifyItemRemoved(i);
+//        }
+//        getDisliked();
+//        initConference();
+//        System.out.println(conferenceList);
+//    }
 
+    /**
+     * @describe: 初始化界面
+     * @param inflater Layout解析器
+     * @param container Fragment容器
+     * @param savedInstanceState 先前保存的实例
+     * @return 创建好的 Fragment
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
@@ -87,6 +106,9 @@ public class ConferenceListFragment extends Fragment {
 
     }
 
+    /**
+     * @describe: 获取用户所有 Dislike的会议
+     */
     private void getDisliked() {
         Runnable query = new Runnable() {
             @Override
@@ -111,6 +133,9 @@ public class ConferenceListFragment extends Fragment {
         new Thread(query).start();
     }
 
+    /**
+     * @describe: 根据日期来查询当天的所有会议
+     */
     private void initConference() {
         Runnable query = new Runnable() {
             @Override
@@ -164,6 +189,10 @@ public class ConferenceListFragment extends Fragment {
         new Thread(query).start();
     }
 
+    /**
+     * @describe: 根据日期，向服务器查询当天的所有会议
+     * @return 服务器返回的 JSON消息
+     */
     private JSONObject queryConfByDay(){
         HTTPSUtils httpsUtils = new HTTPSUtils(this.getActivity());
         FormBody formBody = new FormBody.Builder()

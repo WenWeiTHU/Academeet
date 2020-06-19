@@ -18,6 +18,10 @@ public class SearchActivity extends AppCompatActivity {
     SearchView searchView;
     SearchListFragment searchListFragment;
 
+    /**
+     * @describe: 初始化界面
+     * @param savedInstanceState 之前保存的实例
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -40,6 +40,10 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
         ConferenceListAdapter adapter;
 
 
+        /**
+         * @param view
+         * @param adapter
+         */
         public ConfViewHolder(View view, ConferenceListAdapter adapter) {
             super(view);
             this.adapter = adapter;
@@ -69,12 +73,21 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
         }
     }
 
+    /**
+     * @param conferenceItemList
+     * @param type
+     */
     public ConferenceListAdapter(List<ConferenceItem> conferenceItemList, String type) {
         mConferenceList = conferenceItemList;
         this.type = type;
     }
 
 
+    /**
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public ConfViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -84,6 +97,10 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
         return holder;
     }
 
+    /**
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull ConfViewHolder holder, int position) {
         ConferenceItem conference = mConferenceList.get(position);
@@ -188,6 +205,9 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
 
     }
 
+    /**
+     * @return
+     */
     @Override
     public int getItemCount() {
         return mConferenceList.size();
