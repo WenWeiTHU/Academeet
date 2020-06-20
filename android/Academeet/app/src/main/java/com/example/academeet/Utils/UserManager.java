@@ -49,6 +49,10 @@ public class UserManager {
     private static final String POST_COMMENT_URL = "user/post";
     private static final String QUERY_MESSAGE_URL = "conference/history";
 
+    public static File getCacheDir() {
+        return cacheDir;
+    }
+
     public static void setCacheDir(File cacheDir) {
         UserManager.cacheDir = cacheDir;
     }

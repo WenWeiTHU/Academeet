@@ -191,7 +191,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                             return;
                         }
                         try{
-                            System.out.println(jsonObject);
+                            File file = new File(UserManager.getCacheDir(), UserManager.getUserId()+".tmp");
+                            if(file.exists()){
+                                file.delete();
+                            }
                         } catch (Exception e){
                             Toast toast = Toast.makeText(SettingsActivity.this, getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT);
                             toast.show();
