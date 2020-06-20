@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.academeet.Object.Message;
-import com.example.academeet.Object.User;
 import com.example.academeet.Utils.UserManager;
 
 import org.java_websocket.handshake.ServerHandshake;
@@ -42,6 +41,7 @@ public class AWebSocketClientService extends Service {
     @Override
     public void onDestroy() {
         closeConnect();
+        mHandler.removeCallbacks(heartBeatRunnable);
         super.onDestroy();
     }
 
@@ -53,7 +53,7 @@ public class AWebSocketClientService extends Service {
         //初始化websocket
         conferenceID = intent.getStringExtra("conferenceID");
         initSocketClient();
-        // mHandler.postDelayed(heartBeatRunnable, HEART_BEAT_RATE);//开启心跳检测
+        mHandler.postDelayed(heartBeatRunnable, HEART_BEAT_RATE);//开启心跳检测
 
 //        //设置service为前台服务，提高优先级
 //        if (Build.VERSION.SDK_INT < 18) {

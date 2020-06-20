@@ -48,6 +48,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private AWebSocketClientService.AWebSocketClientBinder binder;
     private AWebSocketClientService aWebSClientService;
     private MessageReceiver messageReceiver;
+    private MessageAdapter messageAdapter;
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
@@ -111,7 +112,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 chatMessage.setIsMeSend(0);
 
                 chatMessageList.add(chatMessage);
-                initChatMsgListView();
+                messageAdapter.notifyDataSetChanged();
+                listView.setSelection(chatMessageList.size());
             }
         }
     }
@@ -128,14 +130,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        toolbar.setNavigationOnClickListener((view) -> {finish();});
 
+        messageAdapter = new MessageAdapter(ChatActivity.this, chatMessageList);
+        toolbar.setNavigationOnClickListener((view) -> {finish();});
         Toast.makeText(ChatActivity.this,
                 "Connecting to websocket, please wait", Toast.LENGTH_SHORT).show();
         startJWebSClientService();   // initialize service
         bindService();               // bind service
         doRegisterReceiver();        // register websocket message receiver
         ButterKnife.bind(this);
+        listView.setAdapter(messageAdapter);
         btn_send.setOnClickListener(this);
     }
 
@@ -190,7 +194,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     message.setTime(System.currentTimeMillis()+"");
                     aWebSClientService.sendMsg(message);
                     chatMessageList.add(message);
-                    initChatMsgListView();
+                    messageAdapter.notifyDataSetChanged();
+                    listView.setSelection(chatMessageList.size());
+//                    initChatMsgListView();
                     et_content.setText("");
                 } else {
                     Toast.makeText(ChatActivity.this,
@@ -206,8 +212,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
      * @describe: Show message
      */
     private void initChatMsgListView(){
-        MessageAdapter messageAdapter = new MessageAdapter(ChatActivity.this, chatMessageList);
-        listView.setAdapter(messageAdapter);
+//        MessageAdapter messageAdapter = new MessageAdapter(ChatActivity.this, chatMessageList);
+//        listView.setAdapter(messageAdapter);
+        // messageAdapter.notifyDataSetChanged();
         listView.setSelection(chatMessageList.size());
     }
 }
