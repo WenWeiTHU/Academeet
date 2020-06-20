@@ -130,8 +130,9 @@ public class User{
             // 未设置手机号
             return false;
         }
+        String encryptPhone = EncryptUtil.encrypt(phone);
         FormBody formBody = new FormBody.Builder()
-                .add("phone", phone).build();
+                .add("phone", encryptPhone).build();
         Request request = new Request.Builder()
                 .url(SERVER_ADDR + CAPTCHA_URL)
                 .post(formBody)
@@ -148,6 +149,7 @@ public class User{
                 return true;
             }
         } catch (IOException | JSONException e) {
+            e.printStackTrace();
             return false;
         }
 
