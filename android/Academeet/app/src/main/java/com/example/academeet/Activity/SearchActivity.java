@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.text.TextUtils;
 import android.widget.SearchView;
-import android.widget.Toast;
 import com.example.academeet.Fragment.SearchListFragment;
 import com.example.academeet.R;
 

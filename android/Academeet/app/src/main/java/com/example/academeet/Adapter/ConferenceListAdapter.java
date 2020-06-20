@@ -1,5 +1,5 @@
 package com.example.academeet.Adapter;
-import android.app.Activity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +18,6 @@ import com.example.academeet.R;
 
 import com.example.academeet.Activity.ConfDetailActivity;
 import com.example.academeet.Utils.ConfManager;
-import com.veinhorn.tagview.TagView;
 
 import java.util.List;
 
@@ -105,11 +104,9 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
     public void onBindViewHolder(@NonNull ConfViewHolder holder, int position) {
         ConferenceItem conference = mConferenceList.get(position);
         holder.conferenceName.setText(conference.getName());
-
         holder.conferenceTime.setText(
                 conference.getDate()+" | "+conference.getPlace());
         holder.conferenceHost.setText(conference.getChairs());
-
         holder.conferenceName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

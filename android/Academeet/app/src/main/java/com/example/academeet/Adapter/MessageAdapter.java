@@ -105,7 +105,7 @@ public class MessageAdapter extends BaseAdapter {
             @Override
             public void run() {
 
-                byte[] Picture = UserManager.queryUserAvatarByID(mChatMessage.getUserID());
+                byte[] Picture = UserManager.getPicFromCache(mChatMessage.getUserID());
                 try{
                     Bitmap bitmap = BitmapFactory.decodeByteArray(Picture, 0, Picture.length);
                     holder.avatarView.post(new Runnable() {

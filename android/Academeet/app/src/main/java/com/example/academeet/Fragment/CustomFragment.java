@@ -29,7 +29,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
 public class CustomFragment extends Fragment {
 
     private List<ConferenceItem> conferenceList = new ArrayList<>();

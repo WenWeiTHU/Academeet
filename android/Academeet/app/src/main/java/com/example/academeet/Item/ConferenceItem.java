@@ -143,7 +143,6 @@ public class ConferenceItem implements Serializable {
         setName(name);
         setPlace(place);
         detailedDate = date;
-        // System.out.println("Detailed"+detailedDate);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd");
         setDate(simpleDateFormat.format(new Date(new Long(date))));
         setChairs(chairs);

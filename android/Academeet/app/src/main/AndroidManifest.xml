@@ -13,6 +13,18 @@
         <activity android:name=".Activity.ChangeInfoActivity" />
         <activity android:name=".Activity.SettingsActivity" />
         <activity android:name=".Activity.ChatActivity" />
+        <activity android:name=".Activity.HistoryActivity" />
+        <activity android:name=".Activity.EditNoteActivity" />
+        <activity android:name=".Activity.ShowNoteActivity" />
+        <activity android:name=".Activity.UserNotePreviewActivity" />
+        <activity android:name=".Activity.UserHomeActivity" />
+        <activity android:name=".Activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Activity.CustomActivity"
             android:label="@string/title_activity_custom"
@@ -29,17 +41,6 @@
             android:name=".Activity.ConfDetailActivity"
             android:label="@string/title_activity_conf_detail"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activity.EditNoteActivity" />
-        <activity android:name=".Activity.ShowNoteActivity" />
-        <activity android:name=".Activity.UserNotePreviewActivity" />
-        <activity android:name=".Activity.UserHomeActivity" />
-        <activity android:name=".Activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <service
             android:name=".WebSocket.AWebSocketClientService"
             android:enabled="true"

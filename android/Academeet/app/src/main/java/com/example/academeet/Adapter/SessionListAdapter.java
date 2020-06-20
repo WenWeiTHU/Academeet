@@ -29,7 +29,6 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
     private final String SERVER_ADDR = "https://49.232.141.126:8080";
     private final String UPDATE_RATING_URL = "/api/user/update/rating";
 
-
     class SessViewHolder extends RecyclerView.ViewHolder {
         TextView sessionName;
         TextView sessionTime;
@@ -106,5 +105,4 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
     public int getItemCount() {
         return mSessionList.size();
     }
-
 }

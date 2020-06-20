@@ -4,7 +4,10 @@ import android.os.Looper;
 import com.alibaba.fastjson.*;
 import com.example.academeet.Object.Note;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,6 +28,9 @@ public class UserManager {
     public static HTTPSUtils httpsUtils;
     private static int userId;
     private static String username;
+
+
+    private static File cacheDir;
     public static String session;
 
     private static final String SERVER_ADDR = "https://49.232.141.126:8080/api/";
@@ -42,6 +48,42 @@ public class UserManager {
     private static final String LOGOUT = "user/logout";
     private static final String POST_COMMENT_URL = "user/post";
     private static final String QUERY_MESSAGE_URL = "conference/history";
+
+    public static void setCacheDir(File cacheDir) {
+        UserManager.cacheDir = cacheDir;
+    }
+
+    public static byte[] getPicFromCache(String userID){
+        File file = new File(cacheDir, userID+".tmp");
+        byte[] Picture;
+        if(file.exists()){
+            System.out.println("exist");
+            int size = (int) file.length();
+            Picture = new byte[size];
+            try {
+                BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+                buf.read(Picture, 0, Picture.length);
+                buf.close();
+            } catch (Exception e) {
+                System.out.println(e);
+                return null;
+            }
+        } else {
+            Picture = UserManager.queryUserAvatarByID(userID);
+            System.out.println(cacheDir);
+            System.out.println("not exist");
+            try{
+                file.createNewFile();
+                FileOutputStream out = new FileOutputStream(file);
+                out.write(Picture);
+                out.close();
+            } catch (Exception e){
+                System.out.println(e);
+                return null;
+            }
+        }
+        return Picture;
+    }
 
     /**
      * @describe: 获取当前用户的 ID

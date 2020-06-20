@@ -70,13 +70,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     /**
-<<<<<<< HEAD
      * @describe: 响应点击事件，展开对应的菜单
      * @param v 被点击的菜单项
-=======
-     * @describe: Click listeners of change user info buttons
-     * @param v
->>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     @Override
     public void onClick(View v) {
@@ -118,17 +113,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     /**
-<<<<<<< HEAD
      * @describe: 处理上一层活动结束的结果
      * @param requestCode 请求码
      * @param resultCode 响应码
      * @param data 响应数据
-=======
-     * @describe: Callback of selected avatar
-     * @param requestCode
-     * @param resultCode
-     * @param data
->>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -186,13 +174,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     /**
-<<<<<<< HEAD
      * @describe: 上传用户的头像
      * @param file 用户头像对应的文件
-=======
-     * @describe: Update picture as a file
-     * @param file
->>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     private void uploadPicture(File file) {
         Runnable upload = new Runnable() {

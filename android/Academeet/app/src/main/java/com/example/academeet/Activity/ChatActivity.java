@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSONObject;
 import com.example.academeet.Adapter.MessageAdapter;
 import com.example.academeet.Item.ConferenceItem;
 import com.example.academeet.Object.Message;
@@ -79,19 +78,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.action_history){
-            Runnable query = new Runnable() {
-                @Override
-                public void run() {
-                    JSONObject jsonObject = UserManager.queryMsgByConf(conferenceID);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            System.out.println(jsonObject);
-                        }
-                    });
-                }
-            };
-            new Thread(query).start();
+            Intent intent = new Intent(ChatActivity.this, HistoryActivity.class);
+            intent.putExtra("conference_id", conferenceID);
+            startActivity(intent);
+
         }
         return true;
     }
@@ -196,7 +186,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     chatMessageList.add(message);
                     messageAdapter.notifyDataSetChanged();
                     listView.setSelection(chatMessageList.size());
-//                    initChatMsgListView();
                     et_content.setText("");
                 } else {
                     Toast.makeText(ChatActivity.this,
@@ -206,15 +195,5 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             default:
                 break;
         }
-    }
-
-    /**
-     * @describe: Show message
-     */
-    private void initChatMsgListView(){
-//        MessageAdapter messageAdapter = new MessageAdapter(ChatActivity.this, chatMessageList);
-//        listView.setAdapter(messageAdapter);
-        // messageAdapter.notifyDataSetChanged();
-        listView.setSelection(chatMessageList.size());
     }
 }

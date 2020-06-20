@@ -46,7 +46,6 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
             return;
         }
 
-//        System.out.println(oldPasswd+" "+ newPasswd);
         Runnable update = new Runnable() {
             @Override
             public void run() {
@@ -82,13 +81,8 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
     }
 
     /**
-<<<<<<< HEAD
      * @describe: 响应用户点击按钮事件，如果是提交键则修改密码，否则返回上一级菜单
      * @param v 被点击的按钮
-=======
-     * @describe: On OK button click listener
-     * @param v
->>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     @Override
     public void onClick(View v) {

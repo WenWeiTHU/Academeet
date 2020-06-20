@@ -15,12 +15,7 @@ import android.widget.Toast;
 import com.example.academeet.Adapter.UserNoteAdapter;
 import com.example.academeet.Object.Note;
 import com.example.academeet.R;
-import com.example.academeet.Utils.HTTPSUtils;
 import com.example.academeet.Utils.UserManager;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

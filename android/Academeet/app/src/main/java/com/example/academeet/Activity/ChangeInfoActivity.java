@@ -114,7 +114,6 @@ public class ChangeInfoActivity extends AppCompatActivity implements View.OnClic
     }
 
     /**
-<<<<<<< HEAD
      * @describe: 当用户点击提交时，提交修改的个人信息，否则返回到上一级菜单
      * @param v 被点击的按钮
      */

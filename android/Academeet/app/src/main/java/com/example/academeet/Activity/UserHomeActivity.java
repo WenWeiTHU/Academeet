@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Picture;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -40,6 +41,11 @@ import com.example.academeet.Utils.ScreenInfoUtils;
 import com.example.academeet.Utils.UserManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,8 +58,6 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserHomeActivity extends AppCompatActivity {
-
-    private String TAG = "com.example.academeet.Activity.HomeActivity";
     @BindView(R.id.user_home_view_statusbar)
     View mStatusbar;
     @BindView(R.id.user_home_tool_bar)
@@ -121,11 +125,7 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
-<<<<<<< HEAD
      * @describe: 复原时，重新初始化用户的信息
-=======
-     * @describe: Update user info when return back to user home fragment
->>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     @Override
     protected void onResume() {
@@ -134,11 +134,7 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
-<<<<<<< HEAD
      * @describe: 检测是否有读写存储的权限，如果没有则请求权限
-=======
-     * @decribe: Check if has storage Permissions
->>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     public void verifyStoragePermissions() {
         try {
@@ -154,18 +150,17 @@ public class UserHomeActivity extends AppCompatActivity {
         }
     }
 
+
+
     /**
-<<<<<<< HEAD
      * @describe: 向服务器请求用户的头像并展示
-=======
-     * @describe: query user avatar and show in ImageView
->>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     public void initAvatar() {
         Runnable query = new Runnable() {
             @Override
             public void run() {
                 byte[] Picture = UserManager.queryUserAvatarByID(UserManager.getUserId());
+
                 //通过ImageView,设置图片
                 runOnUiThread(new Runnable() {
                     @Override
@@ -178,6 +173,8 @@ public class UserHomeActivity extends AppCompatActivity {
                         }
                         try{
                             Bitmap bitmap = BitmapFactory.decodeByteArray(Picture, 0, Picture.length);
+
+
                             avatarView.setImageBitmap(bitmap);
                         } catch (Exception e) {
                             Toast toast = Toast.makeText(UserHomeActivity.this,
@@ -265,11 +262,7 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
-<<<<<<< HEAD
      * @describe: 初始化主体部分的数据和界面
-=======
-     * @decribe: initialize main conferences list in current day
->>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     void initMainContent() {
         Date curDate = new Date();
@@ -295,12 +288,8 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
-<<<<<<< HEAD
      * @describe: 更新主体部分的内容
      * @param curDate 需要更新的日期
-=======
-     * @decribe: initialize main conferences list in a specific day
->>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     void updateMainContent(Date curDate) {
         long currTime = curDate.getTime();
@@ -322,11 +311,7 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
-<<<<<<< HEAD
      * @describe: 向服务器请求用户的个人信息
-=======
-     * @describe: query user info
->>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     public void initUserInfo() {
         Runnable query = new Runnable() {
@@ -345,6 +330,8 @@ public class UserHomeActivity extends AppCompatActivity {
                         try{
                             username = jsonObject.getString("username");
                             UserManager.setUsername(username);
+
+                            UserManager.setCacheDir(getFilesDir());
                             phone = jsonObject.getString("phone");
                             avatar = jsonObject.getString("avatar");
                             signature = jsonObject.getString("signature");
@@ -363,12 +350,8 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
-<<<<<<< HEAD
      * @describe: 响应用户点击事件，开启一个 Custom活动
      * @param v 被点击的按钮
-=======
-     * @describe: Callback of custom button and etc.
->>>>>>> 8e168f0f447b467fb73535988d2ef0774103c548
      */
     public void onCustomItemClicked(View v) {
         Intent intent = new Intent(UserHomeActivity.this, CustomActivity.class);

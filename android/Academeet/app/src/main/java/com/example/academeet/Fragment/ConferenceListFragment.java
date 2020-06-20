@@ -164,9 +164,6 @@ public class ConferenceListFragment extends Fragment {
                                 String name = conference.getString("name");
                                 String place = conference.getString("place");
                                 String date = conference.getString("date");
-//                                String startTime = conference.getString("start_time");
-//                                String endTime = conference.getString("end_time");
-//                                String tag = conference.getString("tags");
                                 JSONArray chairs = JSONArray.parseArray(conference.getString("chairs"));
                                 String chairsStr = "";
                                 for(int j = 0; j < chairs.size(); j++){

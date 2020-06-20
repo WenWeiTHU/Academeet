@@ -13,6 +13,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import com.example.academeet.Item.CommentItem;
 import com.example.academeet.R;
 import com.example.academeet.Utils.UserManager;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.List;
 
 /**
@@ -77,10 +82,11 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         holder.content.setText(comment.getContent());
         holder.postTime.setText(comment.getPostTime());
 
+
         Runnable getAvatar = new Runnable() {
             @Override
             public void run() {
-                byte[] Picture = UserManager.queryUserAvatarByID(comment.getUserID());
+                byte[] Picture = UserManager.getPicFromCache(comment.getUserID());
                 try{
                     Bitmap bitmap = BitmapFactory.decodeByteArray(Picture, 0, Picture.length);
                     holder.avatarView.post(new Runnable() {
@@ -96,6 +102,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         };
         new Thread(getAvatar).start();
     }
+
 
 
     /**

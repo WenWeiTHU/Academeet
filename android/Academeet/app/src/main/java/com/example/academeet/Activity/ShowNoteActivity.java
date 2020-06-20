@@ -13,9 +13,6 @@ import android.widget.TextView;
 import com.example.academeet.Object.Note;
 import com.example.academeet.R;
 import com.example.academeet.Utils.UserManager;
-
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
