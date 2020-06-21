@@ -13,16 +13,16 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.net.Uri;
 
 public class ImageUtils {
 
     /**
-     * Save image to the SD card
+     * @describe: 保存图片到本地
      *
-     * @param photoBitmap
-     * @param photoName
-     * @param path
+     * @param photoBitmap 图片的bitmap
+     * @param path 文件路径
+     * @param photoName 文件名称
+     * @return
      */
     public static String savePhoto(Bitmap photoBitmap, String path,
                                    String photoName) {
@@ -71,7 +71,7 @@ public class ImageUtils {
      * 转换图片成圆形
      *
      * @param bitmap 传入Bitmap对象
-     * @return
+     * @return 圆形的Bitmap
      */
     public static Bitmap toRoundBitmap(Bitmap bitmap) {
         int width = bitmap.getWidth();

@@ -6,21 +6,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.example.academeet.Activity.UserHomeActivity;
 import com.example.academeet.Item.CommentItem;
 import com.example.academeet.R;
-import com.example.academeet.Utils.ConfManager;
 import com.example.academeet.Utils.UserManager;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.List;
 
+/**
+ *
+ */
 public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.PaperViewHolder> {
 
     private List<CommentItem> mCommentList;
@@ -31,6 +33,10 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         TextView content;
         CircleImageView avatarView;
 
+        /**
+         * @describe: 生成ViewHolder，绑定其与 View的关系
+         * @param view 需要绑定的 View
+         */
         public PaperViewHolder(View view) {
             super(view);
             username = (TextView)view.findViewById(R.id.comment_name);
@@ -40,11 +46,21 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         }
     }
 
+    /**
+     * @describe: 生成一个 CommentListAdapter
+     * @param commentItemList CommentItem 的列表
+     */
     public CommentListAdapter(List<CommentItem> commentItemList) {
         mCommentList = commentItemList;
     }
 
 
+    /**
+     * @describe: 生成一个 ViewHolder，并将其与对应的View进行绑定
+     * @param parent View所在的组
+     * @param viewType View的类型
+     * @return 对应的ViewHolder
+     */
     @NonNull
     @Override
     public PaperViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -54,6 +70,11 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         return holder;
     }
 
+    /**
+     * @describe: 绑定ViewHolder和Item的属性
+     * @param holder 需要绑定的 ViewHolder
+     * @param position 需要绑定的 Item 的位置
+     */
     @Override
     public void onBindViewHolder(@NonNull PaperViewHolder holder, int position) {
         CommentItem comment = mCommentList.get(position);
@@ -61,16 +82,21 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         holder.content.setText(comment.getContent());
         holder.postTime.setText(comment.getPostTime());
 
+
         Runnable getAvatar = new Runnable() {
             @Override
             public void run() {
-                byte[] Picture = UserManager.queryUserAvatarByID(comment.getUserID());
+                byte[] Picture = UserManager.getPicFromCache(comment.getUserID());
                 try{
                     Bitmap bitmap = BitmapFactory.decodeByteArray(Picture, 0, Picture.length);
-                    holder.avatarView.setImageBitmap(bitmap);
+                    holder.avatarView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            holder.avatarView.setImageBitmap(bitmap);
+                        }
+                    });
                 } catch (Exception e) {
                     System.out.println(e);
-                    System.out.println("Something wrong");
                 }
             }
         };
@@ -78,6 +104,11 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
     }
 
 
+
+    /**
+     * @describe: 获取Comment List的大小
+     * @return Comment List的大小
+     */
     @Override
     public int getItemCount() {
         return mCommentList.size();

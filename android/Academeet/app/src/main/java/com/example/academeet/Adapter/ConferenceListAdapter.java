@@ -1,5 +1,5 @@
 package com.example.academeet.Adapter;
-import android.app.Activity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +18,6 @@ import com.example.academeet.R;
 
 import com.example.academeet.Activity.ConfDetailActivity;
 import com.example.academeet.Utils.ConfManager;
-import com.veinhorn.tagview.TagView;
 
 import java.util.List;
 
@@ -40,6 +39,10 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
         ConferenceListAdapter adapter;
 
 
+        /**
+         * @param view
+         * @param adapter
+         */
         public ConfViewHolder(View view, ConferenceListAdapter adapter) {
             super(view);
             this.adapter = adapter;
@@ -69,12 +72,21 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
         }
     }
 
+    /**
+     * @param conferenceItemList
+     * @param type
+     */
     public ConferenceListAdapter(List<ConferenceItem> conferenceItemList, String type) {
         mConferenceList = conferenceItemList;
         this.type = type;
     }
 
 
+    /**
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public ConfViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -84,15 +96,17 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
         return holder;
     }
 
+    /**
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull ConfViewHolder holder, int position) {
         ConferenceItem conference = mConferenceList.get(position);
         holder.conferenceName.setText(conference.getName());
-
         holder.conferenceTime.setText(
                 conference.getDate()+" | "+conference.getPlace());
         holder.conferenceHost.setText(conference.getChairs());
-//        holder.conferenceTag.setText(conference.getTag());
         holder.conferenceName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,7 +128,7 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
                 } else{
                     jsonObject = ConfManager.userMenu(conference.getId(), "Favors", "1");
                 }
-                //System.out.println(jsonObject);
+                // System.out.println(jsonObject);
             }
         };
         Runnable queryReminds = new Runnable() {
@@ -126,7 +140,7 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
                 } else{
                     jsonObject = ConfManager.userMenu(conference.getId(), "Reminds", "1");
                 }
-                //System.out.println(jsonObject);
+                // System.out.println(jsonObject);
             }
         };
         Runnable queryDislikes = new Runnable() {
@@ -138,7 +152,7 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
                 } else{
                     jsonObject = ConfManager.userMenu(conference.getId(), "Dislikes", "1");
                 }
-                //System.out.println(jsonObject);
+                // System.out.println(jsonObject);
             }
         };
 
@@ -167,7 +181,6 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
                     holder.adapter.notifyItemRemoved(pos);
                 } else{
                     Toast.makeText(view.getContext(), "Add to remind", Toast.LENGTH_SHORT).show();
-
                 }
             }
         });
@@ -188,6 +201,9 @@ public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAd
 
     }
 
+    /**
+     * @return
+     */
     @Override
     public int getItemCount() {
         return mConferenceList.size();

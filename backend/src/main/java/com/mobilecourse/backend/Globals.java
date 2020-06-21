@@ -63,6 +63,7 @@ public class Globals {
         } catch (Exception e) {
             e.printStackTrace();
         }
+				System.out.println(res);
         return res;
     }
 

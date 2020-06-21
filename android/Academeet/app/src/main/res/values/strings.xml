@@ -44,7 +44,7 @@
     <string name="title_activity_custom">CustomActivity</string>
     <string name="settings_title">Modify</string>
     <string name="execute_change">OK</string>
-    <string name="backend_wrong">Backend wrong</string>
+    <string name="backend_wrong">Server meets with some error</string>
     <string name="something_wrong">Something wrong</string>
     <string name="message_empty">Message should not be empty</string>
     <string name="chatroom_title">Chatting Room</string>
@@ -54,7 +54,7 @@
     <string name="password_wrong">Old password is wrong</string>
     <string name="change_date_ok">Change date successfully</string>
     <string name="press_again_exit">Press back again to exit</string>
-    <string name="websocket_disconnect">Websocket has disconnected, please wait or restart app</string>
+    <string name="websocket_disconnect">Websocket has not connected, please wait or restart app</string>
     <string name="bind_successful">Bind activity and service successfully</string>
     <string name="disconnect_successful">Disconnect activity and service successfully</string>
 </resources>

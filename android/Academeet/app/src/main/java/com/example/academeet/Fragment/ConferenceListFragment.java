@@ -34,6 +34,8 @@ public class ConferenceListFragment extends Fragment {
     private List<ConferenceItem> conferenceList = new ArrayList<>();
     @BindView(R.id.conference_list)
     RecyclerView mConferenceListView;
+    @BindView(R.id.empty_layout)
+    View emptyView;
     ConferenceListAdapter conferenceListAdapter;
     ArrayList<String> disliked_id = new ArrayList<>();
     private final String SERVER_ADDR = "https://49.232.141.126:8080";
@@ -41,19 +43,41 @@ public class ConferenceListFragment extends Fragment {
     String date;
     int type;
 
+    /**
+     * @describe: 初始化一个 ConferenceListFragment实例
+     * @param date Conference的日期
+     * @param type Conference的类型
+     */
     public ConferenceListFragment(String date, int type){
         this.date = date;
         this.type = type;
     }
 
+    /**
+     * @describe: 初始化一个空的 ConferenceListFragment实例
+     */
     public ConferenceListFragment(){
     }
 
+    /**
+     * @describe: 初始化数据
+     * @param savedInstanceState 先前保存的实例
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getDisliked();
         initConference();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(conferenceList.size() == 0){
+            emptyView.setVisibility(View.VISIBLE);
+        } else {
+            emptyView.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void updateDate(String date) {
@@ -64,9 +88,16 @@ public class ConferenceListFragment extends Fragment {
         }
         getDisliked();
         initConference();
-        System.out.println(conferenceList);
+        // System.out.println(conferenceList);
     }
 
+    /**
+     * @describe: 初始化界面
+     * @param inflater Layout解析器
+     * @param container Fragment容器
+     * @param savedInstanceState 先前保存的实例
+     * @return 创建好的 Fragment
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
@@ -87,6 +118,9 @@ public class ConferenceListFragment extends Fragment {
 
     }
 
+    /**
+     * @describe: 获取用户所有 Dislike的会议
+     */
     private void getDisliked() {
         Runnable query = new Runnable() {
             @Override
@@ -111,12 +145,15 @@ public class ConferenceListFragment extends Fragment {
         new Thread(query).start();
     }
 
+    /**
+     * @describe: 根据日期来查询当天的所有会议
+     */
     private void initConference() {
         Runnable query = new Runnable() {
             @Override
             public void run() {
                 JSONObject jsonObject = queryConfByDay();
-                System.out.println(jsonObject);
+                // System.out.println(jsonObject);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -138,9 +175,6 @@ public class ConferenceListFragment extends Fragment {
                                 String name = conference.getString("name");
                                 String place = conference.getString("place");
                                 String date = conference.getString("date");
-//                                String startTime = conference.getString("start_time");
-//                                String endTime = conference.getString("end_time");
-//                                String tag = conference.getString("tags");
                                 JSONArray chairs = JSONArray.parseArray(conference.getString("chairs"));
                                 String chairsStr = "";
                                 for(int j = 0; j < chairs.size(); j++){
@@ -153,6 +187,7 @@ public class ConferenceListFragment extends Fragment {
                                 conferenceList.add(new ConferenceItem(id, name, date, place, chairsStr));
                                 conferenceListAdapter.notifyItemInserted(size);
                             }
+
                         } catch (Exception e){
                             Toast toast = Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT);
                             toast.show();
@@ -164,6 +199,10 @@ public class ConferenceListFragment extends Fragment {
         new Thread(query).start();
     }
 
+    /**
+     * @describe: 根据日期，向服务器查询当天的所有会议
+     * @return 服务器返回的 JSON消息
+     */
     private JSONObject queryConfByDay(){
         HTTPSUtils httpsUtils = new HTTPSUtils(this.getActivity());
         FormBody formBody = new FormBody.Builder()

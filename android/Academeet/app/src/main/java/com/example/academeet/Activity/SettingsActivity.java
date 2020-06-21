@@ -41,6 +41,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private final int SIGNATURE_CODE = 3;
     private final int PHONE_CODE = 4;
 
+    /**
+     * @describe: 初始化界面
+     * @param savedInstanceState 先前保存的实例
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,8 +70,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     /**
-     * @describe: Click listeners of change user info buttons
-     * @param v
+     * @describe: 响应点击事件，展开对应的菜单
+     * @param v 被点击的菜单项
      */
     @Override
     public void onClick(View v) {
@@ -109,10 +113,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     /**
-     * @describe: Callback of selected avatar
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * @describe: 处理上一层活动结束的结果
+     * @param requestCode 请求码
+     * @param resultCode 响应码
+     * @param data 响应数据
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -170,8 +174,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     /**
-     * @describe: Update picture as a file
-     * @param file
+     * @describe: 上传用户的头像
+     * @param file 用户头像对应的文件
      */
     private void uploadPicture(File file) {
         Runnable upload = new Runnable() {
@@ -187,7 +191,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                             return;
                         }
                         try{
-                            System.out.println(jsonObject);
+                            File file = new File(UserManager.getCacheDir(), UserManager.getUserId()+".tmp");
+                            if(file.exists()){
+                                file.delete();
+                            }
                         } catch (Exception e){
                             Toast toast = Toast.makeText(SettingsActivity.this, getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT);
                             toast.show();

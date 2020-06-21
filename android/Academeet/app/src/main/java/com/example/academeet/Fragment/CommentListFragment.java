@@ -43,16 +43,26 @@ public class CommentListFragment extends Fragment {
     EditText editComment;
     @BindView(R.id.comment_button)
     Button commentButton;
+    @BindView(R.id.empty_layout)
+    View emptyView;
 
     CommentListAdapter commentListAdapter;
     private final String SERVER_ADDR = "https://49.232.141.126:8080";
     private final String QUERY_COMMENT_URL = "/api/session/comments";
     String sessionId;
 
+    /**
+     * @describe: 初始化CommentListFragment
+     * @param id Session 的 id
+     */
     public CommentListFragment(String id){
         this.sessionId = id;
     }
 
+    /**
+     * @describe: 初始化数据
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +70,13 @@ public class CommentListFragment extends Fragment {
     }
 
 
-
+    /**
+     * @describe: 初始化界面
+     * @param inflater Layout解析器
+     * @param container Fragment容器
+     * @param savedInstanceState 之前保存的实例
+     * @return 创建好的 Fragment
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,11 +95,16 @@ public class CommentListFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 comment(editComment.getText().toString());
+                editComment.setText("");
             }
         });
         return v;
     }
 
+    /**
+     * @describe: 向服务器发送评论
+     * @param content 评论的内容
+     */
     private void comment(String content) {
         Runnable query = new Runnable() {
             @Override
@@ -101,11 +122,12 @@ public class CommentListFragment extends Fragment {
                         try{
                             if(jsonObject.getString("accepted").equals("1")){
                                 int size = commentItemList.size();
-                                commentItemList.add(new CommentItem(String.valueOf(UserManager.getUserId())
+                                commentItemList.add(new CommentItem(UserManager.getUserId()
                                         , UserManager.getUsername(), content));
                                 commentListAdapter.notifyItemInserted(size);
                                 Toast toast = Toast.makeText(getContext(), "OK", Toast.LENGTH_SHORT);
                                 toast.show();
+                                emptyView.setVisibility(View.INVISIBLE);
                             } else {
                                 Toast toast = Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT);
                                 toast.show();
@@ -122,6 +144,9 @@ public class CommentListFragment extends Fragment {
         new Thread(query).start();
     }
 
+    /**
+     * @describe: 向服务器查询该Session的所有评论
+     */
     private void initComment() {
         Runnable query = new Runnable() {
             @Override
@@ -150,6 +175,9 @@ public class CommentListFragment extends Fragment {
                                 commentItemList.add(new CommentItem(userID, username, content, postTime));
                                 commentListAdapter.notifyItemInserted(size);
                             }
+                            if(commentItemList.size()==0){
+                                emptyView.setVisibility(View.VISIBLE);
+                            }
                         } catch (Exception e) {
                             Toast toast = Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT);
                             toast.show();
@@ -161,6 +189,10 @@ public class CommentListFragment extends Fragment {
         new Thread(query).start();
     }
 
+    /**
+     * @describe: 根据 Session Id来查询一个 Session的评论
+     * @return 服务器返回的 Json数据
+     */
     private JSONObject queryCommentBySessId(){
         HTTPSUtils httpsUtils = new HTTPSUtils(this.getActivity());
         FormBody formBody = new FormBody.Builder()

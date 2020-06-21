@@ -326,7 +326,10 @@ public class ConferenceController extends CommonController {
     public String getPaperById(@RequestParam(value = "paper_id")int paper_id,
                                HttpSession s) {
         int userid = getUserId(s);
-        return JSONObject.toJSONString(conferenceMapper.selectPaperById(paper_id, userid));
+
+        String rlt =  JSONObject.toJSONString(conferenceMapper.selectPaperById(paper_id, userid));
+				System.out.println(rlt);
+				return rlt;
     }
 
 }

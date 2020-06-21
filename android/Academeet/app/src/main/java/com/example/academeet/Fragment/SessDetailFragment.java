@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import com.example.academeet.Item.ConferenceItem;
 import com.example.academeet.Item.SessionItem;
 import com.example.academeet.R;
 import com.example.academeet.Utils.HTTPSUtils;
@@ -44,16 +43,27 @@ public class SessDetailFragment extends Fragment {
     @BindView(R.id.session_detail_conf)
     TextView sessionConference;
 
+    /**
+     * @describe: 创建一个 SessDetailFragment
+     * @param session Fragment对应的Session
+     */
     public SessDetailFragment(SessionItem session) {
         this.session = session;
     }
 
+    /**
+     * @describe: 初始化数据
+     * @param savedInstanceState 先前保存的实例
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initSessionDetail();
     }
 
+    /**
+     * @describe: 向服务器请求 Session 的详细信息
+     */
     public void initSessionDetail(){
         Runnable query = new Runnable() {
             @Override
@@ -86,6 +96,10 @@ public class SessDetailFragment extends Fragment {
         new Thread(query).start();
     }
 
+    /**
+     * @describe: 根据 Session 的 id，向服务器请求 Session 的详细信息
+     * @return 服务器返回的 JSON 消息
+     */
     private JSONObject querySessById(){
         HTTPSUtils httpsUtils = new HTTPSUtils(this.getActivity());
         if(session.getId() == null){
@@ -109,15 +123,28 @@ public class SessDetailFragment extends Fragment {
         }
     }
 
+    /**
+     * @describe: 更新用户对Session的 Like
+     * @param liked 用户对该 Session是否Like
+     */
     public void updateLikes(Boolean liked) {
         int likes = Integer.valueOf(sessionLikes.getText().toString());
         if(!liked){
             sessionLikes.setText(String.valueOf(likes+1));
+            session.setRating(String.valueOf(likes+1));
         } else {
             sessionLikes.setText(String.valueOf(likes-1));
+            session.setRating(String.valueOf(likes-1));
         }
     }
 
+    /**
+     * @describe: 初始化界面
+     * @param inflater Layout解析器
+     * @param container Fragment容器
+     * @param savedInstanceState 先前保存的实例
+     * @return 创建好的Fragment
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -128,6 +155,13 @@ public class SessDetailFragment extends Fragment {
         sessionReporters.setText(session.getReporters());
         sessionLikes.setText(session.getRating());
 
+        try{
+            sessionLikes.setText(session.getRating());
+            sessionDescription.setText(session.getDescription());
+            sessionConference.setText(session.getConferenceName());
+        } catch (Exception e) {
+
+        }
         return view;
     }
 }

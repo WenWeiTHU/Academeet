@@ -7,7 +7,7 @@ SET global time_zone='+8:00';
 -- drop table if exists user_session;
 -- drop table if exists comment;
 -- drop table if exists session;
---drop table if exists message;
+-- drop table if exists message;
 -- drop table if exists chatroom;
 -- drop table if exists note;
 -- drop table if exists user;
@@ -49,8 +49,10 @@ CREATE TABLE IF NOT EXISTS message(
     details varchar(512),
     time timestamp,
     chatroom_id int,
+		userid int,
     username varchar(128),
     foreign key(chatroom_id) references chatroom(chatroom_id) on delete cascade on update cascade,
+		foreign key(userid) references user(user_id) on delete cascade on update cascade,
     foreign key(username) references user(username) on delete cascade on update cascade
 ) default charset=utf8mb4;
 

@@ -21,7 +21,6 @@ import com.example.academeet.R;
 import com.paul.eventreminder.CalendarManager;
 import com.paul.eventreminder.model.CalendarEvent;
 
-import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,12 +29,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
 public class CustomFragment extends Fragment {
 
     private List<ConferenceItem> conferenceList = new ArrayList<>();
     @BindView(R.id.conference_list)
     RecyclerView mConferenceListView;
+    @BindView(R.id.empty_layout)
+    View emptyView;
     ConferenceListAdapter conferenceListAdapter;
     CalendarManager calendarManager;
     String type;
@@ -79,14 +79,10 @@ public class CustomFragment extends Fragment {
                             JSONArray conferences = jsonObject.getJSONArray("conferences");
                             for(int i = 0; i < num; i++){
                                 JSONObject conference = conferences.getJSONObject(i);
-                                // System.out.println(conference);
                                 String name = conference.getString("name");
                                 String place = conference.getString("place");
                                 String date = conference.getString("date");
-//                                String startTime = conference.getString("start_time");
-//                                String endTime = conference.getString("end_time");
                                 String id = conference.getString("conference_id");
-//                                String tag = conference.getString("tags");
                                 JSONArray chairs = JSONArray.parseArray(conference.getString("chairs"));
                                 String chairsStr = "";
                                 for(int j = 0; j < chairs.size(); j++){
@@ -97,6 +93,9 @@ public class CustomFragment extends Fragment {
                                 int size = conferenceList.size();
                                 conferenceList.add(new ConferenceItem(id, name, date, place, chairsStr));
                                 conferenceListAdapter.notifyItemInserted(size);
+                            }
+                            if(conferenceList.size() == 0){
+                                emptyView.setVisibility(View.VISIBLE);
                             }
                         } catch (Exception e){
                             Toast toast = Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT);

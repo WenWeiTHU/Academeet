@@ -65,14 +65,14 @@ public class WebSocketServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        recordMapper.updateChatroom("participant_num", 1);
+        recordMapper.updateChatroom("participant_num", 1, this.roomid);
     }
 
     // 在关闭连接时移除对应连接
     @OnClose
     public void onClose() {
         Globals.websocketTables.get(roomid).remove(this.userid);
-        recordMapper.updateChatroom("participant_num", -1);
+        recordMapper.updateChatroom("participant_num", -1, this.roomid);
     }
 
     // 收到消息时候的处理
@@ -81,7 +81,7 @@ public class WebSocketServer {
         JSONObject obj = JSONObject.parseObject(message);
         Message msg = new Message(obj, this.roomid);
         recordMapper.insertMessage(msg);
-        recordMapper.updateChatroom("record_num", 1);
+        recordMapper.updateChatroom("record_num", 1, this.roomid);
         broadcast(message, this.roomid);
     }
 

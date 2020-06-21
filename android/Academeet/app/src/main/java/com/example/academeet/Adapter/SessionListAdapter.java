@@ -29,7 +29,6 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
     private final String SERVER_ADDR = "https://49.232.141.126:8080";
     private final String UPDATE_RATING_URL = "/api/user/update/rating";
 
-
     class SessViewHolder extends RecyclerView.ViewHolder {
         TextView sessionName;
         TextView sessionTime;
@@ -69,7 +68,6 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
         holder.sessionName.setText(session.getName());
         holder.sessionTag.setText(session.getTag());
 
-        // holder.sessionTag.setclo
 
         holder.sessionTime.setText(session.getStartTime() + "-"+session.getEndTime()+" | "+session.getTopic());
         holder.sessionReporter.setText(session.getReporters());
@@ -90,7 +88,7 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
             public void run() {
                 JSONObject jsonObject;
                 jsonObject = ConfManager.userMenu(session.getId(), "Likes", "1");
-                System.out.println(jsonObject);
+                // System.out.println(jsonObject);
             }
         };
 
@@ -107,5 +105,4 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
     public int getItemCount() {
         return mSessionList.size();
     }
-
 }

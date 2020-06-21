@@ -15,12 +15,7 @@ import android.widget.Toast;
 import com.example.academeet.Adapter.UserNoteAdapter;
 import com.example.academeet.Object.Note;
 import com.example.academeet.R;
-import com.example.academeet.Utils.HTTPSUtils;
 import com.example.academeet.Utils.UserManager;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,8 +32,13 @@ public class UserNotePreviewActivity extends AppCompatActivity {
     @BindView(R.id.toolbar_user_note_preview)
     Toolbar toolbar;
 
+    /**
+     * @describe: 初始化界面，并且设置点击响应等内容
+     * @param savedInstanceState 之前保存的实例
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_preview);
 
@@ -64,7 +64,7 @@ public class UserNotePreviewActivity extends AppCompatActivity {
             public void onItemLongClick(View view, Note note) {
                 // 跳出删除界面
                 AlertDialog.Builder builder = new AlertDialog.Builder(UserNotePreviewActivity.this);
-                AlertDialog alertDialog = builder.setTitle("Alert:")
+                AlertDialog alertDialog = builder.setTitle("Delete note")
                         .setMessage("Are you sure want to delete the note?")
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
@@ -120,7 +120,12 @@ public class UserNotePreviewActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * @describe: 用户点击了新增笔记按键，开始一个编辑笔记的活动
+     * @param v 被按下的button
+     */
     public void addNewNote(View v) {
+
         Intent intent = new Intent(this, EditNoteActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("Note", null);
@@ -128,6 +133,12 @@ public class UserNotePreviewActivity extends AppCompatActivity {
         startActivityForResult(intent, EditNoteActivity.EDIT);
     }
 
+    /**
+     * @describe: 处理上一层活动结束返回的结果，分别处理新建笔记和笔记编辑两个活动
+     * @param requestCode 请求码
+     * @param resultCode 响应码
+     * @param intent 结果intent
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -158,8 +169,4 @@ public class UserNotePreviewActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
 }

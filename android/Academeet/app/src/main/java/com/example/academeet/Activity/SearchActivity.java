@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.text.TextUtils;
 import android.widget.SearchView;
-import android.widget.Toast;
 import com.example.academeet.Fragment.SearchListFragment;
 import com.example.academeet.R;
 
@@ -18,6 +17,10 @@ public class SearchActivity extends AppCompatActivity {
     SearchView searchView;
     SearchListFragment searchListFragment;
 
+    /**
+     * @describe: 初始化界面
+     * @param savedInstanceState 之前保存的实例
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

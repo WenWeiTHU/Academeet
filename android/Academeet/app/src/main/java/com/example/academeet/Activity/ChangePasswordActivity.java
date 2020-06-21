@@ -14,6 +14,10 @@ import com.example.academeet.R;
 
 public class ChangePasswordActivity extends AppCompatActivity implements View.OnClickListener {
 
+    /**
+     * @describe: 初始化界面
+     * @param savedInstanceState 先前保存的实例
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +30,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
     }
 
     /**
-     * @describe: On Return button click listener
+     * @describe: 向服务器发送用户修改的密码，并返回上一级菜单
      */
     public void returnMenu() {
         String oldPasswd = ((EditText) findViewById(R.id.password)).getText().toString();
@@ -42,7 +46,6 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
             return;
         }
 
-//        System.out.println(oldPasswd+" "+ newPasswd);
         Runnable update = new Runnable() {
             @Override
             public void run() {
@@ -78,8 +81,8 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
     }
 
     /**
-     * @describe: On OK button click listener
-     * @param v
+     * @describe: 响应用户点击按钮事件，如果是提交键则修改密码，否则返回上一级菜单
+     * @param v 被点击的按钮
      */
     @Override
     public void onClick(View v) {
