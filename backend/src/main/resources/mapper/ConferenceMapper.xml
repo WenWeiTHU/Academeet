@@ -60,10 +60,10 @@
     <insert id="insertConference" keyProperty="conference_id" useGeneratedKeys="true" parameterType="com.mobilecourse.backend.model.Conference">
         INSERT INTO conference
         <trim prefix="(" suffix=")" suffixOverrides="," >
-            organization, introduction, date, chairs, place, start_time, end_time, tags, visible
+            name, organization, introduction, date, chairs, place, visible, establisher_id
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
-            #{organization}, #{introduction}, #{date}, #{chairs}, #{place}, #{start_time}, #{end_time}, #{tags}, ${visible}
+            #{name}, #{organization}, #{introduction}, #{date}, #{chairs}, #{place}, ${visible}, ${establisher_id}
         </trim>;
     </insert>
 

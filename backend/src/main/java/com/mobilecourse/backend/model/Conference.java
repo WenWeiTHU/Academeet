@@ -28,7 +28,7 @@ public class Conference {
         this.date = Timestamp.valueOf(jsonObject.getString("start_time"));
         this.place = jsonObject.getString("place");
         this.chairs = jsonObject.getString("chairs");
-				this.visible = jsonObject.getIntValue("visible");
+        this.visible = jsonObject.getIntValue("visible");
 				// if (this.visible == null) this.visible = 1;
     }
 

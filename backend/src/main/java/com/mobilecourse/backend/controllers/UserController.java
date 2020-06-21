@@ -54,9 +54,13 @@ public class UserController extends CommonController {
     @RequestMapping(value = "/api/login", method = { RequestMethod.POST }, produces = "application/json;charset=UTF-8")
     public String checkLogin(@RequestParam(value = "username")String username,
                              @RequestParam(value = "password")String password,
-                             @RequestParam(value = "type")String type,
+                             @RequestParam(value = "type")int type,
 														 HttpServletRequest request) {
-        password = Globals.decrypt(password);
+        System.out.println(password);
+        //System.out.println("MM: " + Globals.encryptDES("123456", "6eGicG6U"));
+        if (type == 0)
+            password = Globals.decrypt(password);
+        System.out.println(password);
         System.out.println(userMapper.selectByUsername(username));
         User user = userMapper.selectByUsername(username);
         JSONObject msg = new JSONObject();

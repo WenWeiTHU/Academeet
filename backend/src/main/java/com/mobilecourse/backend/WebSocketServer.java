@@ -46,8 +46,7 @@ public class WebSocketServer {
             Globals.websocketTables.put(roomid, new HashMap<>());
         if (Globals.websocketTables.get(roomid).containsKey(this.userid)) {
             try {
-                this.session.close();
-                return;
+                Globals.websocketTables.get(roomid).get(this.userid).close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
