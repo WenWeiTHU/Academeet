@@ -48,33 +48,6 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/conference_label_date"
         app:layout_constraintStart_toEndOf="@+id/conference_label_date" />
 
-    <com.veinhorn.tagview.TagView
-        android:id="@+id/tagView"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:textSize="12dp"
-        android:text="Duration"
-        android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/conference_detail_date"
-        app:tagColor="@color/conferenceListBackground"
-        app:tagType="classic"
-        app:tagUpperCase="true" />
-
-    <TextView
-        android:id="@+id/conference_detail_time"
-        android:layout_width="0dp"
-
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:layout_weight="1"
-        android:textSize="14dp"
-        android:text="None"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tagView"
-        app:layout_constraintStart_toEndOf="@+id/tagView" />
-
 
     <com.veinhorn.tagview.TagView
         android:id="@+id/tagView2"
@@ -86,7 +59,7 @@
         android:textAlignment="center"
         android:textSize="12dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/conference_detail_time"
+        app:layout_constraintTop_toBottomOf="@+id/conference_detail_date"
         app:tagColor="@color/conferenceListBackground"
         app:tagType="classic"
         app:tagUpperCase="true" />
