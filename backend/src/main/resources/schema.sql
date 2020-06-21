@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS conference(
     introduction TEXT,
     date date,
     chairs varchar(128),
-		place varchar(128),
+    place varchar(128),
     visible int,
     establisher_id int,
     foreign key(establisher_id) references user(user_id) on delete cascade on update cascade,
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS session(
     establisher_id int,
 		tag varchar(10), 
     foreign key(conference_id) references conference(conference_id) on delete cascade on update cascade,
-    foreign key(establisher_id) references user(user_id) on delete cascade on update cascade
+    foreign key(establisher_id) references conference(establisher_id) on delete cascade on update cascade
 ) default charset=utf8;
 
 CREATE TABLE IF NOT EXISTS paper(

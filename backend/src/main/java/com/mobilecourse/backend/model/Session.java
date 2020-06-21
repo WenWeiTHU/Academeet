@@ -24,14 +24,14 @@ public class Session {
     public Session() {  }
 
     public Session(JSONObject obj) {
-				this.name = obj.getString("name");
+        this.name = obj.getString("name");
         this.topic = obj.getString("topic");
         this.description = obj.getString("description");
         this.start_time = Timestamp.valueOf(obj.getString("start_time"));
         this.end_time = Timestamp.valueOf(obj.getString("end_time"));
-        this.reporters =  obj.getJSONArray("reporters").toJSONString();
-				this.tag = obj.getString("tag");
-				this.visible = obj.getIntValue("visible");
+        this.reporters =  obj.getString("reporters");
+        this.tag = obj.getString("tag");
+        this.visible = obj.getIntValue("visible");
         this.rating = 0;
     }
 

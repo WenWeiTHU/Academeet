@@ -62,7 +62,7 @@ public class UserController extends CommonController {
                              @RequestParam(value = "type")int type,
 														 HttpServletRequest request) {
         if (type == 0)
-				    password = Globals.decrypt(password);
+            password = Globals.decrypt(password);
         System.out.println(userMapper.selectByUsername(username));
         User user = userMapper.selectByUsername(username);
         JSONObject msg = new JSONObject();

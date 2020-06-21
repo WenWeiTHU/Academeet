@@ -15,15 +15,14 @@ import javax.websocket.Session;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class Globals {
     public static final String avatarpath = System.getProperty("user.dir") + "/src/main/resources/static/pic/";
     public static final String avatarurl = "/static/pic/";
+    public static final String paperpath = System.getProperty("user.dir") + "/src/main/resources/static/paper/";
+    public static final String paperurl = "/file/static/pic/";
     public static final String defaultAvatar = avatarurl + "avatar1.jpg";
     public static final String defaultSignature = "Hello Academeet!";
     private static final BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
@@ -47,9 +46,10 @@ public class Globals {
 
     public static String decrypt(String msg) {
         String res = null;
-				System.out.println(msg);
+        System.out.println("这是拿到的东西！"+msg);
         Base64.Decoder decoder = Base64.getDecoder();
         byte[] buf = decoder.decode(msg);
+        System.out.println("Got Data: " + Arrays.toString(buf));
         byte[] key = new byte[8];
         byte[] iv = new byte[8];
         getKeyIV(encryptkey, key, iv);
@@ -57,6 +57,7 @@ public class Globals {
         IvParameterSpec ivparam = new IvParameterSpec(iv);
         try {
             byte[] decryptedbuf = DES_CBC_Decrypt(buf, deskey, ivparam);
+            System.out.println("这是我们的揭秘！"+new String(decryptedbuf));
             byte[] md5hash = MD5Hash(decryptedbuf, 16, decryptedbuf.length - 16);
             res = new String(decryptedbuf, 16, decryptedbuf.length - 16, StandardCharsets.UTF_8);
         } catch (Exception e) {
@@ -79,5 +80,24 @@ public class Globals {
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(buf, offset, length);
         return md.digest();
+    }
+
+    public static String encryptDES(String encryptString, String encryptKey) {
+        try {
+            byte[] iv = {-38, -31, -25, 123, 109, -82, -68, -45};
+            IvParameterSpec zeroIv = new IvParameterSpec(iv);
+            SecretKeySpec key = new SecretKeySpec(encryptKey.getBytes(), "DES");
+            System.out.println("key: "+ Arrays.toString(encryptKey.getBytes()));
+            Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, key, zeroIv);
+            byte[] encryptedData = cipher.doFinal(encryptString.getBytes());
+            System.out.println(Arrays.toString(encryptedData));
+            System.out.println("这是base的编码"+ Base64.getEncoder().encodeToString(encryptedData));
+            return Base64.getEncoder().encodeToString(encryptedData);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+
     }
 }
