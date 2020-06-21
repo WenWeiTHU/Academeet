@@ -37,6 +37,8 @@ public class PaperListFragment extends Fragment {
     private List<PaperItem> paperList = new ArrayList<>();
     @BindView(R.id.paper_list)
     RecyclerView mPaperListView;
+    @BindView(R.id.empty_layout)
+    View emptyView;
 
     PaperListAdapter paperListAdapter;
     private final String SERVER_ADDR = "https://49.232.141.126:8080";
@@ -120,6 +122,9 @@ public class PaperListFragment extends Fragment {
                                 int size = paperList.size();
                                 paperList.add(new PaperItem(id, title, abstracts, authorsStr, fileUrl));
                                 paperListAdapter.notifyItemInserted(size);
+                            }
+                            if(paperList.size() == 0){
+                                emptyView.setVisibility(View.VISIBLE);
                             }
                         } catch (Exception e){
                             // System.out.println(e);

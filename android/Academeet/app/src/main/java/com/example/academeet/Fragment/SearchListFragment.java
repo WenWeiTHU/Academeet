@@ -41,6 +41,8 @@ public class SearchListFragment extends Fragment {
     RecyclerView mSearchListView;
     @BindView(R.id.refresh_layout)
     RefreshLayout refreshLayout;
+    @BindView(R.id.empty_layout)
+    View emptyView;
     ConferenceListAdapter conferenceListAdapter;
     private final String SERVER_ADDR = "https://49.232.141.126:8080";
     private final String QUERY_SEARCH_URL = "/api/conference/search";
@@ -107,6 +109,9 @@ public class SearchListFragment extends Fragment {
                                         int size = conferenceList.size();
                                         conferenceList.add(new ConferenceItem(id, name, date, place, chairsStr));
                                         conferenceListAdapter.notifyItemInserted(size);
+                                    }
+                                    if(conferenceList.size() == 0){
+                                        emptyView.setVisibility(View.VISIBLE);
                                     }
                                 } catch (Exception e){
                                     Toast toast = Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT);

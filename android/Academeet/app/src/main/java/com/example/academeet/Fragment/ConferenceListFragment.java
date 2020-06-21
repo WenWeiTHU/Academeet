@@ -34,6 +34,8 @@ public class ConferenceListFragment extends Fragment {
     private List<ConferenceItem> conferenceList = new ArrayList<>();
     @BindView(R.id.conference_list)
     RecyclerView mConferenceListView;
+    @BindView(R.id.empty_layout)
+    View emptyView;
     ConferenceListAdapter conferenceListAdapter;
     ArrayList<String> disliked_id = new ArrayList<>();
     private final String SERVER_ADDR = "https://49.232.141.126:8080";
@@ -68,6 +70,15 @@ public class ConferenceListFragment extends Fragment {
         initConference();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(conferenceList.size() == 0){
+            emptyView.setVisibility(View.VISIBLE);
+        } else {
+            emptyView.setVisibility(View.INVISIBLE);
+        }
+    }
 
     public void updateDate(String date) {
         this.date = date;
@@ -176,6 +187,7 @@ public class ConferenceListFragment extends Fragment {
                                 conferenceList.add(new ConferenceItem(id, name, date, place, chairsStr));
                                 conferenceListAdapter.notifyItemInserted(size);
                             }
+
                         } catch (Exception e){
                             Toast toast = Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT);
                             toast.show();

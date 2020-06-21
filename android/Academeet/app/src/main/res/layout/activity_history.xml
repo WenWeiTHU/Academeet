@@ -20,7 +20,10 @@
             app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
     </com.google.android.material.appbar.AppBarLayout>
-
+    <include
+        android:id="@+id/empty_layout"
+        layout="@layout/empty_layout"
+        android:visibility="gone"/>
     <ListView
         android:id="@+id/history_listView"
         android:layout_width="match_parent"

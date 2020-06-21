@@ -64,7 +64,7 @@ public class UserNotePreviewActivity extends AppCompatActivity {
             public void onItemLongClick(View view, Note note) {
                 // 跳出删除界面
                 AlertDialog.Builder builder = new AlertDialog.Builder(UserNotePreviewActivity.this);
-                AlertDialog alertDialog = builder.setTitle("Alert:")
+                AlertDialog alertDialog = builder.setTitle("Delete note")
                         .setMessage("Are you sure want to delete the note?")
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override

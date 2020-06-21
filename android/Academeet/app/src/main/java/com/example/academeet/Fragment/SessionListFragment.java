@@ -39,6 +39,8 @@ public class SessionListFragment extends Fragment {
     private List<SessionItem> sessionList = new ArrayList<>();
     @BindView(R.id.session_list)
     RecyclerView mSessionListView;
+    @BindView(R.id.empty_layout)
+    View emptyView;
     SessionListAdapter sessionListAdapter;
     private final String SERVER_ADDR = "https://49.232.141.126:8080";
     private final String QUERY_SESSION_URL = "/api/conference/contains";
@@ -124,6 +126,9 @@ public class SessionListFragment extends Fragment {
                                 sessionList.add(new SessionItem(id, name, topic, startTime, endTime, reportersStr, tag));
                                 sessionListAdapter.notifyItemInserted(size);
                             }
+                             if(sessionList.size() == 0){
+                                 emptyView.setVisibility(View.VISIBLE);
+                             }
                         } catch (Exception e) {
                             Toast toast = Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT);
                             toast.show();

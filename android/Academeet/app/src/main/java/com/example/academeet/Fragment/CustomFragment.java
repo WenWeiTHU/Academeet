@@ -34,6 +34,8 @@ public class CustomFragment extends Fragment {
     private List<ConferenceItem> conferenceList = new ArrayList<>();
     @BindView(R.id.conference_list)
     RecyclerView mConferenceListView;
+    @BindView(R.id.empty_layout)
+    View emptyView;
     ConferenceListAdapter conferenceListAdapter;
     CalendarManager calendarManager;
     String type;
@@ -91,6 +93,9 @@ public class CustomFragment extends Fragment {
                                 int size = conferenceList.size();
                                 conferenceList.add(new ConferenceItem(id, name, date, place, chairsStr));
                                 conferenceListAdapter.notifyItemInserted(size);
+                            }
+                            if(conferenceList.size() == 0){
+                                emptyView.setVisibility(View.VISIBLE);
                             }
                         } catch (Exception e){
                             Toast toast = Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT);

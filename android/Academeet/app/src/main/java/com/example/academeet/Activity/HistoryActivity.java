@@ -2,6 +2,7 @@ package com.example.academeet.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import androidx.appcompat.widget.Toolbar;
 
 public class HistoryActivity extends AppCompatActivity {
     public ListView listView;
+    public View emptyView;
     private String conferenceID;
     private List<Message> chatMessageList = new ArrayList<>();//消息列表
     private MessageAdapter messageAdapter;
@@ -40,6 +42,7 @@ public class HistoryActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener((view) -> {finish();});
 
         listView = findViewById(R.id.history_listView);
+        emptyView = findViewById(R.id.empty_layout);
 
         initMessages();
     }
@@ -50,7 +53,7 @@ public class HistoryActivity extends AppCompatActivity {
             @Override
             public void run() {
                 JSONObject jsonObject = UserManager.queryMsgByConf(conferenceID);
-                System.out.println(jsonObject);
+                // System.out.println(jsonObject);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -83,6 +86,9 @@ public class HistoryActivity extends AppCompatActivity {
                             messageAdapter = new MessageAdapter(HistoryActivity.this, chatMessageList);
                             listView.setAdapter(messageAdapter);
                             listView.setSelection(chatMessageList.size());
+                            if(chatMessageList.size() == 0){
+                                emptyView.setVisibility(View.VISIBLE);
+                            }
                         } catch (Exception e){
                             System.out.println(e);
                             Toast toast = Toast.makeText(HistoryActivity.this, "Something wrong", Toast.LENGTH_SHORT);

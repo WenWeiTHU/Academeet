@@ -7,10 +7,14 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Activity.SearchActivity">
+    <include
+        android:id="@+id/empty_layout"
+        layout="@layout/empty_layout" />
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/refresh_layout">
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
