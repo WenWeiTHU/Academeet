@@ -11,9 +11,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.example.academeet.Adapter.PaperListAdapter;
-import com.example.academeet.Adapter.SessionListAdapter;
 import com.example.academeet.Item.PaperItem;
-import com.example.academeet.Item.SessionItem;
 import com.example.academeet.R;
 import com.example.academeet.Utils.HTTPSUtils;
 
@@ -39,22 +37,39 @@ public class PaperListFragment extends Fragment {
     private List<PaperItem> paperList = new ArrayList<>();
     @BindView(R.id.paper_list)
     RecyclerView mPaperListView;
+    @BindView(R.id.empty_layout)
+    View emptyView;
 
     PaperListAdapter paperListAdapter;
     private final String SERVER_ADDR = "https://49.232.141.126:8080";
     private final String QUERY_PAPER_URL = "/api/session/talks";
     String sessionId;
 
+    /**
+     * @describe: 生成一个 PaperListFragment的实例
+     * @param id session 的id
+     */
     public PaperListFragment(String id){
         this.sessionId = id;
     }
 
+    /**
+     * @describe: 初始化数据
+     * @param savedInstanceState 先前保存的实例
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initPaper();
     }
 
+    /**
+     * @describe: 初始化界面
+     * @param inflater Layout解析器
+     * @param container Fragment容器
+     * @param savedInstanceState 之前保存的实例
+     * @return 创建好的Fragment
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,6 +86,9 @@ public class PaperListFragment extends Fragment {
         return v;
     }
 
+    /**
+     * @describe: 向服务器请求 Session 中的 Paper
+     */
     private void initPaper() {
         Runnable query = new Runnable() {
             @Override
@@ -105,8 +123,11 @@ public class PaperListFragment extends Fragment {
                                 paperList.add(new PaperItem(id, title, abstracts, authorsStr, fileUrl));
                                 paperListAdapter.notifyItemInserted(size);
                             }
+                            if(paperList.size() == 0){
+                                emptyView.setVisibility(View.VISIBLE);
+                            }
                         } catch (Exception e){
-                            System.out.println(e);
+                            // System.out.println(e);
                             Toast toast = Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT);
                             toast.show();
                         }
@@ -118,6 +139,10 @@ public class PaperListFragment extends Fragment {
         new Thread(query).start();
     }
 
+    /**
+     * @describe: 根据 Session 的 Id 请求 Paper 列表
+     * @return 服务器返回的 JSON 消息
+     */
     private JSONObject queryPaperBySessId(){
         HTTPSUtils httpsUtils = new HTTPSUtils(this.getActivity());
         FormBody formBody = new FormBody.Builder()

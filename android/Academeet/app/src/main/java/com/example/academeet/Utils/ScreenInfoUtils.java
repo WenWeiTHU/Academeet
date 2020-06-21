@@ -14,7 +14,6 @@ import android.view.WindowManager;
 public class ScreenInfoUtils {
     /**
      * 通过设置全屏，设置状态栏透明
-     *
      * @param activity 上下文
      */
     public static void fullScreen(Activity activity) {
@@ -45,7 +44,6 @@ public class ScreenInfoUtils {
 
     /**
      * 获取状态栏高度
-     *
      * @param context 上下文
      * @return 100
      */

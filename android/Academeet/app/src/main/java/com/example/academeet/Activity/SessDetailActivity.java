@@ -30,6 +30,10 @@ public class SessDetailActivity extends AppCompatActivity {
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
     private boolean liked = false;
 
+    /**
+     * @describe: 初始化界面和数据
+     * @param savedInstanceState 之前保存的实例
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,14 +91,14 @@ public class SessDetailActivity extends AppCompatActivity {
         // Create an instance of the tab layout from the view.
         TabLayout tabLayout = findViewById(R.id.sess_detail_tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Details"));
-        tabLayout.addTab(tabLayout.newTab().setText("Comments"));
         tabLayout.addTab(tabLayout.newTab().setText("Papers"));
+        tabLayout.addTab(tabLayout.newTab().setText("Comments"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         SessDetailFragment sessDetailFragment = new SessDetailFragment(session);
         fragmentList.add(sessDetailFragment);
-        fragmentList.add(new CommentListFragment(session.getId()));
         fragmentList.add(new PaperListFragment(session.getId()));
+        fragmentList.add(new CommentListFragment(session.getId()));
 
 
         final ViewPager viewPager = findViewById(R.id.sess_detail_view_pager);
@@ -121,12 +125,9 @@ public class SessDetailActivity extends AppCompatActivity {
                 new Thread(doLikes).start();
                 if(!liked){
                     Toast.makeText(view.getContext(), "Likes the session", Toast.LENGTH_SHORT).show();
-                    //likesView.setText(String.valueOf(likes));
                     sessDetailFragment.updateLikes(liked);
                 } else{
                     Toast.makeText(view.getContext(), "Cancel likes the session", Toast.LENGTH_SHORT).show();
-                    // int likes =Integer.valueOf(likesView.getText().toString()) - 1;
-                    // likesView.setText(String.valueOf(likes));
                     sessDetailFragment.updateLikes(liked);
                 }
             }

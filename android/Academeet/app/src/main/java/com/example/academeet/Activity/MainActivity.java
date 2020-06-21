@@ -29,6 +29,9 @@ import java.util.regex.Pattern;
 
 import butterknife.ButterKnife;
 
+/**
+ *
+ */
 public class MainActivity extends AppCompatActivity {
 
     private Date getCapchaTime = null; // 上一次发送验证码的时间
@@ -49,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences userPreference;
     SharedPreferences.Editor userEditor;
 
+    /**
+     * @describe: 初始化界面和设置
+     * @param savedInstanceState : 之前创建的实例
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
         ScreenInfoUtils.fullScreen(this);
     }
 
+    /**
+     * @describe: 将正在展示的Fragment替换为另一个Fragment
+     * @param fragment: 需要展示的fragment
+     */
     private void replaceFragment(Fragment fragment) {
         // 更换主活动中的Fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -71,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+
+    /**
+     * @describe: 读取用户先前设置的用户名和密码
+     */
     public void readUser(){
         String username = userPreference.getString("username", "");
         String password = userPreference.getString("password", "");
@@ -81,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 将用户当前的用户名和密码储存到本地
+     */
     public void storeUser(){
         CheckBox ck = ((CheckBox)((LoginFragment)currentFragment).getLoginView(R.id.login_remember_me));
         userEditor.putString("username", user.getUsername());
@@ -89,6 +107,11 @@ public class MainActivity extends AppCompatActivity {
         userEditor.commit();
     }
 
+
+    /**
+     * @describe: 获取用户当前的用户名和密码，完成登录
+     * @param v ：被按下的button
+     */
     public void startLogin(View v) {
         // 登录
         // TODO: 向服务器发送登录信息
@@ -99,6 +122,11 @@ public class MainActivity extends AppCompatActivity {
         login(username, password);
     }
 
+    /**
+     * @describe: 通过网络向服务器发送登录请求，如果完成登录则跳转到用户主界面
+     * @param username 用户名
+     * @param password 密码
+     */
     public void login(String username, String password){
         user.setUsername(username);
         user.setPassword(password);
@@ -130,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             }
                             case User.ERROR_CODE: {
-                                Toast.makeText(MainActivity.this, getResources().getString(R.string.wrong_status),
+                                Toast.makeText(MainActivity.this, getResources().getString(R.string.backend_wrong),
                                         Toast.LENGTH_SHORT).show();
                                 break;
                             }
@@ -142,6 +170,10 @@ public class MainActivity extends AppCompatActivity {
         new Thread(login).start();
     }
 
+    /**
+     * @describe: 将注册界面 1 设置为 currentFragment 并展示出来
+     * @param v 被按下的按钮
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void startRegister(View v) {
         // 注册
@@ -152,6 +184,10 @@ public class MainActivity extends AppCompatActivity {
         replaceFragment(currentFragment);
     }
 
+    /**
+     * @describe: 将注册页面 2 设置为 currentFragment并展示出来
+     * @param v 被按下的button
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void nextRegisterPage(View v) {
         // 更换到注册的第二个页面
@@ -202,12 +238,20 @@ public class MainActivity extends AppCompatActivity {
         replaceFragment(currentFragment);
     }
 
+    /**
+     * @describe: 将登录界面设置为 currentFragment 并展示出来
+     * @param v 被按下的button
+     */
     public void backToLogin(View v) {
         // 返回登录界面
         currentFragment = fragmentMap.get(LOGIN_FRAGMENT_KEY);
         replaceFragment(currentFragment);
     }
 
+    /**
+     * @describe: 获取手机号并发送验证码给手机
+     * @param v 被按下的button
+     */
     public void getCapcha(View v) {
         // TODO: 发送验证码给手机
         // 获取用户手机号
@@ -260,12 +304,20 @@ public class MainActivity extends AppCompatActivity {
         new Thread(getCapcha).start();
     }
 
+    /**
+     * @describe: 将注册界面 1 设置为 currentFragment 并展示
+     * @param v 被按下的button
+     */
     public void backToRegisterPage1(View v) {
         // 从注册界面2返回界面1
         currentFragment = fragmentMap.get(REGISTER_PAGE_1_FRAGMENT_KEY);
         replaceFragment(currentFragment);
     }
 
+    /**
+     * @describe: 向服务器发送注册信息，完成注册
+     * @param v 被按下的button
+     */
     public void finishRegister(View v) {
         // 向服务器发送注册
         String captcha = ((EditText)((RegisterFragment)currentFragment).getRegisterView(R.id.register_capcha)).getText().toString();
@@ -315,6 +367,11 @@ public class MainActivity extends AppCompatActivity {
         new Thread(register).start();
     }
 
+    /**
+     * @describe: 判断一传字符串是否是合法的手机号
+     * @param phone 需要检测的字符串
+     * @return 如果符合则返回 true 否则是 false
+     */
     public boolean isMobile(String phone) {
         // 判断手机号是否合法
         String regex = "^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\\d{8}$";

@@ -2,7 +2,6 @@ package com.example.academeet.Fragment;
 
 import android.os.Bundle;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +21,8 @@ import com.example.academeet.Adapter.ConferenceListAdapter;
 import com.example.academeet.Item.ConferenceItem;
 import com.example.academeet.R;
 import com.example.academeet.Utils.HTTPSUtils;
-import com.scwang.smart.refresh.footer.BallPulseFooter;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,6 +41,8 @@ public class SearchListFragment extends Fragment {
     RecyclerView mSearchListView;
     @BindView(R.id.refresh_layout)
     RefreshLayout refreshLayout;
+    @BindView(R.id.empty_layout)
+    View emptyView;
     ConferenceListAdapter conferenceListAdapter;
     private final String SERVER_ADDR = "https://49.232.141.126:8080";
     private final String QUERY_SEARCH_URL = "/api/conference/search";
@@ -53,6 +52,13 @@ public class SearchListFragment extends Fragment {
     private String currentKeyword;
 
 
+    /**
+     * @describe: 初始化界面和首选项
+     * @param inflater Layout解析器
+     * @param container Fragment容器
+     * @param savedInstanceState 先前保存的实例
+     * @return 创建好的 Fragment
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
@@ -62,16 +68,7 @@ public class SearchListFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(layoutManager.VERTICAL);
         mSearchListView.setLayoutManager(layoutManager);
-
-        // refreshLayout.setRefreshFooter(new BallPulseFooter(getActivity()));
-//        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-//            @Override
-//            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-//                refreshLayout.finishRefresh(true);
-//            }
-//        });
         refreshLayout.setEnableRefresh(false);
-
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
@@ -87,8 +84,6 @@ public class SearchListFragment extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                // System.out.println(keyword);
-                                // System.out.println(jsonObject);
                                 if(jsonObject == null){
                                     Toast toast = Toast.makeText(getContext(), "Backend wrong", Toast.LENGTH_SHORT);
                                     toast.show();
@@ -103,10 +98,7 @@ public class SearchListFragment extends Fragment {
                                         String name = conference.getString("name");
                                         String place = conference.getString("place");
                                         String date = conference.getString("date");
-//                                String startTime = conference.getString("start_time");
-//                                String endTime = conference.getString("end_time");
                                         String id = conference.getString("conference_id");
-//                                String tag = conference.getString("tags");
                                         JSONArray chairs = JSONArray.parseArray(conference.getString("chairs"));
                                         String chairsStr = "";
                                         for(int j = 0; j < chairs.size(); j++) {
@@ -117,6 +109,9 @@ public class SearchListFragment extends Fragment {
                                         int size = conferenceList.size();
                                         conferenceList.add(new ConferenceItem(id, name, date, place, chairsStr));
                                         conferenceListAdapter.notifyItemInserted(size);
+                                    }
+                                    if(conferenceList.size() == 0){
+                                        emptyView.setVisibility(View.VISIBLE);
                                     }
                                 } catch (Exception e){
                                     Toast toast = Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT);
@@ -139,6 +134,10 @@ public class SearchListFragment extends Fragment {
         return v;
     }
 
+    /**
+     * @describe: 根据关键词查找相关的会议
+     * @param keyword 会议关键词
+     */
     public void searchConference(String keyword) {
         if (!keyword.equals(currentKeyword)) {
             currentCount = 1;
@@ -149,9 +148,6 @@ public class SearchListFragment extends Fragment {
             public void run() {
                 JSONObject jsonObject = queryConfByKeyword(keyword);
                 getActivity().runOnUiThread(() -> {
-                    // System.out.println(keyword);
-                    // System.out.println(jsonObject);
-                    Log.d("TTTEST", "RUN ON UI THREAD");
                     if(jsonObject == null){
                         Toast toast = Toast.makeText(getContext(), "Backend wrong", Toast.LENGTH_SHORT);
                         toast.show();
@@ -173,10 +169,7 @@ public class SearchListFragment extends Fragment {
                             String name = conference.getString("name");
                             String place = conference.getString("place");
                             String date = conference.getString("date");
-//                                String startTime = conference.getString("start_time");
-//                                String endTime = conference.getString("end_time");
                             String id = conference.getString("conference_id");
-//                                String tag = conference.getString("tags");
                             JSONArray chairs = JSONArray.parseArray(conference.getString("chairs"));
                             String chairsStr = "";
                             for(int j = 0; j < chairs.size(); j++) {
@@ -199,6 +192,11 @@ public class SearchListFragment extends Fragment {
         totalCount += 1;
     }
 
+    /**
+     * @describe: 根据关键词向服务器请求会议列表
+     * @param keyword 关键词
+     * @return 服务器返回的 JSON消息
+     */
     private JSONObject queryConfByKeyword(String keyword){
         HTTPSUtils httpsUtils = new HTTPSUtils(this.getActivity());
         FormBody formBody = new FormBody.Builder()
@@ -220,6 +218,12 @@ public class SearchListFragment extends Fragment {
         }
     }
 
+    /**
+     * @describe: 加载更多会议列表
+     * @param keyword 关键词
+     * @param count 当前加载的段数
+     * @return 服务器返回的 JSON消息
+     */
     private JSONObject loadMore(String keyword, int count) {
         HTTPSUtils httpsUtils = new HTTPSUtils(this.getActivity());
         FormBody formBody = new FormBody.Builder()

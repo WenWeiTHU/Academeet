@@ -20,9 +20,6 @@ public class EncryptUtil {
     public static String key = "cc839cf9feba4ed7ba68064177a0b505";
 
     /**
-     * <li>方法名称:encrypt</li>
-     * <li>加密方法
-     *
      * @param xmlStr
      *            需要加密的消息字符串
      * @return 加密后的字符串
@@ -58,15 +55,6 @@ public class EncryptUtil {
     }
 
     /**
-     * <li>方法名称:encrypt</li>
-     * <li>功能描述:
-     *
-     * <pre>
-     * 解密方法
-     * </pre>
-     *
-     * </li>
-     *
      * @param xmlStr
      *            需要解密的消息字符串
      * @return 解密后的字符串
@@ -103,15 +91,7 @@ public class EncryptUtil {
     }
 
     /**
-     * <li>方法名称:TripleDES_CBC_Encrypt</li>
-     * <li>功能描述:
-     *
-     * <pre>
      * 经过封装的三重DES/CBC加密算法，如果包含中文，请注意编码。
-     * </pre>
-     *
-     * </li>
-     *
      * @param sourceBuf
      *            需要加密内容的字节数组。
      * @param deskey
@@ -135,15 +115,7 @@ public class EncryptUtil {
     }
 
     /**
-     * <li>方法名称:TripleDES_CBC_Decrypt</li>
-     * <li>功能描述:
-     *
-     * <pre>
      * 经过封装的三重DES / CBC解密算法
-     * </pre>
-     *
-     * </li>
-     *
      * @param sourceBuf
      *            需要解密内容的字节数组
      * @param deskey
@@ -168,15 +140,7 @@ public class EncryptUtil {
     }
 
     /**
-     * <li>方法名称:DES_CBC_Encrypt</li>
-     * <li>功能描述:
-     *
-     * <pre>
      * 经过封装的DES/CBC加密算法，如果包含中文，请注意编码。
-     * </pre>
-     *
-     * </li>
-     *
      * @param sourceBuf
      *            需要加密内容的字节数组。
      * @param deskey
@@ -200,15 +164,7 @@ public class EncryptUtil {
     }
 
     /**
-     * <li>方法名称:DES_CBC_Decrypt</li>
-     * <li>功能描述:
-     *
-     * <pre>
      * 经过封装的DES/CBC解密算法。
-     * </pre>
-     *
-     * </li>
-     *
      * @param sourceBuf
      *            需要解密内容的字节数组
      * @param deskey
@@ -233,15 +189,7 @@ public class EncryptUtil {
     }
 
     /**
-     * <li>方法名称:MD5Hash</li>
-     * <li>功能描述:
-     *
-     * <pre>
      * MD5，进行了简单的封装，以适用于加，解密字符串的校验。
-     * </pre>
-     *
-     * </li>
-     *
      * @param buf
      *            需要MD5加密字节数组。
      * @param offset
@@ -258,15 +206,6 @@ public class EncryptUtil {
     }
 
     /**
-     * <li>方法名称:byte2hex</li>
-     * <li>功能描述:
-     *
-     * <pre>
-     * 字节数组转换为二行制表示
-     * </pre>
-     *
-     * </li>
-     *
      * @param inStr
      *            需要转换字节数组。
      * @return 字节数组的二进制表示。
@@ -289,15 +228,7 @@ public class EncryptUtil {
     }
 
     /**
-     * <li>方法名称:addMD5</li>
-     * <li>功能描述:
-     *
-     * <pre>
      * MD校验码 组合方法，前16位放MD5Hash码。 把MD5验证码byte[]，加密内容byte[]组合的方法。
-     * </pre>
-     *
-     * </li>
-     *
      * @param md5Byte
      *            加密内容的MD5Hash字节数组。
      * @param bodyByte
@@ -321,15 +252,6 @@ public class EncryptUtil {
     }
 
     /**
-     * <li>方法名称:getKeyIV</li>
-     * <li>功能描述:
-     *
-     * <pre>
-     *
-     * </pre>
-     *
-     * </li>
-     *
      * @param encryptKey
      * @param key
      * @param iv

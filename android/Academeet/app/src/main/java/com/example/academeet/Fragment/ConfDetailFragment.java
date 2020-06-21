@@ -21,7 +21,6 @@ import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.Response;
 
-
 public class ConfDetailFragment extends Fragment {
     private ConferenceItem conference;
     private final String SERVER_ADDR = "https://49.232.141.126:8080";
@@ -29,8 +28,6 @@ public class ConfDetailFragment extends Fragment {
 
     @BindView(R.id.conference_detail_date)
     TextView conferenceDate;
-//    @BindView(R.id.conference_detail_time)
-//    TextView conferenceTime;
     @BindView(R.id.conference_detail_place)
     TextView conferencePlace;
     @BindView(R.id.conference_detail_chairs)
@@ -40,10 +37,18 @@ public class ConfDetailFragment extends Fragment {
     @BindView(R.id.conference_detail_organization)
     TextView conferenceOrgan;
 
+    /**
+     * @describe: 初始化一个 ConfDetailFragment
+     * @param conference 该Fragment对应的Conference
+     */
     public ConfDetailFragment(ConferenceItem conference) {
         this.conference = conference;
     }
 
+    /**
+     * @describe: 初始化数据
+     * @param savedInstanceState 先前保存的实例
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +56,9 @@ public class ConfDetailFragment extends Fragment {
     }
 
 
+    /**
+     * @describe: 从服务器处查询 Conference 的具体信息
+     */
     public void initConferenceDetail(){
         Runnable query = new Runnable() {
             @Override
@@ -81,9 +89,12 @@ public class ConfDetailFragment extends Fragment {
         new Thread(query).start();
     }
 
+    /**
+     * @describe: 根据 Conference 的 Id 来查询 Conference 的具体内容
+     * @return 服务器返回的 Json 信息
+     */
     private JSONObject queryConfById(){
         HTTPSUtils httpsUtils = new HTTPSUtils(this.getActivity());
-        // System.out.println(conference.getId());
         if(conference.getId() == null){
             return null;
         }
@@ -105,13 +116,19 @@ public class ConfDetailFragment extends Fragment {
         }
     }
 
+    /**
+     * @describe: 初始化界面
+     * @param inflater Layout解析器
+     * @param container Fragment容器
+     * @param savedInstanceState 先前保存的实例
+     * @return 创建好的 Fragment
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_conf_detail, container, false);
         ButterKnife.bind(this, view);
         conferenceDate.setText(conference.getDate());
-//        conferenceTime.setText(conference.getStartTime()+"-"+conference.getEndTime());
         conferencePlace.setText(conference.getPlace());
         conferenceChairs.setText(conference.getChairs());
 

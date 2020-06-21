@@ -19,7 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#03A9F4"
-
             app:expandedTitleTextAppearance="@style/expTitle"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:maxLines="4"
@@ -29,7 +28,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-
                 android:background="#03A9F4"
                 app:layout_collapseMode="pin" />
 

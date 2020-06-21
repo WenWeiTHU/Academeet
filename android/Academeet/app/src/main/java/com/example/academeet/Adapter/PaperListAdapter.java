@@ -27,6 +27,10 @@ public class PaperListAdapter extends RecyclerView.Adapter<PaperListAdapter.Pape
         TextView paperAbstracts;
         ImageButton paperDownload;
 
+        /**
+         * @describe: 生成ViewHolder，绑定其与 View的关系
+         * @param view 需要绑定的 View
+         */
         public PaperViewHolder(View view) {
             super(view);
             paperName = (TextView)view.findViewById(R.id.paper_name_text_view);
@@ -36,11 +40,21 @@ public class PaperListAdapter extends RecyclerView.Adapter<PaperListAdapter.Pape
         }
     }
 
+    /**
+     * @describe: 生成一个 PaperListAdapter实例
+     * @param paperItemList Paper 的列表
+     */
     public PaperListAdapter(List<PaperItem> paperItemList) {
         mPaperList = paperItemList;
     }
 
 
+    /**
+     * @describe: 生成一个 ViewHolder，并将其与对应的View进行绑定
+     * @param parent View所在的组
+     * @param viewType View的类型
+     * @return 对应的ViewHolder
+     */
     @NonNull
     @Override
     public PaperViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -50,6 +64,11 @@ public class PaperListAdapter extends RecyclerView.Adapter<PaperListAdapter.Pape
         return holder;
     }
 
+    /**
+     * @describe: 绑定ViewHolder和Item的属性
+     * @param holder 需要绑定的 ViewHolder
+     * @param position 需要绑定的 Item 的位置
+     */
     @Override
     public void onBindViewHolder(@NonNull PaperViewHolder holder, int position) {
         PaperItem paper = mPaperList.get(position);
@@ -75,6 +94,10 @@ public class PaperListAdapter extends RecyclerView.Adapter<PaperListAdapter.Pape
     }
 
 
+    /**
+     * @describe: 获取paper List 的大小
+     * @return Paper List的大小
+     */
     @Override
     public int getItemCount() {
         return mPaperList.size();

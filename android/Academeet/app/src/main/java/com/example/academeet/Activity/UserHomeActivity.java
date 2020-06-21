@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Picture;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -32,6 +33,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import com.alibaba.fastjson.JSONObject;
 import com.example.academeet.Adapter.HomePagerAdapter;
 import com.example.academeet.Fragment.ConferenceListFragment;
+import com.example.academeet.Object.User;
 import com.example.academeet.R;
 import com.example.academeet.Utils.ConfManager;
 import com.example.academeet.Utils.HTTPSUtils;
@@ -39,19 +41,23 @@ import com.example.academeet.Utils.ScreenInfoUtils;
 import com.example.academeet.Utils.UserManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserHomeActivity extends AppCompatActivity {
-
-    private String TAG = "com.example.academeet.Activity.HomeActivity";
     @BindView(R.id.user_home_view_statusbar)
     View mStatusbar;
     @BindView(R.id.user_home_tool_bar)
@@ -85,6 +91,10 @@ public class UserHomeActivity extends AppCompatActivity {
     int month;
     int year;
 
+    /**
+     * @describe: 初始化界面
+     * @param savedInstanceState 先前保存的实例
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,7 +125,7 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
-     * @describe: Update user info when return back to user home fragment
+     * @describe: 复原时，重新初始化用户的信息
      */
     @Override
     protected void onResume() {
@@ -124,7 +134,7 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
-     * @decribe: Check if has storage Permissions
+     * @describe: 检测是否有读写存储的权限，如果没有则请求权限
      */
     public void verifyStoragePermissions() {
         try {
@@ -140,14 +150,17 @@ public class UserHomeActivity extends AppCompatActivity {
         }
     }
 
+
+
     /**
-     * @describe: query user avatar and show in ImageView
+     * @describe: 向服务器请求用户的头像并展示
      */
     public void initAvatar() {
         Runnable query = new Runnable() {
             @Override
             public void run() {
-                byte[] Picture = UserManager.queryUserAvatar();
+                byte[] Picture = UserManager.queryUserAvatarByID(UserManager.getUserId());
+
                 //通过ImageView,设置图片
                 runOnUiThread(new Runnable() {
                     @Override
@@ -160,6 +173,8 @@ public class UserHomeActivity extends AppCompatActivity {
                         }
                         try{
                             Bitmap bitmap = BitmapFactory.decodeByteArray(Picture, 0, Picture.length);
+
+
                             avatarView.setImageBitmap(bitmap);
                         } catch (Exception e) {
                             Toast toast = Toast.makeText(UserHomeActivity.this,
@@ -173,13 +188,8 @@ public class UserHomeActivity extends AppCompatActivity {
         new Thread(query).start();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
     /**
-     * @descibe: initialize side bar fragment
+     * @describe: 初始化侧边栏菜单框架
      */
     void initFrame() {
         // 隐藏顶层栏
@@ -221,6 +231,12 @@ public class UserHomeActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * @describe: 处理用户按下回退键事件
+     * @param keyCode 按键码
+     * @param event 按键事件
+     * @return 事件是否处理
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -246,12 +262,12 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
-     * @decribe: initialize main conferences list in current day
+     * @describe: 初始化主体部分的数据和界面
      */
     void initMainContent() {
         Date curDate = new Date();
         long currTime = curDate.getTime();
-        //System.out.println(currTime);
+        // System.out.println(currTime);
         long startTime = currTime - 3 * 86400000;
         SimpleDateFormat formatterWeek = new SimpleDateFormat("EEEE");
         SimpleDateFormat formatterDay =  new SimpleDateFormat("yyyy-MM-dd");
@@ -272,35 +288,42 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
-     * @decribe: initialize main conferences list in a specific day
+     * @describe: 更新主体部分的内容
+     * @param curDate 需要更新的日期
      */
     void updateMainContent(Date curDate) {
         long currTime = curDate.getTime();
         long startTime = currTime - 3 * 86400000;
-        SimpleDateFormat formatterWeek = new SimpleDateFormat("EEEE");
+        SimpleDateFormat formatterWeek = new SimpleDateFormat("EEE", Locale.ENGLISH);
         SimpleDateFormat formatterDay =  new SimpleDateFormat("yyyy-MM-dd");
         titles.clear();
         fragmentList.clear();
+
         for (int i=0; i < 7; ++i) {
             Date date = new Date(startTime);
             titles.add(formatterWeek.format(date).substring(0, 3));
             fragmentList.add(new ConferenceListFragment(formatterDay.format(date), 0));
             startTime += 86400000;
-        }
 
-        pagerAdapter.notifyDataSetChanged();
+        }
+//        pagerAdapter = new HomePagerAdapter(getSupportFragmentManager(),
+//                fragmentList, titles);
+//        mHomeViewerPager.setAdapter(pagerAdapter);
+
+        // pagerAdapter.notifyDataSetChanged();
         mHomeViewerPager.setCurrentItem(3);
+
     }
 
     /**
-     * @describe: query user info
+     * @describe: 向服务器请求用户的个人信息
      */
     public void initUserInfo() {
         Runnable query = new Runnable() {
             @Override
             public void run() {
                 JSONObject jsonObject = UserManager.queryUserInfo();
-                System.out.println(jsonObject);
+                // System.out.println(jsonObject);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -312,6 +335,8 @@ public class UserHomeActivity extends AppCompatActivity {
                         try{
                             username = jsonObject.getString("username");
                             UserManager.setUsername(username);
+
+                            UserManager.setCacheDir(getFilesDir());
                             phone = jsonObject.getString("phone");
                             avatar = jsonObject.getString("avatar");
                             signature = jsonObject.getString("signature");
@@ -330,13 +355,18 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
-     * @describe: Callback of custom button and etc.
+     * @describe: 响应用户点击事件，开启一个 Custom活动
+     * @param v 被点击的按钮
      */
     public void onCustomItemClicked(View v) {
         Intent intent = new Intent(UserHomeActivity.this, CustomActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * @describe: 响应用户点击设事件，开启设置活动
+     * @param v 被点击的按钮
+     */
     public void onSettingsItemClicked(View v) {
         Intent intent = new Intent(UserHomeActivity.this, SettingsActivity.class);
         intent.putExtra("username", username);
@@ -346,16 +376,28 @@ public class UserHomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * @describe: 响应用户点击笔记按钮，开启笔记活动
+     * @param v 被点击的按钮
+     */
     public void onNoteItemClicked(View v) {
         Intent intent = new Intent(UserHomeActivity.this, UserNotePreviewActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * @describe: 响应用户点击登出按钮，返回到登录界面
+     * @param v 被点击的按钮
+     */
     public void onSearchItemClicked(View v) {
         Intent intent = new Intent(UserHomeActivity.this, SearchActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * @describe: 执行登出动作
+     * @param v 被点击的按钮
+     */
     public void onLogoutItemClicked(View v) {
         new Thread(new Runnable() {
             @Override
@@ -379,9 +421,9 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     /**
-     * @describe: Inflate the menu; this adds items to the action bar if it is present
-     * @param menu
-     * @return
+     * @describe: 当用户点击右上角菜单时的动作
+     * @param menu 右上角菜单
+     * @return 是否响应
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -389,6 +431,11 @@ public class UserHomeActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * @describe: 响应用户在右上菜单选择时的动作
+     * @param item 用户点击的选项
+     * @return 是否处理事件
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.action_change_date){
@@ -406,6 +453,7 @@ public class UserHomeActivity extends AppCompatActivity {
                             UserHomeActivity.this.year = year;
                             UserHomeActivity.this.month = monthOfYear;
                             UserHomeActivity.this.day = dayOfMonth;
+                            pagerAdapter.notifyDataSetChanged();
                         }
                     }, year, month, day);
             picker.show();

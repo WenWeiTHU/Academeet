@@ -32,19 +32,32 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
+/**
+ *
+ */
 public class SessionListFragment extends Fragment {
     private List<SessionItem> sessionList = new ArrayList<>();
     @BindView(R.id.session_list)
     RecyclerView mSessionListView;
+    @BindView(R.id.empty_layout)
+    View emptyView;
     SessionListAdapter sessionListAdapter;
     private final String SERVER_ADDR = "https://49.232.141.126:8080";
     private final String QUERY_SESSION_URL = "/api/conference/contains";
     String conferenceId;
 
+    /**
+     * @describe: 创建一个 SessionListFragment实例
+     * @param id
+     */
     public SessionListFragment(String id){
         this.conferenceId = id;
     }
 
+    /**
+     * @describe: 初始化数据
+     * @param savedInstanceState 先前保存的实例
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,11 +65,11 @@ public class SessionListFragment extends Fragment {
     }
 
     /**
-     * @describe
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
+     * @describe: 初始化界面
+     * @param inflater Layout解析器
+     * @param container Fragment容器
+     * @param savedInstanceState 先前创造的实例
+     * @return 创建好的Fragment
      */
     @Nullable
     @Override
@@ -74,6 +87,9 @@ public class SessionListFragment extends Fragment {
         return v;
     }
 
+    /**
+     * @describe: 查询会议的 id 查询对应的 session
+     */
     private void initSession() {
         Runnable query = new Runnable() {
             @Override
@@ -82,7 +98,7 @@ public class SessionListFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println(jsonObject);
+                        // System.out.println(jsonObject);
                         if(jsonObject == null){
                             Toast toast = Toast.makeText(getContext(), "Backend wrong", Toast.LENGTH_SHORT);
                             toast.show();
@@ -110,6 +126,9 @@ public class SessionListFragment extends Fragment {
                                 sessionList.add(new SessionItem(id, name, topic, startTime, endTime, reportersStr, tag));
                                 sessionListAdapter.notifyItemInserted(size);
                             }
+                             if(sessionList.size() == 0){
+                                 emptyView.setVisibility(View.VISIBLE);
+                             }
                         } catch (Exception e) {
                             Toast toast = Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT);
                             toast.show();
@@ -121,6 +140,10 @@ public class SessionListFragment extends Fragment {
         new Thread(query).start();
     }
 
+    /**
+     * @describe: 根据会议的 Id 向服务器查询对应的 Session 信息
+     * @return 服务器返回的 Json 消息
+     */
     private JSONObject querySessByConfId(){
         HTTPSUtils httpsUtils = new HTTPSUtils(this.getActivity());
         FormBody formBody = new FormBody.Builder()
