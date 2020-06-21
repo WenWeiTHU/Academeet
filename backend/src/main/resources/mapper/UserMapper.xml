@@ -36,7 +36,7 @@
     </select>
 
     <!-- parameterType指定了参数类型 -->
-    <insert id="insert"  keyProperty="id" useGeneratedKeys="true" parameterType="com.mobilecourse.backend.model.User">
+    <insert id="insert"  keyProperty="user_id" useGeneratedKeys="true" parameterType="com.mobilecourse.backend.model.User">
         INSERT INTO user
         <trim prefix="(" suffix=")" suffixOverrides="," >
             username, password, user_type, phone, signature, avatar

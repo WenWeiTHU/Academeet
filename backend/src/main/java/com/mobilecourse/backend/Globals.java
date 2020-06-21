@@ -47,6 +47,7 @@ public class Globals {
 
     public static String decrypt(String msg) {
         String res = null;
+				System.out.println(msg);
         Base64.Decoder decoder = Base64.getDecoder();
         byte[] buf = decoder.decode(msg);
         byte[] key = new byte[8];
@@ -61,6 +62,7 @@ public class Globals {
         } catch (Exception e) {
             e.printStackTrace();
         }
+				System.out.println(res);
         return res;
     }
 

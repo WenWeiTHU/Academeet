@@ -90,14 +90,12 @@ public class ConferenceController extends CommonController {
         Conference conference = new Conference(sconference);
         if (type == 0) conference.setVisible(0);
         else conference.setVisible(1);
+				conference.setEstablisher_id(userid);
         int rlt1 = conferenceMapper.insertConference(conference);
         Chatroom chatroom = new Chatroom();
         chatroom.setChatroom_id(conference.getConference_id());
-        int rlt2 = conferenceMapper.insertUserConference(userid, conference.getConference_id(), "establishes");
         int rlt3 = conferenceMapper.insertChatroom(chatroom);
         if (rlt1 == 0) return "{ \"accepted\": 0, \"msg\": \"insert conference failed\" }";
-        if (rlt2 == 0) return "{ \"accepted\": 0, \"msg\": \"insert user_conference failed," +
-                " conference_id is " + conference.getConference_id() + "\" }";
         if (rlt3 == 0) return wrapperMsg(0, "insert chatroom failed");
         return "{ \"accepted\": 1 }";
     }
@@ -170,24 +168,25 @@ public class ConferenceController extends CommonController {
                 conferenceMapper.insertUserConference(user_id, conference_id, uctype) + ", \"type\": \"1\" }";
     }
 
-    @RequestMapping(value = "/api/user/establishing/sessions")
-    public String createSessions(@RequestParam(value = "conference_id")int conference_id,
-                                 @RequestParam(value = "sessions")String sessionjson,
+		@RequestMapping(value = "/api/user/establishing/sessions")
+    public String createSession(@RequestParam(value = "conference_id")int conference_id,
+                                 @RequestParam(value = "session")String sessionjson,
                                  @RequestParam(value = "type")int type,
                                  HttpSession s) {
         int userid = getUserId(s);
         if (userid == -1) return LOGIN_MSG;
-        JSONArray sessions = JSONArray.parseArray(sessionjson);
-        if (null == conferenceMapper.selectById(conference_id, userid))
+        JSONObject session = JSONObject.parseObject(sessionjson);
+        Conference conf = conferenceMapper.selectById(conference_id, userid);
+        if (null == conf)
             return "{ \"accepted\": 0, \"msg\": \"no such conference or is invisible\" }";
         List<String> msgs = new ArrayList<>();
-        for(Object session: sessions) {
-            Session newsession = new Session((JSONObject)session);
-            newsession.setConference_id(conference_id);
-            newsession.setType(type);
-            int val = conferenceMapper.insertSession(newsession);
-            if (val == 0) msgs.add("insert session " + newsession.getSession_id() + "failed.");
-        }
+        Session newsession = new Session(session);
+        newsession.setConference_id(conference_id);
+        newsession.setConference_visible(conf.getVisible());
+        newsession.setEstablisher_id(userid);
+        newsession.setType(type);
+        int val = conferenceMapper.insertSession(newsession);
+        if (val == 0) msgs.add("insert session " + newsession.getSession_id() + "failed.");
         if (!msgs.isEmpty()) {
             JSONObject rlt = new JSONObject();
             rlt.put("accepted", 0);
@@ -303,7 +302,10 @@ public class ConferenceController extends CommonController {
     public String getPaperById(@RequestParam(value = "paper_id")int paper_id,
                                HttpSession s) {
         int userid = getUserId(s);
-        return JSONObject.toJSONString(conferenceMapper.selectPaperById(paper_id, userid));
+
+        String rlt =  JSONObject.toJSONString(conferenceMapper.selectPaperById(paper_id, userid));
+				System.out.println(rlt);
+				return rlt;
     }
 
 }

@@ -54,9 +54,10 @@ public class UserController extends CommonController {
     @RequestMapping(value = "/api/login", method = { RequestMethod.POST }, produces = "application/json;charset=UTF-8")
     public String checkLogin(@RequestParam(value = "username")String username,
                              @RequestParam(value = "password")String password,
-                             @RequestParam(value = "type")String type,
+                             @RequestParam(value = "type")int type,
 														 HttpServletRequest request) {
-        password = Globals.decrypt(password);
+        if (type == 0)
+				    password = Globals.decrypt(password);
         System.out.println(userMapper.selectByUsername(username));
         User user = userMapper.selectByUsername(username);
         JSONObject msg = new JSONObject();
@@ -68,12 +69,12 @@ public class UserController extends CommonController {
         if (encode.matches(password, user.getPassword())) {
             HttpSession session = request.getSession();
             JSONObject userjson = new JSONObject();
-            userjson.put("id", user.getId());
+            userjson.put("id", user.getUser_id());
             userjson.put("type", user.getType());
             userjson.put("username", user.getUsername());
             session.setAttribute("user", userjson);
             msg.put("code", 200);
-            msg.put("id", user.getId());
+            msg.put("id", user.getUser_id());
             return msg.toJSONString();
         }
         msg.put("code", 400);
@@ -83,6 +84,7 @@ public class UserController extends CommonController {
     @RequestMapping(value = "/api/captcha")
     public String sendSms(HttpServletRequest request, @RequestParam(value = "phone")String phone) {
         phone = Globals.decrypt(phone);
+				System.out.println(phone);
         String verifyCode = String.valueOf(new Random().nextInt(899999)+100000);
         ZhenziSmsClient client = new ZhenziSmsClient(Globals.apiUrl, Globals.appId, Globals.appSecret);
         HashMap<String, String> params = new HashMap<>();
@@ -105,6 +107,7 @@ public class UserController extends CommonController {
         json.put("createTime", System.currentTimeMillis());
         // 将认证码存入SESSION
         session.setAttribute("verifyCode", json);
+				//return wrapperMsg(1, verifyCode);
         return "{ \"accepted\": 1 }";
     }
 
@@ -117,6 +120,7 @@ public class UserController extends CommonController {
         String password = request.getParameter("password");
 				password = Globals.decrypt(password);
         String phone = request.getParameter("phone");
+				phone = Globals.decrypt(phone);
         String captcha = request.getParameter("captcha");
         int type = Integer.parseInt(request.getParameter("type"));
         User user = userMapper.selectByUsername(username);
@@ -127,6 +131,7 @@ public class UserController extends CommonController {
         HttpSession session = request.getSession();
         JSONObject json = (JSONObject) session.getAttribute("verifyCode");
         session.invalidate();
+				System.out.println("register half");
         if (json == null) {
             return "{ \"code\": 400, \"msg\": \"wrong verify code\" }";
         }

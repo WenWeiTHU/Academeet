@@ -29,12 +29,12 @@
     </insert>
 
     <insert id="insertMessage" keyProperty="message_id" useGeneratedKeys="true" parameterType="com.mobilecourse.backend.model.Message">
-        INSERT INTO message (chatroom_id, username, time, details) values (${chatroom_id}, #{username}, #{time}, #{details})
+        INSERT INTO message (chatroom_id, username, userid, time, details) values (${chatroom_id}, #{username}, ${userid}, #{time}, #{details})
     </insert>
 
 
     <update id="updateChatroom">
-        UPDATE chatroom SET ${column} = ${column} + ${adding}
+        UPDATE chatroom SET ${column} = ${column} + ${adding} WHERE chatroom_id=${id}
     </update>
 
     <update id="updateNoteById">
