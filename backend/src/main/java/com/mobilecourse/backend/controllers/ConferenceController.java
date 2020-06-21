@@ -204,8 +204,9 @@ public class ConferenceController extends CommonController {
 
     @RequestMapping(value = "/api/user/establishing/paper")
     public String uploadPaper(@RequestParam(value = "session_id")int session_id,
-                              @RequestParam(value = "paper")String paperjson,
+                                  @RequestParam(value = "paper")String paperjson,
                               @RequestParam(value = "type")int type,
+                              @RequestParam(value = "file")MultipartFile file,
                               HttpSession s) {
         int userid = getUserId(s);
         if (userid == -1) {
@@ -214,40 +215,37 @@ public class ConferenceController extends CommonController {
         Session session = conferenceMapper.selectSessionById(session_id, userid);
         if (session == null || userid != session.getEstablisher_id())
             return "{ \"accepted\": 0, \"msg\": \"you are not establisher.\" }";
+        System.out.println(paperjson);
         JSONObject obj = JSONObject.parseObject(paperjson);
         Paper paper = new Paper(obj);
         paper.setSession_id(session_id);
         paper.setEstablisher_id(userid);
         paper.setVisible(type);
+        paper.setConference_visible(session.getConference_visible());
+        paper.setSession_visible(session.getVisible());
         int val = conferenceMapper.insertPaper(paper);
         if (val == 0) return wrapperMsg(0, "insert paper " + paper.getPaper_id() + "failed.");
+        String rlt = updatePaperFile(file, paper.getPaper_id());
+        if (rlt != null) return rlt;
         return "{ \"accepted\": 1 }";
     }
 
-    @RequestMapping(value = "/api/paper/uploadfile")
-    public String updatePaperFile(@RequestParam(value = "paper")MultipartFile paper,
-                               HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            response.setStatus(404);
-            return LOGIN_MSG;
-        }
-        int id = ((JSONObject)session.getAttribute("user")).getIntValue("id");
+//    @RequestMapping(value = "/api/paper/uploadfile")
+    private String updatePaperFile(MultipartFile paper, int paperid) {
         String filename = paper.getOriginalFilename();
-        if (filename == null) filename = "avatar"+id+".jpg";
-        String localfilename = "avatar_" + id +
+        if (filename == null) filename = "paper_"+paperid+".pdf";
+        String localfilename = "paper_" + paperid +
                 filename.substring(filename.lastIndexOf('.'));
         String localpathname = Globals.paperpath + localfilename;
-        int rlt = conferenceMapper.updatePaperPath(id, Globals.paperurl + localfilename);
+        int rlt = conferenceMapper.updatePaperPath(paperid, Globals.paperurl + localfilename);
         if (rlt == 0) return wrapperMsg(0, "paper path note updated");
         File localFile = new File(localpathname);
         try {
             paper.transferTo(localFile);
         } catch (IOException e) {
-            response.setStatus(500);
             return "{ \"accepted\": 0, \"msg\": \"" + e.getMessage() + "\" }";
         }
-        return "{ \"accepted\": 1 }";
+        return null;
     }
 
 
@@ -268,8 +266,7 @@ public class ConferenceController extends CommonController {
     public String deleteSession(@RequestParam(value = "session_id") int session_id,
                                 HttpSession s) {
         int userid = getUserId(s);
-        Session session;
-        if ((session = conferenceMapper.selectSessionById(session_id, userid)) == null)
+        if (conferenceMapper.selectSessionById(session_id, userid) == null)
             return "{ \"accepted\": 0, \"msg\": \"no such session or you are not establisher.\" }";
         int rlt = conferenceMapper.deleteSession(session_id);
         if (rlt == 0) return "{ \"accepted\": 0, \"msg\": \"delete session failed.\" }";
@@ -279,26 +276,52 @@ public class ConferenceController extends CommonController {
     @RequestMapping(value = "/api/conference/contains")
     public String getSessions(@RequestParam(value = "conference_id")int conference_id,
                               HttpSession s) {
-        int userid = getUserId(s); 
-				String[] attrs = { "session_id", "name", "start_time", "end_time", "topic", "reporters", "visible", "tag" };
+        int userid = getUserId(s);
+        String[] attrs = { "session_id", "name", "start_time", "end_time", "topic", "reporters", "visible", "tag" };
         List<Session> infos = conferenceMapper.selectSessionByConference(conference_id, userid);
-				try {
-						JSONArray allinfos = new JSONArray();
-						for (Session info: infos) {
-          		  JSONObject jsoninfo = new JSONObject();
-          		  for (String attr: attrs) {
-          		      String getAttr = "get" + Character.toUpperCase(attr.charAt(0)) + attr.substring(1);
-          		      jsoninfo.put(attr, info.getClass().getMethod(getAttr).invoke(info));
-          		  }
-          		  allinfos.add(jsoninfo);
-        		}
-						JSONObject resp = new JSONObject();
-        		resp.put("sessions", allinfos);
-        		resp.put("session_num", infos.size());
-        		return resp.toJSONString();
-				} catch (Exception e) {
-					return wrapperMsg(0, e.getMessage());
-				}
+        try {
+            JSONArray allinfos = new JSONArray();
+            for (Session info: infos) {
+                JSONObject jsoninfo = new JSONObject();
+                for (String attr: attrs) {
+                    String getAttr = "get" + Character.toUpperCase(attr.charAt(0)) + attr.substring(1);
+                    jsoninfo.put(attr, info.getClass().getMethod(getAttr).invoke(info));
+                }
+                allinfos.add(jsoninfo);
+            }
+            JSONObject resp = new JSONObject();
+            resp.put("sessions", allinfos);
+            resp.put("session_num", infos.size());
+            return resp.toJSONString();
+        } catch (Exception e) {
+            return wrapperMsg(0, e.getMessage());
+        }
+    }
+
+    @RequestMapping(value = "/api/sessions/foradmin")
+    public String getCompleteSessions(@RequestParam(value = "conference_id")int conference_id,
+                                      HttpSession s) {
+        int userid = getUserId(s);
+        String[] attrs = { "session_id", "name", "start_time", "end_time", "topic", "reporters", "visible", "tag" };
+        List<Session> infos = conferenceMapper.selectSessionByConference(conference_id, userid);
+        try {
+            JSONArray allinfos = new JSONArray();
+            for (Session info: infos) {
+                JSONObject jsoninfo = new JSONObject();
+                for (String attr: attrs) {
+                    String getAttr = "get" + Character.toUpperCase(attr.charAt(0)) + attr.substring(1);
+                    jsoninfo.put(attr, info.getClass().getMethod(getAttr).invoke(info));
+                    jsoninfo.put("papers", conferenceMapper.selectPaperBySession(info.getSession_id(), userid));
+                }
+                allinfos.add(jsoninfo);
+            }
+            JSONObject resp = new JSONObject();
+            resp.put("sessions", allinfos);
+            resp.put("session_num", infos.size());
+            return resp.toJSONString();
+        } catch (Exception e) {
+            return wrapperMsg(0, e.getMessage());
+        }
     }
 
     @RequestMapping(value = "/api/session/id")
