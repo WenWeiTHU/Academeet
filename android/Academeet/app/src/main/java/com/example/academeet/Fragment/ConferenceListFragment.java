@@ -152,6 +152,9 @@ public class ConferenceListFragment extends Fragment {
         Runnable query = new Runnable() {
             @Override
             public void run() {
+                if(date == null){
+                    return;
+                }
                 JSONObject jsonObject = queryConfByDay();
                 // System.out.println(jsonObject);
                 getActivity().runOnUiThread(new Runnable() {

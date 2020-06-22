@@ -16,7 +16,9 @@
             android:id="@+id/toolbar_user_note_preview"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/white"
+            app:titleTextColor="@color/colorPrimary"
+            app:theme="@style/ToolbarTheme"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="Notes"
             />

@@ -211,7 +211,6 @@ public class UserHomeActivity extends AppCompatActivity {
         toggle.syncState();
 
         //蒙层颜色
-        drawerLayout.setBackgroundColor(Color.RED);
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerStateChanged(int newState) {
