@@ -41,6 +41,7 @@ public class UserNotePreviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        UserManager.sharedPreferences = getSharedPreferences("user_note", MODE_PRIVATE);
         setContentView(R.layout.activity_note_preview);
 
         ButterKnife.bind(this);
