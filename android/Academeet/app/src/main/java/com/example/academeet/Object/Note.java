@@ -70,6 +70,7 @@ public class Note implements Serializable {
         int index;
         try {
             index = content.indexOf("\n");
+            index = index == -1 ? 20 : index;
             index = index > 20 ? 20 : index;
             setTitle(content.substring(0, index));
         } catch (StringIndexOutOfBoundsException e) {
