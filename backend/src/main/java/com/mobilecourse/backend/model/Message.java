@@ -9,16 +9,26 @@ public class Message {
     String details;
     Timestamp time;      // int32
     String username;
+		int userid;
     int chatroom_id;
 
     public Message() { }
 
     public Message(JSONObject obj, int chatroom_id) {
-        this.username = obj.getString("user_name");
+        this.username = obj.getString("username");
+				this.userid = obj.getIntValue("user_id");
         this.time = new Timestamp(obj.getLongValue("send_time"));
         this.details = obj.getString("content");
         this.chatroom_id = chatroom_id;
     }
+
+		public int getUserid() {
+			return userid;
+		}
+
+		public void setUserid(int id) {
+			this.userid = id;
+		}
 
     public int getMessage_id() {
         return message_id;

@@ -146,11 +146,27 @@ public class CommonTest {
     }
 
     public static void main(String[] args) {
-        List<TestT> test = new ArrayList<>();
-        test.add(new TestT(3,5));
-        test.add(new TestT(1,2));
-        JSONArray rlt = new JSONArray();
-        rlt.add("i say \"do you like what you see?\" to you");
+//        Base64.Encoder encoder = Base64.getEncoder();
+//        byte[] codes = encoder.encode("123456".getBytes());
+//        System.out.println(new String(codes));
+//        Base64.Decoder decoder = Base64.getDecoder();
+//        byte[] buf = decoder.decode("cc839cf9feba4ed7ba68064177a0b505");
+//        byte[] key = new byte[8];
+//        byte[] iv = new byte[8];
+//        for (int i=0; i < 8; i++) {
+//            key[i] = buf[i];
+//            iv[i] = buf[i+8];
+//        }
+//        System.out.println(new String(key));
+//        System.out.println(new String(iv));
+        byte[] haha = {-53, 121, 31, -3, -127, 7, 69, -100};
+        System.out.println(new String(haha));
+//        List<TestT> test = new ArrayList<>();
+//        test.add(new TestT(3,5));
+//        test.add(new TestT(3,5));
+//        test.add(new TestT(1,2));
+//        JSONArray rlt = new JSONArray();
+//        rlt.add("i say \"do you like what you see?\" to you");
 //        TestT ccc = rlt.getObject(0, TestT.class);
 //        System.out.println("This is " + ccc.xxx + ccc.yyy);
 //        String s = "[{\"xxx\":3,\"yyy\":5},{\"xxx\":1,\"yyy\":2}]";

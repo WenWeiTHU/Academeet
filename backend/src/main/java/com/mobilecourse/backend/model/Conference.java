@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,7 +29,8 @@ public class Conference {
         this.date = Timestamp.valueOf(jsonObject.getString("start_time"));
         this.place = jsonObject.getString("place");
         this.chairs = jsonObject.getString("chairs");
-				this.visible = jsonObject.getIntValue("visible");
+        this.visible = jsonObject.getIntValue("visible");
+        String strn = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis());
 				// if (this.visible == null) this.visible = 1;
     }
 
