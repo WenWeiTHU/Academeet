@@ -332,36 +332,35 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 int result = user.register(httpsUtils);
-                if (result == 200) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            switch (result) {
-                                case 200: {
-                                    Toast toast = Toast.makeText(MainActivity.this, "Register successfully", Toast.LENGTH_SHORT);
-                                    toast.show();
-                                    backToLogin(null);
-                                    break;
-                                }
-                                case User.ERROR_CODE: {
-                                    Toast toast = Toast.makeText(MainActivity.this, "Something is wrong", Toast.LENGTH_SHORT);
-                                    toast.show();
-                                    break;
-                                }
-                                case 300: {
-                                    Toast toast = Toast.makeText(MainActivity.this, "Duplicate username", Toast.LENGTH_SHORT);
-                                    toast.show();
-                                    break;
-                                }
-                                case 400: {
-                                    Toast toast = Toast.makeText(MainActivity.this, "Wrong captcha", Toast.LENGTH_SHORT);
-                                    toast.show();
-                                    break;
-                                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        switch (result) {
+                            case 200: {
+                                Toast toast = Toast.makeText(MainActivity.this, "Register successfully", Toast.LENGTH_SHORT);
+                                toast.show();
+                                backToLogin(null);
+                                break;
+                            }
+                            case User.ERROR_CODE: {
+                                Toast toast = Toast.makeText(MainActivity.this, "Something is wrong", Toast.LENGTH_SHORT);
+                                toast.show();
+                                break;
+                            }
+                            case 300: {
+                                Toast toast = Toast.makeText(MainActivity.this, "Duplicate username", Toast.LENGTH_SHORT);
+                                toast.show();
+                                break;
+                            }
+                            case 400: {
+                                Toast toast = Toast.makeText(MainActivity.this, "Wrong captcha", Toast.LENGTH_SHORT);
+                                toast.show();
+                                break;
                             }
                         }
-                    });
-                }
+                    }
+                });
+
             }
         };
         new Thread(register).start();

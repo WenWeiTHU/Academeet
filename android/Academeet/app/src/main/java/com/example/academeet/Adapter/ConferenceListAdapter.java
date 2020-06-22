@@ -23,10 +23,6 @@ import java.util.List;
 
 public class ConferenceListAdapter extends RecyclerView.Adapter<ConferenceListAdapter.ConfViewHolder> {
     private List<ConferenceItem> mConferenceList;
-    private final String SERVER_ADDR = "https://49.232.141.126:8080";
-    private final String UPDATE_FAVOR_URL = "/api/user/update/favors";
-    private final String UPDATE_REMIND_URL = "/api/user/update/reminds";
-    private final String UPDATE_DISLIKE_URL = "/api/user/update/dislikes";
     private String type;
 
     class ConfViewHolder extends RecyclerView.ViewHolder {
