@@ -16,11 +16,16 @@
             android:id="@+id/show_history_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/white"
+            app:titleTextColor="@color/colorPrimary"
+            app:theme="@style/ToolbarTheme"
             app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
     </com.google.android.material.appbar.AppBarLayout>
-
+    <include
+        android:id="@+id/empty_layout"
+        layout="@layout/empty_layout"
+        android:visibility="gone"/>
     <ListView
         android:id="@+id/history_listView"
         android:layout_width="match_parent"

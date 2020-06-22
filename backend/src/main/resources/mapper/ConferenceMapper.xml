@@ -60,10 +60,10 @@
     <insert id="insertConference" keyProperty="conference_id" useGeneratedKeys="true" parameterType="com.mobilecourse.backend.model.Conference">
         INSERT INTO conference
         <trim prefix="(" suffix=")" suffixOverrides="," >
-            organization, introduction, date, chairs, place, start_time, end_time, tags, visible
+            name, organization, introduction, date, chairs, place, visible, establisher_id
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
-            #{organization}, #{introduction}, #{date}, #{chairs}, #{place}, #{start_time}, #{end_time}, #{tags}, ${visible}
+            #{name}, #{organization}, #{introduction}, #{date}, #{chairs}, #{place}, ${visible}, ${establisher_id}
         </trim>;
     </insert>
 
@@ -79,14 +79,19 @@
     </insert>
 
     <insert id="insertSession" keyProperty="session_id" useGeneratedKeys="true" parameterType="com.mobilecourse.backend.model.Session">
-        INSERT INTO session (topic, description, start_time, end_time, reporters, rating, conference_id, visible, conference_visible)
-        VALUES (#{topic}, #{description}, #{start_time}, #{end_time}, #{reporters}, ${rating}, ${conference_id}, ${visible}, ${conference_visible})
+        INSERT INTO session (name, topic, description, start_time, end_time, reporters, rating, conference_id, visible, conference_visible, establisher_id)
+        VALUES (#{name}, #{topic}, #{description}, #{start_time}, #{end_time}, #{reporters}, ${rating}, ${conference_id}, ${visible}, ${conference_visible}, ${establisher_id})
     </insert>
 
     <insert id="insertPaper" keyProperty="paper_id" useGeneratedKeys="true" parameterType="com.mobilecourse.backend.model.Paper">
         INSERT INTO paper (title, authors, abstr, content, session_id, establisher_id, visible, session_visible, conference_visible)
         VALUES (#{title}, #{authors}, #{abstr}, #{content}, ${session_id}, ${establisher_id}, ${visible}, ${session_visible}, ${conference_visible})
     </insert>
+
+
+    <update id="updatePaperPath">
+        UPDATE paper SET content = #{content} WHERE paper_id = ${paperid}
+    </update>
 
 
     <delete id="deleteUserConference">

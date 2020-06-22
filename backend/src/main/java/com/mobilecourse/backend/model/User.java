@@ -77,11 +77,11 @@ public class User {
 				'}';
 	}
 
-	public int getId() {
+	public int getUser_id() {
 		return user_id;
 	}
 
-	public void setId(int id) {
+	public void setUser_id(int id) {
 		this.user_id = id;
 	}
 

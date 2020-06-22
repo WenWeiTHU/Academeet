@@ -1,10 +1,13 @@
 package com.mobilecourse.backend.controllers;
 
 import com.alibaba.fastjson.JSONArray;
+import com.mobilecourse.backend.Globals;
 import com.alibaba.fastjson.JSONObject;
 import com.mobilecourse.backend.dao.RecordDao;
+import com.mobilecourse.backend.dao.UserDao;
 import com.mobilecourse.backend.model.Message;
 import com.mobilecourse.backend.model.Note;
+import com.mobilecourse.backend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +25,9 @@ public class RecordController extends CommonController {
 
     @Autowired
     RecordDao recordMapper;
+
+		@Autowired
+		UserDao userMapper;
 
     @RequestMapping(value = "/api/note/id")
     public String getNoteById(@RequestParam(value = "id")int note_id,
@@ -97,13 +103,34 @@ public class RecordController extends CommonController {
         return ACCEPT_MSG;
     }
 
-    @RequestMapping(value = "/api/chatroom/records")
-    public String getMessageByChatroom(@RequestParam(value = "id")int chatroom_id) {
+    private JSONObject messageToJSON(List<Message> messages) {
+        JSONObject resp = new JSONObject();
+        JSONArray arr = new JSONArray();
+        for (Message msg : messages) {
+            JSONObject obj = new JSONObject();
+						obj.put("username", msg.getUsername());
+						obj.put("send_time", msg.getTime());
+						obj.put("content", msg.getDetails());
+						User user = userMapper.selectByUsername(msg.getUsername());
+				    System.out.println(msg.getUsername());
+						obj.put("user_id", user.getUser_id());
+						arr.add(obj);
+        }
+        resp.put("messages", arr);
+        resp.put("message_num", messages.size());
+        return resp;
+    }
+    
+    @RequestMapping(value = "/api/conference/history")
+    public String getMessageByChatroom(@RequestParam(value = "conference_id")int chatroom_id,
+		                                   HttpSession s) {
+		    int userid = getUserId(s);
         JSONObject rlt = new JSONObject();
+        if (!Globals.websocketTables.get(chatroom_id).containsKey(userid)) {
+				    return wrapperMsg(0, "you are not in the chatroom.");
+				}
         List<Message> msgs = recordMapper.selectMessageByChatroom(chatroom_id);
-        rlt.put("messages", msgs);
-        rlt.put("message_num", msgs.size());
-        return rlt.toJSONString();
+				return messageToJSON(msgs).toJSONString();
     }
 
 }

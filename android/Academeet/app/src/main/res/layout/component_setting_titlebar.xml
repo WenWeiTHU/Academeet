@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="#0091EA">
+    android:background="#FFFFFF">
 
     <ImageButton
         android:id="@+id/back"
@@ -16,6 +16,7 @@
         android:padding="@dimen/sub_menu_arrow_padding"
         android:src="@drawable/ic_back_arrow"
         android:clickable="true"
+
         android:contentDescription="BACK"
         android:focusable="true" />
 
@@ -25,10 +26,10 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:gravity="center_horizontal"
         android:text="Setting"
-        android:textColor="#FFFFFFFF"/>
+        android:textColor="@color/colorPrimary"/>
 
     <TextView
         android:id="@+id/submit"
@@ -36,10 +37,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="14dp"
         android:clickable="true"
         android:focusable="true"
-        android:textColor="#FFFFFFFF"
+        android:textColor="@color/colorPrimary"
         android:text="@string/execute_change"
         android:textSize="18sp" />
 

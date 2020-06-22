@@ -17,6 +17,14 @@ public class Paper {
     int session_visible;
     int conference_visible;
 
+    public Paper() { }
+
+    public Paper(JSONObject obj) {
+        this.title = obj.getString("title");
+        this.authors = obj.getString("authors");
+        this.abstr = obj.getString("abstr");
+    }
+
     public int getSession_visible() {
         return session_visible;
     }

@@ -211,7 +211,6 @@ public class UserHomeActivity extends AppCompatActivity {
         toggle.syncState();
 
         //蒙层颜色
-        drawerLayout.setBackgroundColor(Color.RED);
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerStateChanged(int newState) {
@@ -304,10 +303,15 @@ public class UserHomeActivity extends AppCompatActivity {
             titles.add(formatterWeek.format(date).substring(0, 3));
             fragmentList.add(new ConferenceListFragment(formatterDay.format(date), 0));
             startTime += 86400000;
-        }
 
-        pagerAdapter.notifyDataSetChanged();
+        }
+//        pagerAdapter = new HomePagerAdapter(getSupportFragmentManager(),
+//                fragmentList, titles);
+//        mHomeViewerPager.setAdapter(pagerAdapter);
+
+        // pagerAdapter.notifyDataSetChanged();
         mHomeViewerPager.setCurrentItem(3);
+
     }
 
     /**
@@ -448,6 +452,7 @@ public class UserHomeActivity extends AppCompatActivity {
                             UserHomeActivity.this.year = year;
                             UserHomeActivity.this.month = monthOfYear;
                             UserHomeActivity.this.day = dayOfMonth;
+                            pagerAdapter.notifyDataSetChanged();
                         }
                     }, year, month, day);
             picker.show();

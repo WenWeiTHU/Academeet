@@ -43,6 +43,8 @@ public class CommentListFragment extends Fragment {
     EditText editComment;
     @BindView(R.id.comment_button)
     Button commentButton;
+    @BindView(R.id.empty_layout)
+    View emptyView;
 
     CommentListAdapter commentListAdapter;
     private final String SERVER_ADDR = "https://49.232.141.126:8080";
@@ -125,6 +127,7 @@ public class CommentListFragment extends Fragment {
                                 commentListAdapter.notifyItemInserted(size);
                                 Toast toast = Toast.makeText(getContext(), "OK", Toast.LENGTH_SHORT);
                                 toast.show();
+                                emptyView.setVisibility(View.INVISIBLE);
                             } else {
                                 Toast toast = Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT);
                                 toast.show();
@@ -171,6 +174,9 @@ public class CommentListFragment extends Fragment {
                                 int size = commentItemList.size();
                                 commentItemList.add(new CommentItem(userID, username, content, postTime));
                                 commentListAdapter.notifyItemInserted(size);
+                            }
+                            if(commentItemList.size()==0){
+                                emptyView.setVisibility(View.VISIBLE);
                             }
                         } catch (Exception e) {
                             Toast toast = Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT);
