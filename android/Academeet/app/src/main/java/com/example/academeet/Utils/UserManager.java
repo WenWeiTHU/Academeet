@@ -65,7 +65,7 @@ public class UserManager {
         File file = new File(cacheDir, userID+".tmp");
         byte[] Picture;
         if(file.exists()){
-            System.out.println("exist");
+            // System.out.println("exist");
             int size = (int) file.length();
             Picture = new byte[size];
             try {
@@ -73,20 +73,20 @@ public class UserManager {
                 buf.read(Picture, 0, Picture.length);
                 buf.close();
             } catch (Exception e) {
-                System.out.println(e);
+                // System.out.println(e);
                 return null;
             }
         } else {
             Picture = UserManager.queryUserAvatarByID(userID);
-            System.out.println(cacheDir);
-            System.out.println("not exist");
+            // System.out.println(cacheDir);
+            // System.out.println("not exist");
             try{
                 file.createNewFile();
                 FileOutputStream out = new FileOutputStream(file);
                 out.write(Picture);
                 out.close();
             } catch (Exception e){
-                System.out.println(e);
+                // System.out.println(e);
                 return null;
             }
         }

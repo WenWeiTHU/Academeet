@@ -75,7 +75,7 @@ public class AWebSocketClientService extends Service {
 
     private void initSocketClient() {
         URI uri = URI.create("ws://49.232.141.126:8443/websocket/"+conferenceID+"/"+UserManager.getUserId());
-        System.out.println("ws://49.232.141.126:8443/websocket/"+conferenceID+"/"+UserManager.getUserId());
+        // System.out.println("ws://49.232.141.126:8443/websocket/"+conferenceID+"/"+UserManager.getUserId());
         client = new AWebSocketClient(uri) {
             @Override
             public void onMessage(String message) {

@@ -62,7 +62,7 @@ public class SessDetailActivity extends AppCompatActivity {
                                 fab.setImageResource(R.drawable.ic_liked);
                                 liked = true;
                             } catch (Exception e){
-                                System.out.println(e);
+                                // System.out.println(e);
                             }
                         }
                     }

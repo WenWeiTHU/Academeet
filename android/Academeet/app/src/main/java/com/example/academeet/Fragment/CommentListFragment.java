@@ -113,7 +113,7 @@ public class CommentListFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println(jsonObject);
+                        // System.out.println(jsonObject);
                         if(jsonObject == null){
                             Toast toast = Toast.makeText(getContext(), "Backend wrong", Toast.LENGTH_SHORT);
                             toast.show();
@@ -133,7 +133,7 @@ public class CommentListFragment extends Fragment {
                                 toast.show();
                             }
                         } catch (Exception e) {
-                            System.out.println(e);
+                            // System.out.println(e);
                             Toast toast = Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT);
                             toast.show();
                         }
@@ -155,7 +155,7 @@ public class CommentListFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println(jsonObject);
+                        // System.out.println(jsonObject);
                         if(jsonObject == null){
                             Toast toast = Toast.makeText(getContext(), "Backend wrong", Toast.LENGTH_SHORT);
                             toast.show();

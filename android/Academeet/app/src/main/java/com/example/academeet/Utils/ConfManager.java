@@ -108,7 +108,7 @@ public class ConfManager {
             Response response = httpsUtils.getInstance().newCall(request).execute();
             Looper.prepare();
             String content = response.body().string();
-            //System.out.println(content);
+            // System.out.println(content);
             JSONObject jsonObject = JSONObject.parseObject(content);
             return jsonObject;
         } catch(IOException | JSONException e) {

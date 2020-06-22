@@ -15,7 +15,7 @@
         android:id="@+id/tagView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Information"
+        android:text="Keynote"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"

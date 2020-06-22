@@ -96,7 +96,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
                         }
                     });
                 } catch (Exception e) {
-                    System.out.println(e);
+                    // System.out.println(e);
                 }
             }
         };

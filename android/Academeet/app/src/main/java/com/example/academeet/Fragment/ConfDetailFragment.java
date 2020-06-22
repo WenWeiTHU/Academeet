@@ -68,7 +68,7 @@ public class ConfDetailFragment extends Fragment {
             @Override
             public void run() {
                 JSONObject jsonObject = queryConfById();
-                System.out.println(jsonObject);
+                // System.out.println(jsonObject);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

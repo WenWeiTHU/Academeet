@@ -90,7 +90,7 @@ public class HistoryActivity extends AppCompatActivity {
                                 emptyView.setVisibility(View.VISIBLE);
                             }
                         } catch (Exception e){
-                            System.out.println(e);
+                            // System.out.println(e);
                             Toast toast = Toast.makeText(HistoryActivity.this, "Something wrong", Toast.LENGTH_SHORT);
                             toast.show();
                         }

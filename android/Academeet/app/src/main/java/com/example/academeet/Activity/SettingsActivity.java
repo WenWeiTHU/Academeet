@@ -65,7 +65,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             phoneComp.setContent(phone);
             signatureComp.setContent(signature);
         } catch (Exception e) {
-            System.out.println(e);
+            // System.out.println(e);
         }
     }
 
@@ -141,17 +141,17 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 Bundle extra = data.getExtras();
                 int permission = ActivityCompat.checkSelfPermission(this,
                         "android.permission.WRITE_EXTERNAL_STORAGE");
-                System.out.println(permission);
+                // System.out.println(permission);
                 if (permission != PackageManager.PERMISSION_GRANTED) {
                     // 没有写的权限，去申请写的权限，会弹出对话框
                     ActivityCompat.requestPermissions(this, new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"},1);
                 }
 
                 Bitmap photo = extra.getParcelable("data");
-                System.out.println(photo);
+                // System.out.println(photo);
                 String imagePath = Environment.getExternalStorageDirectory().getAbsolutePath();
                 String fileName = UUID.randomUUID().toString();
-                System.out.println(imagePath);
+                // System.out.println(imagePath);
                 File file = new File(imagePath + "/" + fileName + ".jpg");
                 FileOutputStream out = new FileOutputStream(file);
                 photo.compress(Bitmap.CompressFormat.JPEG, 100, out);
@@ -162,7 +162,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(SettingsActivity.this, getResources().getString(R.string.update_avatar_ok), Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 Toast.makeText(SettingsActivity.this, getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
-                System.out.println(e);
+                // System.out.println(e);
             }
         } else if(requestCode == USERNAME_CODE) {
             nameComp.setContent(data.getStringExtra("content"));

@@ -50,7 +50,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
             @Override
             public void run() {
                 JSONObject jsonObject = UserManager.changePasswd(newPasswd, oldPasswd);
-                System.out.println(jsonObject);
+                // System.out.println(jsonObject);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

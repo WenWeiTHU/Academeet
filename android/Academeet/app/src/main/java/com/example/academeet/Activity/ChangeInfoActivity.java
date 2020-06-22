@@ -74,7 +74,7 @@ public class ChangeInfoActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void run() {
                 JSONObject jsonObject = UserManager.changeInfo(info, type);
-                System.out.println(jsonObject);
+                // System.out.println(jsonObject);
                 runOnUiThread(new Runnable() {
                     @Override
 
