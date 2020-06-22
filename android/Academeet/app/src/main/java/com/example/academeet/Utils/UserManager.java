@@ -1,6 +1,7 @@
 package com.example.academeet.Utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Looper;
 import com.alibaba.fastjson.*;
 import com.example.academeet.Activity.UserNotePreviewActivity;
@@ -52,6 +53,8 @@ public class UserManager {
     private static final String LOGOUT = "user/logout";
     private static final String POST_COMMENT_URL = "user/post";
     private static final String QUERY_MESSAGE_URL = "conference/history";
+
+    public static SharedPreferences sharedPreferences;
 
     public static File getCacheDir() {
         return cacheDir;
@@ -322,6 +325,12 @@ public class UserManager {
     public static boolean deleteNote(Note note) {
         // 删除本地的笔记
         noteList.remove(note);
+        if (note.getId().equals("UserGuide")) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("hasGuide", false);
+            editor.commit();
+            return true;
+        }
         // 删除服务器上的笔记
         FormBody formBody = new FormBody.Builder()
                 .add("note_id", note.getId())
@@ -356,8 +365,8 @@ public class UserManager {
         if (httpsUtils == null) {
             return false;
         }
-        if (note.getId() == null) {
-            return false;
+        if (note.getId().equals("UserGuide")) {
+            return true;
         }
         FormBody formBody = new FormBody.Builder()
                 .add("note_id", note.getId())
@@ -407,6 +416,14 @@ public class UserManager {
 
 
             ArrayList<Note> notes = new ArrayList<>();
+            if (!sharedPreferences.contains("hasGuide")) {
+                Note _note = new Note();
+                _note.setContent(context.getResources().getString(R.string.user_guide));
+                _note.setCreateDate("2020-06-21 15:00");
+                _note.setId("UserGuide");
+                _note.setEditDate("2020-06-21 15:00");
+                notes.add(_note);
+            }
             // 将JSONArray 转化为 list
             for (int i = 0; i < noteJson.size(); ++i) {
                 JSONObject s = (JSONObject)noteJson.get(i);
@@ -420,12 +437,7 @@ public class UserManager {
                 note.setId(String.valueOf(s.get("note_id")));
                 notes.add(note);
             }
-            Note note = new Note();
-            note.setContent(context.getResources().getString(R.string.user_guide));
-            note.setCreateDate("2020-06-21 15:00");
-            note.setId(null);
-            note.setEditDate("2020-06-21 15:00");
-            notes.add(note);
+
             return notes;
         } catch(Exception e) {
             e.printStackTrace();

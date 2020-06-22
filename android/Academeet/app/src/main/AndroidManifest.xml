@@ -19,7 +19,7 @@
         <activity android:name=".Activity.ChatActivity"
             android:configChanges="orientation"/>
         <activity android:name=".Activity.HistoryActivity"
-            android:configChanges="orientation"/>
+            android:configChanges="orientation" />
         <activity android:name=".Activity.EditNoteActivity"
             android:configChanges="orientation"/>
         <activity android:name=".Activity.ShowNoteActivity"
