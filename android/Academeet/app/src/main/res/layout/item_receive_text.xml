@@ -16,7 +16,7 @@
 
         <ImageView
             android:id="@+id/jmui_avatar_iv"
-            style="@style/jmui_chat_item_receiver_avatar_style"/>
+            style="@style/chat_item_receiver_avatar_style"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -26,14 +26,14 @@
 
             <TextView
                 android:id="@+id/tv_display_name"
-                style="@style/jmui_chat_display_name_style"
+                style="@style/chat_display_name_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/jmui_avatar_iv"/>
 
             <TextView
                 android:id="@+id/tv_content"
-                style="@style/jmui_msg_text_style"
+                style="@style/msg_text_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_display_name"
@@ -41,7 +41,7 @@
                 android:layout_marginLeft="3dp"
                 android:layout_toRightOf="@id/jmui_avatar_iv"
                 android:autoLink="web"
-                android:background="@drawable/jmui_msg_receive_bg"
+                android:background="@drawable/msg_receive_bg"
                 android:paddingLeft="15dp"
                 android:paddingRight="10dp"
                 android:textColor="#363333"
@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="53dp"
-            android:background="@drawable/jmui_msg_receive_bg"
+            android:background="@drawable/msg_receive_bg"
             android:orientation="vertical"
             android:visibility="gone">
 

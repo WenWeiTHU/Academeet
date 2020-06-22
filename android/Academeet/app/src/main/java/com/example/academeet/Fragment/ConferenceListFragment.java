@@ -80,17 +80,6 @@ public class ConferenceListFragment extends Fragment {
         }
     }
 
-    public void updateDate(String date) {
-        this.date = date;
-        for(int i = 0; i < conferenceList.size(); i++){
-            conferenceList.remove(i);
-            conferenceListAdapter.notifyItemRemoved(i);
-        }
-        getDisliked();
-        initConference();
-        // System.out.println(conferenceList);
-    }
-
     /**
      * @describe: 初始化界面
      * @param inflater Layout解析器
@@ -187,7 +176,11 @@ public class ConferenceListFragment extends Fragment {
                                 conferenceList.add(new ConferenceItem(id, name, date, place, chairsStr));
                                 conferenceListAdapter.notifyItemInserted(size);
                             }
-
+                            if(conferenceList.size() == 0){
+                                emptyView.setVisibility(View.VISIBLE);
+                            } else {
+                                emptyView.setVisibility(View.INVISIBLE);
+                            }
                         } catch (Exception e){
                             Toast toast = Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT);
                             toast.show();

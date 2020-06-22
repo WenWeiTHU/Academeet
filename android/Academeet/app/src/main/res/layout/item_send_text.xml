@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout style="@style/jmui_chat_item_send_layout"
+<LinearLayout style="@style/chat_item_send_layout"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
@@ -30,17 +30,17 @@
             android:layout_height="21dp"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="3dp"
-            android:src="@drawable/jmui_sending_img"
+            android:src="@drawable/sending_img"
             android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_content"
-            style="@style/jmui_msg_text_style"
+            style="@style/msg_text_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="3dp"
             android:autoLink="web"
-            android:background="@drawable/jmui_msg_send_bg"
+            android:background="@drawable/msg_send_bg"
             android:paddingLeft="10dp"
             android:paddingRight="18dp"
             android:textColorLink="#157BFB"
@@ -117,7 +117,7 @@
 
         <ImageView
             android:id="@+id/jmui_avatar_iv"
-            style="@style/jmui_chat_item_sender_avatar_style"/>
+            style="@style/chat_item_sender_avatar_style"/>
 
     </LinearLayout>
 

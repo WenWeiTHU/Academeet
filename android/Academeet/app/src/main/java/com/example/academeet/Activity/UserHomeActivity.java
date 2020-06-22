@@ -91,6 +91,8 @@ public class UserHomeActivity extends AppCompatActivity {
     int month;
     int year;
 
+    long curDate;
+
     /**
      * @describe: 初始化界面
      * @param savedInstanceState 先前保存的实例
@@ -116,10 +118,17 @@ public class UserHomeActivity extends AppCompatActivity {
             UserManager.httpsUtils = new HTTPSUtils(this);
         }
         ButterKnife.bind(this);
+
+        Intent intent = getIntent();
+        curDate = intent.getLongExtra("curDate", new Date().getTime());
+
         Calendar cldr = Calendar.getInstance();
+        cldr.setTimeInMillis(curDate);
         day = cldr.get(Calendar.DAY_OF_MONTH);
         month = cldr.get(Calendar.MONTH);
         year = cldr.get(Calendar.YEAR);
+
+
         initFrame();
         initMainContent();
     }
@@ -149,7 +158,6 @@ public class UserHomeActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
 
 
     /**
@@ -264,8 +272,7 @@ public class UserHomeActivity extends AppCompatActivity {
      * @describe: 初始化主体部分的数据和界面
      */
     void initMainContent() {
-        Date curDate = new Date();
-        long currTime = curDate.getTime();
+        long currTime = curDate;
         // System.out.println(currTime);
         long startTime = currTime - 3 * 86400000;
         SimpleDateFormat formatterWeek = new SimpleDateFormat("EEEE");
@@ -286,33 +293,6 @@ public class UserHomeActivity extends AppCompatActivity {
         mHomeViewerPager.setCurrentItem(3);
     }
 
-    /**
-     * @describe: 更新主体部分的内容
-     * @param curDate 需要更新的日期
-     */
-    void updateMainContent(Date curDate) {
-        long currTime = curDate.getTime();
-        long startTime = currTime - 3 * 86400000;
-        SimpleDateFormat formatterWeek = new SimpleDateFormat("EEE", Locale.ENGLISH);
-        SimpleDateFormat formatterDay =  new SimpleDateFormat("yyyy-MM-dd");
-        titles.clear();
-        fragmentList.clear();
-
-        for (int i=0; i < 7; ++i) {
-            Date date = new Date(startTime);
-            titles.add(formatterWeek.format(date).substring(0, 3));
-            fragmentList.add(new ConferenceListFragment(formatterDay.format(date), 0));
-            startTime += 86400000;
-
-        }
-//        pagerAdapter = new HomePagerAdapter(getSupportFragmentManager(),
-//                fragmentList, titles);
-//        mHomeViewerPager.setAdapter(pagerAdapter);
-
-        // pagerAdapter.notifyDataSetChanged();
-        mHomeViewerPager.setCurrentItem(3);
-
-    }
 
     /**
      * @describe: 向服务器请求用户的个人信息
@@ -446,13 +426,19 @@ public class UserHomeActivity extends AppCompatActivity {
                         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                             Calendar calendar = Calendar.getInstance();
                             calendar.set(year, monthOfYear, dayOfMonth);
-                            updateMainContent(calendar.getTime());
+
+                            Intent intent=new Intent();
+                            intent.setClass(UserHomeActivity.this, UserHomeActivity.class);
+                            intent.putExtra("curDate", calendar.getTime().getTime());
+                            startActivity(intent);
+                            finish();
+
                             Toast.makeText(UserHomeActivity.this, getResources().getString(R.string.change_date_ok),
                                     Toast.LENGTH_SHORT).show();
-                            UserHomeActivity.this.year = year;
-                            UserHomeActivity.this.month = monthOfYear;
-                            UserHomeActivity.this.day = dayOfMonth;
-                            pagerAdapter.notifyDataSetChanged();
+//                            UserHomeActivity.this.year = year;
+//                            UserHomeActivity.this.month = monthOfYear;
+//                            UserHomeActivity.this.day = dayOfMonth;
+//                            pagerAdapter.notifyDataSetChanged();
                         }
                     }, year, month, day);
             picker.show();
