@@ -6,6 +6,7 @@ target/
 
 ### STATIC ###
 src/main/resources/static/
+!src/main/resources/static/front/
 console.log
 
 ### STS ###
