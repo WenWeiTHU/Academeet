@@ -16,9 +16,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Information"
-        android:textSize="14sp"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
-        app:tagColor="#0091EA"
+        app:tagTextColor="@color/white"
+        app:tagColor="#5AC3FB"
         app:tagType="classic"
         app:tagUpperCase="true"
         tools:layout_editor_absoluteX="8dp" />
@@ -133,9 +135,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Introduction"
-        android:textSize="14sp"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/conference_detail_chairs"
-        app:tagColor="#2196F3"
+        app:tagTextColor="@color/white"
+        app:tagColor="#5AC3FB"
         app:tagType="classic"
         app:tagUpperCase="true" />
 

@@ -7,6 +7,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
@@ -62,6 +63,7 @@ public class ShowNoteActivity extends AppCompatActivity {
         // 初始化note数据
         String content = note.getContent();
         showNoteTextView.setText(content);
+        //showNoteTextView.setMovementMethod(ScrollingMovementMethod.getInstance());
         showNoteEditTime.setText("Last Edit Time: " + note.getEditDate());
         showNoteWordCount.setText("Words: " +
                 String.valueOf(content.trim().length()));

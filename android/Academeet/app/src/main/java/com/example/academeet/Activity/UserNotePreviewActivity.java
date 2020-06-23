@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ public class UserNotePreviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        UserManager.sharedPreferences = getSharedPreferences("user_note", MODE_PRIVATE);
         setContentView(R.layout.activity_note_preview);
 
         ButterKnife.bind(this);
@@ -48,6 +50,7 @@ public class UserNotePreviewActivity extends AppCompatActivity {
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new UserNoteAdapter(UserManager.getNotes());
+        Context context = this;
         adapter.setOnItemClickListener(new UserNoteAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, Note note, int pos) {
@@ -102,7 +105,7 @@ public class UserNotePreviewActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                UserManager.initData();
+                UserManager.initData(context);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

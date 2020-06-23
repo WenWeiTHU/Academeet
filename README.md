@@ -1,4 +1,4 @@
-# Academeet
+# Academeet功能清单
 
 > 注：feature项为作业要求外增加的，或者亮点功能
 

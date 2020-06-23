@@ -142,7 +142,7 @@ public class CustomFragment extends Fragment {
             event.setLoc(conference.getPlace());
             Date conferenceDate = new Date(new Long(conference.detailedDate));
             calendar.setTime(conferenceDate);
-            weekList.add(1+calendar.get(Calendar.WEEK_OF_YEAR));
+            weekList.add(calendar.get(Calendar.WEEK_OF_YEAR));
             event.setDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK)-1);
             event.setWeekList(weekList);
             event.setStartTime("9:00");

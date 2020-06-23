@@ -1,5 +1,6 @@
 package com.example.academeet.Fragment;
 
+import android.media.MediaCas;
 import android.os.Bundle;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -52,6 +53,10 @@ public class SessionListFragment extends Fragment {
      */
     public SessionListFragment(String id){
         this.conferenceId = id;
+    }
+
+    public SessionListFragment(){
+
     }
 
     /**

@@ -51,6 +51,10 @@ public class SessDetailFragment extends Fragment {
         this.session = session;
     }
 
+    public SessDetailFragment(){
+
+    }
+
     /**
      * @describe: 初始化数据
      * @param savedInstanceState 先前保存的实例
@@ -69,7 +73,7 @@ public class SessDetailFragment extends Fragment {
             @Override
             public void run() {
                 JSONObject jsonObject = querySessById();
-                System.out.println(jsonObject);
+                // System.out.println(jsonObject);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -102,9 +106,6 @@ public class SessDetailFragment extends Fragment {
      */
     private JSONObject querySessById(){
         HTTPSUtils httpsUtils = new HTTPSUtils(this.getActivity());
-        if(session.getId() == null){
-            return null;
-        }
         FormBody formBody = new FormBody.Builder()
                 .add("session_id", session.getId())
                 .build();
