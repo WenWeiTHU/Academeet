@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+      user-scalable=no"">
+    <link rel="stylesheet" href="css/uikit.min.css" />
+    <script src="js/uikit.min.js"></script>
+    <script src="js/uikit-icons.min.js"></script>
+
+    <script src="main.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <title>m-web</title>
+    <style type="text/css">
+      body {
+        line-height: 30px;
+      }
+    </style>
+    <title>Create Paper</title>
+  </head>
+
+  <body>
+
+    <nav class="uk-navbar-container uk-margin" uk-navbar>
+      <div class="uk-navbar-left">
+
+
+        <a class="uk-navbar-item uk-logo" style="margin-left: 200px;" href="#">Academeet</a>
+        <ul class="uk-navbar-nav">
+          <li>
+            <a href="session.html">
+              <span class="uk-icon uk-margin-small-right" uk-icon="icon: star"></span>
+              Sessions
+            </a>
+          </li>
+        </ul>
+
+        <div class="uk-navbar-item">
+          <div>Some <a href="#">Link</a></div>
+        </div>
+
+        <!-- <div class="uk-navbar-item">
+              <form action="javascript:void(0)">
+                  <input class="uk-input uk-form-width-small" type="text" placeholder="Input">
+                  <button class="uk-button uk-button-default">Button</button>
+              </form>
+          </div> -->
+        <div class="uk-navbar-item">
+          <button class="uk-button uk-button-primary"
+            onclick="window.location.href= 'createconf.html';">新建会议</button>
+        </div>
+
+      </div>
+
+      <div class="uk-navbar-right">
+        <div class="uk-navbar-item">
+          <div>Some <a href="#">Link</a></div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="uk-container" style="width: 800px;">
+      <h3 class="uk-card-title">Conferences</h3>
+      <form class="uk-form" id="newpaper">
+
+        <fieldset data-uk-margin>
+          <legend>添加论文</legend>
+          <div class="uk-grid">
+            <div class="uk-width-1-2">
+              <div class="uk-form-row">论文标题</div>
+              <div class="uk-form-row" style="margin-bottom: 30px;"><input
+                  type="text" placeholder="" , name="title"></div>
+              <div class="uk-form-row">论文作者</div>
+              <div class="uk-form-row" style="margin-bottom: 30px;"><input
+                  type="text" placeholder="" , name="authors"></div>
+              <div class="uk-form-row">论文文件</div>
+              <div class="uk-form-row" style="margin-bottom: 30px;">
+                <input
+                  type="file" accept=".pdf" id="paperfile" name="file">
+              </div>
+            </div>
+            <div class="uk-width-1-2">
+              <div class="uk-form-row">论文摘要</div>
+              <div class="uk-form-row" style="margin-bottom: 20px; margin-top:
+                10px;"><textarea data-uk-htmleditor
+                  style="width:
+                  300px; height: 120px;" name="abstr"></textarea></div>
+
+              <div class="uk-form-row" style="margin-bottom: 20px;"><button
+                  class="uk-button
+                  uk-button-primary" style="margin-top: 10px;" type="button"
+                  onclick="addPaper();">添加论文</button></div>
+            </div>
+          </div>
+        </fieldset>
+
+      </form>
+    </div>
+  </body>
+
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+      user-scalable=no"">
+    <link rel="stylesheet" href="css/uikit.min.css" />
+    <script src="js/uikit.min.js"></script>
+    <script src="js/uikit-icons.min.js"></script>
+
+    <script src="main.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <title>Conferences</title>
+  </head>
+
+  <body onload="getConference();">
+
+    <nav class="uk-navbar-container uk-margin" uk-navbar>
+      <div class="uk-navbar-left">
+
+
+        <a class="uk-navbar-item uk-logo" style="margin-left: 200px;" href="#">Academeet</a>
+        <ul class="uk-navbar-nav">
+          <li>
+            <a href="#">
+              <span class="uk-icon uk-margin-small-right" uk-icon="icon: star"></span>
+              Conferences
+            </a>
+          </li>
+        </ul>
+
+        <div class="uk-navbar-item">
+          <div>Some <a href="#">Link</a></div>
+        </div>
+
+        <!-- <div class="uk-navbar-item">
+              <form action="javascript:void(0)">
+                  <input class="uk-input uk-form-width-small" type="text" placeholder="Input">
+                  <button class="uk-button uk-button-default">Button</button>
+              </form>
+          </div> -->
+        <div class="uk-navbar-item">
+          <button class="uk-button uk-button-primary"
+            onclick="window.location.href= 'createconf.html';">新建会议</button>
+        </div>
+
+      </div>
+
+      <div class="uk-navbar-right">
+        <div class="uk-navbar-item">
+          <div>Some <a href="#">Link</a></div>
+        </div>
+      </div>
+    </nav>
+
+
+    <!-- <h3>学生信息表</h3> -->
+    <div class="uk-container" style="width: 800px;">
+      <h3 class="uk-card-title">Conferences</h3>
+      <div class="uk-card uk-card-default uk-card-body" id="container"
+        style="margin: auto;">
+        <script type="text/x-handlebars-template" id="template">
+          {{#each this}}
+    
+          <div class="uk-card uk-card-default uk-card-body" style="width: 100%; margin-top: 40px;">
+            <div style="height: 60px;">
+              <h4 style="display: inline;" class="uk-card-title">{{name}}</h4>
+              <a class="modal-update-name" id="modal-update-name-{{conference_id}}" uk-icon="icon: pencil" href="#"></a>
+              <button style="float: right;" class="uk-button uk-button-primary" onclick="hreftoSession({{conference_id}});">转到SESSIONS</button>
+            </div>
+            <span class="uk-label">chairs</span>&emsp;{{chairs}}
+            <a class="modal-update-chairs" id="modal-update-chairs-{{conference_id}}" uk-icon="icon: pencil" href="#"></a>
+            <div style="height: 10px;"></div>
+            <span class="uk-label">date</span>&emsp;{{date}}
+            <a class="modal-update-date" id="modal-update-date-{{conference_id}}" uk-icon="icon: pencil" href="#"></a>
+            <div style="height: 10px;"></div>
+            <span class="uk-label">introduction</span>&emsp;{{introduction}}
+            <a class="modal-update-introduction" id="modal-update-introduction-{{conference_id}}" uk-icon="icon: pencil" href="#"></a>
+            <div style="height: 10px;"></div>
+            <span class="uk-label uk-label-success">organization</span>&emsp;{{organization}}
+            <a class="modal-update-organization" id="modal-update-organization-{{conference_id}}" uk-icon="icon: pencil" href="#"></a>
+            <div style="height: 10px;"></div>
+            <span class="uk-label uk-label-success">place</span>&emsp;{{place}}
+            <a class="modal-update-place" id="modal-update-place-{{conference_id}}" uk-icon="icon: pencil" href="#"></a>
+            <div style="height: 10px;"></div>
+            <button style="display: block; margin: 0 auto;" class="uk-button uk-button-default" href="#modal-center-{{conference_id}}" uk-toggle>删除会议</button>
+            <div id="modal-center-{{conference_id}}" class="uk-flex-top" uk-modal>
+              <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">确认删除</h2>
+                <p>确定要删除这条会议吗？</p>
+                <p class="uk-text-right">
+                  <button class="uk-button uk-button-primary" type="button" onclick="deleteConference({{conference_id}});">确定</button>
+                  <button class="uk-button uk-button-default uk-modal-close"
+                    type="button">取消</button>
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          {{/each}}
+        </script>
+      </div>
+    </div>
+
+    <!-- <script>
+    var student = [
+      { name: '鲁班七号', gender: '未知', age: '20', classes: '一年级射手班', note: '智商二百五的电玩小子，biubiubiu，就是腿短！' },
+      { name: '安琪拉', gender: '女', age: '18', classes: '一年级法师班', note: '什么什么魔法书！' },
+      { name: '程咬金', gender: '男', age: '30', classes: '一年级二班', note: '爱与正义之斧，偷偷推到' },
+      { name: '阿珂', gender: '女', age: '19', classes: '三年级刺客班', note: '哪里亮了点哪里，都是我的人头！' },
+      { name: '李白', gender: '男', age: '20', classes: '一年级酒酒仙班', note: '但愿长醉不愿醒，我是来无影去无踪，帅!' },
+      { name: '森瑶', gender: '女', age: '20', classes: '皮肤班级', note: '不然梦会碎还是破！' }
+    ]
+
+    //获取需要放数据的容器
+    var container = document.querySelector('#container');
+    //也就是获取我们定义的模板的dom对象。主要是想获取里面的内容（innerHTML）
+    var templateDom = document.querySelector('#template');
+    //编译模板的里的内容
+    var template = Handlebars.compile(templateDom.innerHTML);
+    //把后台获取到的数据student渲染到页面
+    container.innerHTML = template(student);
+  </script> -->
+  </body>
+
+</html>

@@ -5,8 +5,8 @@ target/
 !**/src/test/**
 
 ### STATIC ###
-src/main/resources/static/
-!**/src/main/resources/static/front/
+src/main/resources/static/*
+!src/main/resources/static/front/
 console.log
 
 ### STS ###

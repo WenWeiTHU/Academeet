@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+      user-scalable=no"">
+    <link rel="stylesheet" href="css/uikit.min.css" />
+    <script src="js/uikit.min.js"></script>
+    <script src="js/uikit-icons.min.js"></script>
+
+    <script src="main.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <title>Sessions</title>
+  </head>
+
+  <body onload="getSessions();">
+
+    <nav class="uk-navbar-container uk-margin" uk-navbar>
+      <div class="uk-navbar-left">
+
+
+        <a class="uk-navbar-item uk-logo" style="margin-left: 200px;" href="#">Academeet</a>
+        <ul class="uk-navbar-nav">
+          <li>
+            <a href="conference.html">
+              <span class="uk-icon uk-margin-small-right" uk-icon="icon: star"></span>
+              Conferences
+            </a>
+          </li>
+        </ul>
+
+        <div class="uk-navbar-item">
+          <div>Some <a href="#">Link</a></div>
+        </div>
+
+        <!-- <div class="uk-navbar-item">
+              <form action="javascript:void(0)">
+                  <input class="uk-input uk-form-width-small" type="text" placeholder="Input">
+                  <button class="uk-button uk-button-default">Button</button>
+              </form>
+          </div> -->
+        <div class="uk-navbar-item">
+          <button class="uk-button uk-button-primary"
+            onclick="window.location.href= 'createsession.html';">ADD SESSION</button>
+        </div>
+
+      </div>
+
+      <div class="uk-navbar-right">
+        <div class="uk-navbar-item">
+          <div>Some <a href="#">Link</a></div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- <h3>学生信息表</h3> -->
+    <div class="uk-container" style="width: 800px;">
+      <h3 class="uk-card-title">Sessions</h3>
+      <div class="uk-card uk-card-default uk-card-body" id="container"
+        style="margin: auto;">
+        <script type="text/x-handlebars-template" id="template">
+          {{#each this}}
+    
+          <div class="uk-card uk-card-default uk-card-body" style="width: 100%; margin-top: 40px;">
+            <div>
+              <h4 style="display: inline;" class="uk-card-title">{{name}}</h4>
+              <a class="modal-update-name" id="modal-update-name-{{session_id}}" uk-icon="icon: pencil" href="#"></a>
+              <button style="float: right;" class="uk-button uk-button-primary" onclick="hreftoPaper({{session_id}});">ADD PAPER</button>
+            </div>
+            <div style="height: 10px;"></div>
+            <span class="uk-label">reporters</span>&emsp;{{reporters}}
+            <a class="modal-update-reporters" id="modal-update-reporters-{{session_id}}" uk-icon="icon: pencil" href="#"></a>
+            <div style="height: 10px;"></div>
+            <span class="uk-label">start time</span>&emsp;{{start_time}}
+            <a class="modal-update-start_time" id="modal-update-start_time-{{session_id}}" uk-icon="icon: pencil" href="#"></a>
+            <div style="height: 10px;"></div>
+            <span class="uk-label">end time</span>&emsp;{{end_time}}
+            <a class="modal-update-end_time" id="modal-update-end_time-{{session_id}}" uk-icon="icon: pencil" href="#"></a>
+            <div style="height: 10px;"></div>
+            <span class="uk-label uk-label-success">tag</span>&emsp;{{tag}}
+            <a class="modal-update-tag" id="modal-update-tag-{{session_id}}" uk-icon="icon: pencil" href="#"></a>
+            <div style="height: 10px;"></div>
+            <span class="uk-label uk-label-success">topic</span>&emsp;{{topic}}
+            <a class="modal-update-topic" id="modal-update-topic-{{session_id}}" uk-icon="icon: pencil" href="#"></a>
+            <hr class="uk-divider-icon">
+            <ul uk-accordion>
+              <li>
+                <a class="uk-accordion-title" href="#">PAPERS</a>
+                <div class="uk-accordion-content" id="papercontainer">
+                  {{#each papers}}
+                  <span class="uk-label">title</span>&emsp;{{title}}&emsp;
+                  <a href="'https://49.232.141.126:8080' + {{content}};" download="paper.pdf" class="uk-badge">&emsp;下载&emsp;</a>
+                  &emsp;<a href="#modal-paper-{{paper_id}}" class="uk-badge" uk-toggle>&emsp;删除&emsp;</a>
+                  <div style="height: 10px;"></div>
+                  <span class="uk-label">authors</span>&emsp;{{authors}}
+                  <hr class="uk-divider-small">
+                  <div id="modal-paper-{{paper_id}}" class="uk-flex-top" uk-modal>
+                    <div class="uk-modal-dialog uk-modal-body">
+                      <h2 class="uk-modal-title">确认删除</h2>
+                      <p>确定要删除这条论文吗？</p>
+                      <p class="uk-text-right">
+                        <button class="uk-button uk-button-primary uk-modal-close" type="button" onclick="deletePaper({{paper_id}});">确定</button>
+                        <button class="uk-button uk-button-default uk-modal-close"
+                          type="button">取消</button>
+                      </p>
+                    </div>
+                  </div>
+                  {{/each}}
+                </div>
+              </li>
+            </ul>
+
+            <button style="display: block; margin: 0 auto;" class="uk-button uk-button-default" href="#modal-center-{{session_id}}" uk-toggle>删除议程</button>
+            <div id="modal-center-{{session_id}}" class="uk-flex-top" uk-modal>
+              <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">确认删除</h2>
+                <p>确定要删除这条议程吗？</p>
+                <p class="uk-text-right">
+                  <button class="uk-button uk-button-primary uk-modal-close" type="button" onclick="deleteSession({{session_id}});">确定</button>
+                  <button class="uk-button uk-button-default uk-modal-close"
+                    type="button">取消</button>
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          {{/each}}
+        </script>
+      </div>
+    </div>
+  </body>
+
+</html>

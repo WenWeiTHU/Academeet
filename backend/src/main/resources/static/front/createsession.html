@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+      user-scalable=no"">
+    <link rel="stylesheet" href="css/uikit.min.css" />
+    <script src="js/uikit.min.js"></script>
+    <script src="js/uikit-icons.min.js"></script>
+
+    <script src="main.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <title>m-web</title>
+    <style type="text/css">
+      body {
+        line-height: 30px;
+      }
+    </style>
+    <title>Create Session</title>
+  </head>
+
+  <body>
+
+    <nav class="uk-navbar-container uk-margin" uk-navbar>
+      <div class="uk-navbar-left">
+
+
+        <a class="uk-navbar-item uk-logo" style="margin-left: 200px;" href="#">Academeet</a>
+        <ul class="uk-navbar-nav">
+          <li>
+            <a href="session.html">
+              <span class="uk-icon uk-margin-small-right" uk-icon="icon: star"></span>
+              Sessions
+            </a>
+          </li>
+        </ul>
+
+        <div class="uk-navbar-item">
+          <div>Some <a href="#">Link</a></div>
+        </div>
+
+        <!-- <div class="uk-navbar-item">
+              <form action="javascript:void(0)">
+                  <input class="uk-input uk-form-width-small" type="text" placeholder="Input">
+                  <button class="uk-button uk-button-default">Button</button>
+              </form>
+          </div> -->
+        <div class="uk-navbar-item">
+          <button class="uk-button uk-button-primary"
+            onclick="window.location.href= 'createconf.html';">新建会议</button>
+        </div>
+
+      </div>
+
+      <div class="uk-navbar-right">
+        <div class="uk-navbar-item">
+          <div>Some <a href="#">Link</a></div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="uk-container" style="width: 800px;">
+      <h3 class="uk-card-title">Conferences</h3>
+      <form class="uk-form" id="newsess">
+
+        <fieldset data-uk-margin>
+          <legend>新建议程</legend>
+          <div class="uk-grid">
+            <div class="uk-width-1-2">
+              <div class="uk-form-row">议程名称</div>
+              <div class="uk-form-row" style="margin-bottom: 20px;"><input type="text" placeholder="", name="name"></div>
+              <div class="uk-form-row">主题</div>
+              <div class="uk-form-row" style="margin-bottom: 20px;"><input type="text" placeholder="", name="topic"></div>
+              <div class="uk-form-row">描述</div>
+              <div class="uk-form-row" style="margin-bottom: 20px; margin-top: 10px;"><textarea data-uk-htmleditor
+                  style="width:
+                  300px; height: 120px;" name="description"></textarea></div>
+            </div>
+            <div class="uk-width-1-2">
+              <div class="uk-form-row">开始时间</div>
+              <div class="uk-form-row" style="margin-bottom: 20px;"><input name="start_time" type="datetime-local"></div>
+              <div class="uk-form-row">结束时间</div>
+              <div class="uk-form-row" style="margin-bottom: 20px;"><input name="end_time" type="datetime-local" placeholder=""></div>
+              <div class="uk-form-row">汇报人</div>
+              <div class="uk-form-row" style="margin-bottom: 20px;"><input name="reporters" type="text" placeholder="多个评委用英文逗号隔开"></div>
+              <div class="uk-form-row">标签</div>
+              <div class="uk-form-row" style="margin-bottom: 20px;"><input name="tag" type="text" placeholder=""></div>
+              <div class="uk-form-row" style="margin-bottom: 20px;"><button class="uk-button
+                  uk-button-primary" style="margin-top: 30px;" type="button" onclick="createSession();">创建议程</button></div>
+            </div>
+          </div>
+
+        </fieldset>
+
+      </form>
+    </div>
+  </body>
+
+</html>
