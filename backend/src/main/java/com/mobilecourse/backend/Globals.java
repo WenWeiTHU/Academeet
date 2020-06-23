@@ -23,7 +23,7 @@ public class Globals {
     public static final String avatarurl = "/static/pic/";
     public static final String paperpath = System.getProperty("user.dir") + "/src/main/resources/static/paper/";
     public static final String paperurl = "/file/static/pic/";
-    public static final String defaultAvatar = avatarurl + "avatar1.jpg";
+    public static final String defaultAvatar = avatarurl + "avatar1.png";
     public static final String defaultSignature = "Hello Academeet!";
     private static final BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
     public static final String defaultPassword = encode.encode("123456");

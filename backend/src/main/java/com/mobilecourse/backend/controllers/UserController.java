@@ -131,7 +131,7 @@ public class UserController extends CommonController {
         User user = userMapper.selectByUsername(username);
         if (user != null) {
             response.setStatus(300);
-            return wrapperMsg(300, "username duplicates.");
+            return "{ \"code\": 300, \"msg\": \"username duplicates.\" }";
         }
         HttpSession session = request.getSession();
         JSONObject json = (JSONObject) session.getAttribute("verifyCode");
@@ -229,6 +229,10 @@ public class UserController extends CommonController {
                                  HttpSession s) {
         int userid = getUserId(s);
         if (userid == -1) return LOGIN_MSG;
+        User user = userMapper.selectByUsername(username);
+        if (user != null) {
+            return "{ \"accepted\": 0, \"msg\": \"username duplicates.\" }";
+        }
         return wrapperMsg(userMapper.updateUsername(userid, username), "");
     }
 
