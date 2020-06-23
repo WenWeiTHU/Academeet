@@ -29,7 +29,7 @@
             android:textColor="@color/gray"
             android:layout_marginLeft="15dp"
             android:id="@+id/show_note_word_count"
-            android:text="Words: 28"/>
+            android:text="Words: 0"/>
 
         <TextView
             android:layout_marginHorizontal="20dp"
@@ -39,7 +39,7 @@
             android:layout_height="match_parent"
             android:id="@+id/textview_show_note"
             android:visibility="visible"
-            android:text="test"
+            android:text="None"
             android:textColor="@color/black"
             android:layout_gravity="center_horizontal"
             android:textSize="20sp"
