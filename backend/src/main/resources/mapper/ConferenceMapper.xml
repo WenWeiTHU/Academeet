@@ -93,6 +93,14 @@
         UPDATE paper SET content = #{content} WHERE paper_id = ${paperid}
     </update>
 
+    <update id="updateConferenceAttr">
+        UPDATE conference SET ${attr} = #{value} WHERE conference_id = ${conference_id}
+    </update>
+
+    <update id="updateSessionAttr">
+        UPDATE session SET ${attr} = #{value} WHERE session_id = ${session_id}
+    </update>
+
 
     <delete id="deleteUserConference">
         DELETE FROM user_conference
