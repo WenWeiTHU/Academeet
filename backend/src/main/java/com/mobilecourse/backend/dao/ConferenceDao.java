@@ -27,6 +27,8 @@ public interface ConferenceDao {
     int insertPaper(Paper paper);
 
     int updatePaperPath(int paperid, String content);
+    int updateConferenceAttr(int conference_id, String attr, String value);
+    int updateSessionAttr(int session_id, String attr, String value);
 
     int deleteById(int id);
     int deleteUserConference(int id, int conference_id, String uctype);

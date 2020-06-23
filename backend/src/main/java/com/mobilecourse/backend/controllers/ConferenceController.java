@@ -355,4 +355,30 @@ public class ConferenceController extends CommonController {
 				return rlt;
     }
 
+    @RequestMapping(value = "/api/conference/update")
+    public String updateConfProperty(@RequestParam(value = "property")String property,
+                                     @RequestParam(value = "value")String value,
+                                     @RequestParam(value = "id")int conference_id,
+                                     HttpSession s) {
+        int userid = getUserId(s);
+        Conference conf = conferenceMapper.selectById(conference_id, userid);
+        if (conf == null) return wrapperMsg(0, "you are not establisher of this conference.");
+        int rlt = conferenceMapper.updateConferenceAttr(conference_id, property, value);
+        if (rlt == 0) return wrapperMsg(0, "update failed");
+        return wrapperMsg(1, "update succeeded.");
+    }
+
+    @RequestMapping(value = "/api/session/update")
+    public String updateSessionProperty(@RequestParam(value = "property")String property,
+                                        @RequestParam(value = "value")String value,
+                                        @RequestParam(value = "id")int session_id,
+                                        HttpSession s) {
+        int userid = getUserId(s);
+        Session sess = conferenceMapper.selectSessionById(session_id, userid);
+        if (sess == null) return wrapperMsg(0, "you are not establisher of this session.");
+        int rlt = conferenceMapper.updateSessionAttr(session_id, property, value);
+        if (rlt == 0) return wrapperMsg(0, "update failed");
+        return wrapperMsg(1, "update succeeded");
+    }
+
 }

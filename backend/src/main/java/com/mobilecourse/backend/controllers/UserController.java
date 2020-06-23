@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mobilecourse.backend.Globals;
 import com.mobilecourse.backend.dao.UserDao;
+import com.mobilecourse.backend.dao.RecordDao;
 import com.mobilecourse.backend.model.Conference;
 import com.mobilecourse.backend.model.Message;
 import com.mobilecourse.backend.model.Note;
@@ -27,6 +28,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.text.SimpleDateFormat;
 
 //TODO: 在实现上可以考虑使用token代替session进行长期登录验证，同时考虑多点登录的问题。
 //TODO: 考虑使用Filter或者WebManagerAdapter来组织请求拦截和执行顺序
@@ -37,6 +39,9 @@ public class UserController extends CommonController {
 
     @Autowired
     private UserDao userMapper;
+
+		@Autowired
+		private RecordDao recordMapper;
 
     @PostConstruct
     public void initUser() {
@@ -126,7 +131,7 @@ public class UserController extends CommonController {
         User user = userMapper.selectByUsername(username);
         if (user != null) {
             response.setStatus(300);
-            return wrapperMsg(300, "username duplicates.");
+            return "{ \"code\": 300, \"msg\": \"username duplicates.\" }";
         }
         HttpSession session = request.getSession();
         JSONObject json = (JSONObject) session.getAttribute("verifyCode");
@@ -145,6 +150,8 @@ public class UserController extends CommonController {
         BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
         User newuser = new User(0, username, encode.encode(password), type, phone);
         userMapper.insert(newuser);
+				Note newnote = new Note(newuser.getUser_id(), "Welcome to Academeet", "User guide", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()));
+        int rlt = recordMapper.insertNote(newnote);
         return "{ \"code\": 200 }";
     }
 
@@ -222,6 +229,10 @@ public class UserController extends CommonController {
                                  HttpSession s) {
         int userid = getUserId(s);
         if (userid == -1) return LOGIN_MSG;
+        User user = userMapper.selectByUsername(username);
+        if (user != null) {
+            return "{ \"accepted\": 0, \"msg\": \"username duplicates.\" }";
+        }
         return wrapperMsg(userMapper.updateUsername(userid, username), "");
     }
 
