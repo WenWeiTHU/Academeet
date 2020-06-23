@@ -66,11 +66,15 @@ public class ChangeInfoActivity extends AppCompatActivity implements View.OnClic
             Toast.makeText(ChangeInfoActivity.this, R.string.register_username_is_empty, Toast.LENGTH_SHORT).show();
             return;
         }
+        if(type.equals("Username") && info.equals(UserManager.getUsername())){
+            Toast.makeText(ChangeInfoActivity.this, "Same as original username", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Runnable update = new Runnable() {
             @Override
             public void run() {
                 JSONObject jsonObject = UserManager.changeInfo(info, type);
-                // System.out.println(jsonObject);
+                System.out.println(jsonObject);
                 runOnUiThread(new Runnable() {
                     @Override
 
@@ -84,7 +88,7 @@ public class ChangeInfoActivity extends AppCompatActivity implements View.OnClic
                             if(jsonObject.getString("accepted").equals("1")){
                                 Toast.makeText(ChangeInfoActivity.this, "Update "+type.toLowerCase()+" successfully", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(ChangeInfoActivity.this, "Fail to update "+type.toLowerCase(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ChangeInfoActivity.this, "Fail to update "+type.toLowerCase()+": already exists", Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
                             Toast toast = Toast.makeText(ChangeInfoActivity.this, "Something wrong", Toast.LENGTH_SHORT);

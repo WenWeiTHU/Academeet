@@ -1,14 +1,19 @@
 package com.example.academeet.Utils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Looper;
 import com.alibaba.fastjson.*;
+import com.example.academeet.Activity.UserNotePreviewActivity;
 import com.example.academeet.Object.Note;
+import com.example.academeet.R;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,6 +53,8 @@ public class UserManager {
     private static final String LOGOUT = "user/logout";
     private static final String POST_COMMENT_URL = "user/post";
     private static final String QUERY_MESSAGE_URL = "conference/history";
+
+    public static SharedPreferences sharedPreferences;
 
     public static File getCacheDir() {
         return cacheDir;
@@ -198,12 +205,12 @@ public class UserManager {
     /**
      * @describe: 如果尚未向后端请求当前笔记的数据，则向后端请求。
      */
-    public static void initData() {
+    public static void initData(Context context) {
         // TODO: 向后端请求数据
         if (hasInit)
             return;
         hasInit = true;
-        noteList = loadNotes();
+        noteList = loadNotes(context);
     }
 
     /**
@@ -318,6 +325,12 @@ public class UserManager {
     public static boolean deleteNote(Note note) {
         // 删除本地的笔记
         noteList.remove(note);
+        if (note.getId().equals("UserGuide")) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("hasGuide", false);
+            editor.commit();
+            return true;
+        }
         // 删除服务器上的笔记
         FormBody formBody = new FormBody.Builder()
                 .add("note_id", note.getId())
@@ -352,6 +365,9 @@ public class UserManager {
         if (httpsUtils == null) {
             return false;
         }
+        if (note.getId().equals("UserGuide")) {
+            return true;
+        }
         FormBody formBody = new FormBody.Builder()
                 .add("note_id", note.getId())
                 .add("user_id", String.valueOf(userId))
@@ -380,7 +396,7 @@ public class UserManager {
      * @describe: 向服务器请求用户的 Note 列表
      * @return Note 列表
      */
-    private static ArrayList<Note> loadNotes() {
+    private static ArrayList<Note> loadNotes(Context context) {
         // TODO: 向服务器请求 Note 列表
         if (httpsUtils == null) {
             return null;
@@ -400,6 +416,14 @@ public class UserManager {
 
 
             ArrayList<Note> notes = new ArrayList<>();
+            if (!sharedPreferences.contains("hasGuide")) {
+                Note _note = new Note();
+                _note.setContent(context.getResources().getString(R.string.user_guide));
+                _note.setCreateDate("2020-06-21 15:00");
+                _note.setId("UserGuide");
+                _note.setEditDate("2020-06-21 15:00");
+                notes.add(_note);
+            }
             // 将JSONArray 转化为 list
             for (int i = 0; i < noteJson.size(); ++i) {
                 JSONObject s = (JSONObject)noteJson.get(i);
@@ -413,6 +437,7 @@ public class UserManager {
                 note.setId(String.valueOf(s.get("note_id")));
                 notes.add(note);
             }
+
             return notes;
         } catch(Exception e) {
             e.printStackTrace();

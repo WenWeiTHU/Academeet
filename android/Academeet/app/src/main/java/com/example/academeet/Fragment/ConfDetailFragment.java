@@ -45,6 +45,10 @@ public class ConfDetailFragment extends Fragment {
         this.conference = conference;
     }
 
+    public ConfDetailFragment(){
+
+    }
+
     /**
      * @describe: 初始化数据
      * @param savedInstanceState 先前保存的实例
@@ -95,9 +99,6 @@ public class ConfDetailFragment extends Fragment {
      */
     private JSONObject queryConfById(){
         HTTPSUtils httpsUtils = new HTTPSUtils(this.getActivity());
-        if(conference.getId() == null){
-            return null;
-        }
         FormBody formBody = new FormBody.Builder()
                 .add("id", conference.getId())
                 .build();

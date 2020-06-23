@@ -186,6 +186,7 @@ public class User{
             String content = response.body().string();
             JSONTokener jsonParser = new JSONTokener(content);
             JSONObject jsonObject = (JSONObject)jsonParser.nextValue();
+            System.out.println(jsonObject.getInt("code"));
             return jsonObject.getInt("code");
         } catch(IOException | JSONException e) {
             e.printStackTrace();

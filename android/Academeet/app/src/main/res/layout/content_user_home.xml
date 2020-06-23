@@ -9,7 +9,7 @@
         android:id="@+id/user_home_view_statusbar"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorRem"
         android:orientation="horizontal"
         android:elevation="4dp"
         />
@@ -27,18 +27,20 @@
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|enterAlways"
             app:title="Home"
-            app:titleTextColor="@color/textColorPrimay"
+            android:background="@color/white"
+            app:titleTextColor="@color/colorPrimary"
+            app:theme="@style/ToolbarTheme"
             />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/user_home_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             app:tabIndicatorColor="@color/white"
             app:tabMode="scrollable"
             app:tabSelectedTextColor="#123456"
-            app:tabTextColor="@color/white" />
+            android:background="@color/white"
+            app:tabTextColor="@color/colorPrimary"  />
 
     </com.google.android.material.appbar.AppBarLayout>
 
